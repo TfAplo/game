@@ -12,6 +12,11 @@ private:
     bool movingDown;
     double xp;
 
+    //ajout
+    double niveau;
+    double limiteXP;
+    //fin ajout
+
 public:
     Player(string image, pair<double, double> position, double current_hp, double max_hp, double speed,double dmg, double xp,QGraphicsItem *parent = 0);
 
@@ -19,6 +24,22 @@ public:
     virtual ~Player(){};
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
+
+    //ajout
+    //recup xp
+    //augmente xp
+    //si besoin augmente niveau
+    //si niveau augmenté, afficher les 3 choix
+    //appeler methode de valentin (creerObjet(objet) ou upgrade(objet))
+    void recupXP();
+    void augmenterNiveau();
+
+
+    void setXP(double);
+    void ajouterXP(double);
+    void setNiveau(double);
+    void augmenterNiveau(double);
+    //fin ajout
 signals:
 
 public slots:

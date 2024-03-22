@@ -15,6 +15,12 @@ public:
     QTimer *gameTimer;
     Player* player;
 
+    //ajout
+    void stopTimer(); // ici stop le timer (donc affichage, mouvement et attaque des ennemis et du player
+    void gererClicChoix(); // ici appeler methode de valentin
+    static double calculDistance(pair<double, double>, pair<double, double>);
+    void afficherChoix();
+    // fin ajout
 };
 
 #endif // GAME_H

@@ -31,6 +31,10 @@ public:
 
     virtual void keyPressEvent(QKeyEvent *event);
 
+    //ajout
+    pair<double, double> getPos();
+    //fin ajout
+
     double speed;
 signals:
 

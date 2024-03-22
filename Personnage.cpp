@@ -32,3 +32,13 @@ void Personnage::keyPressEvent(QKeyEvent *event)
 {
 
 }
+
+//ajout
+pair<double, double> Personnage::getPos(){
+    return this->position;
+}
+
+//fin ajout
+
+
+

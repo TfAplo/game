@@ -3,6 +3,12 @@
 #include <QTimer>
 #include <QKeyEvent>
 
+//ajout
+#include "Game.h"
+#include "OrbeXP.h"
+#include <vector>
+//fin ajout
+
 using namespace std;
 
 
@@ -77,3 +83,48 @@ void Player::move()
     if (movingDown) dy += speed;
     setPos(mapToParent(dx, dy)); // Déplacer le joueur par rapport à sa position actuelle
 }
+
+//ajout
+
+void Player::recupXP() {
+    // a supp car test
+    vector<OrbeXP*> vecOrbeXP;
+    OrbeXP* orbe1 = new OrbeXP("Orbe", make_pair(200, 200));
+    vecOrbeXP.push_back(orbe1);
+    for (OrbeXP* orbeXP : vecOrbeXP) {
+        pair<double, double> pos = orbeXP->getPos(); //orbe.getPos();
+        if (Game::calculDistance(pos, this->getPos()) <= 5) {
+            //ajouter l'XP au joueur
+            this->ajouterXP(orbeXP->getXP());
+            //supprimer l'orbeXP
+            delete orbeXP;
+        }
+    }
+    if (this->xp >= this->limiteXP) {
+        this->augmenterNiveau(1);
+    }
+}
+
+void Player::augmenterNiveau(double niveau) {
+    this->niveau += niveau;
+    this->xp = this->xp - this->limiteXP;
+    this->limiteXP *= 1.5;
+
+    //Game::afficherChoix(); // comment appeler afficherChoix de Game dans Player (passage en argument, ou alors attribut Game* game;)
+
+}
+
+void Player::setXP(double xp) {
+    this->xp = xp;
+}
+
+void Player::ajouterXP(double xp) {
+    this->xp += xp;
+}
+
+void Player::setNiveau(double niveau) {
+    this->niveau = niveau;
+}
+
+//fin ajout
+

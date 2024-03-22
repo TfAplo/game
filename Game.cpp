@@ -4,6 +4,11 @@
 #include "Map.h"
 #include "Player.h"
 #include <QTimer>
+#include <cmath>
+
+//ajout test
+#include <QMessageBox>
+//fin ajout test
 
 
 Game::Game(QWidget *parent) {
@@ -43,4 +48,28 @@ Game::Game(QWidget *parent) {
     gameTimer->start(20);
 
     show();
+}
+
+
+void Game::stopTimer() {
+
+}
+
+void Game::gererClicChoix() {
+
+}
+
+double Game::calculDistance(pair<double, double> point1, pair<double, double> point2) {
+    double x1 = point1.first;
+    double y1 = point1.second;
+    double x2 = point2.first;
+    double y2 = point2.second;
+
+    double distance = std::sqrt(std::pow(x2 - x1, 2) + std::pow(y2 - y1, 2));
+    return distance;
+}
+
+void Game::afficherChoix() {
+
+    //appeler methode de valentin (creerObjet(objet) ou upgrade(objet))
 }
