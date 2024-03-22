@@ -10,7 +10,7 @@ using namespace std;
 
 class Personnage:public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
-private:
+protected:
     string image;
     pair<double, double> position;
     double current_hp;
@@ -21,7 +21,7 @@ public:
     Personnage(string  image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg,QGraphicsItem *parent = 0) :
         QObject(), QGraphicsPixmapItem(parent), image(image), position(position), current_hp(current_hp), max_hp(max_hp), speed(speed), dmg(dmg) {}
 
-    void takeDamage(double dmg);
+    virtual void takeDamage(double dmg);
 
     void attack(Personnage& other);
 
@@ -29,7 +29,6 @@ public:
 
     virtual ~Personnage(){};
 
-    virtual void keyPressEvent(QKeyEvent *event);
 
     double speed;
 signals:

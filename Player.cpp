@@ -16,6 +16,9 @@ Player::Player(string image, pair<double, double> position, double current_hp, d
 
     // Positionner le joueur
     setPos(position.first, position.second);
+
+    hpBar = new HPBar(32, 5, this); // taille de la barre de santé (modifiable)
+    hpBar->setPos(0, 32); // position relative à l'objet Personnage
 }
 
 void Player::details()
@@ -44,6 +47,11 @@ void Player::keyReleaseEvent(QKeyEvent *event)
     default:
         break;
     }
+}
+
+void Player::updateHPBar()
+{
+    hpBar->updateBar(current_hp, max_hp);
 }
 
 void Player::keyPressEvent(QKeyEvent *event)
@@ -76,4 +84,9 @@ void Player::move()
     if (movingUp) dy -= speed;
     if (movingDown) dy += speed;
     setPos(mapToParent(dx, dy)); // Déplacer le joueur par rapport à sa position actuelle
+}
+
+void Player::takeDamage(double dmg){
+    Personnage::takeDamage(dmg);
+    updateHPBar();
 }

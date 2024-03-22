@@ -28,7 +28,3 @@ void Personnage::details()
     cout << "speed : " << this->speed << endl;
 }
 
-void Personnage::keyPressEvent(QKeyEvent *event)
-{
-
-}

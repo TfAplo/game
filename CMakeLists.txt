@@ -41,6 +41,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Terrain.h Terrain.cpp
         Game.h Game.cpp
         res.qrc
+        hpbar.h hpbar.cpp
 
 
     )
