@@ -32,3 +32,13 @@ void Personnage::keyPressEvent(QKeyEvent *event)
 {
 
 }
+
+// crée par raph
+QPointF Personnage::getPosition() const {
+    return mapToScene(pos());
+}
+
+// crée par raph
+void Personnage::setPosition(const QPointF &newPosition) {
+    setPos(newPosition);
+}

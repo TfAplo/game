@@ -2,18 +2,27 @@
 #define MONSTRE_H
 
 #include "Personnage.h"
+#include "Player.h"
+#include <QGraphicsScene>
+#include <QObject>
+
 
 class Monstre : public Personnage {
     Q_OBJECT
+private:
+    QTimer *moveTimer;
+    Player *m_player;
+    QGraphicsScene * scene;
 public:
-    Monstre(string  image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg,QGraphicsItem *parent = 0) :
-        Personnage(image,position,current_hp,max_hp,speed,dmg,parent) {}
+    Monstre(string  image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, Player *player=0,QGraphicsScene *scene=0,QGraphicsItem *parent = 0);
 
     virtual ~Monstre(){};
+
 
 signals:
 
 public slots:
+    void move();
 };
 
 

@@ -3,6 +3,7 @@
 #include <QGraphicsPixmapItem>
 #include "Map.h"
 #include "Player.h"
+#include "Monstre.h"
 #include <QTimer>
 
 
@@ -41,6 +42,22 @@ Game::Game(QWidget *parent) {
         centerOn(player);
     });
     gameTimer->start(20);
+
+    double current_hpM = 100.0;
+    double max_hpM = 100.0;
+    double speedM = 1.;
+    double dmgM = 10.0;
+
+    int rand_min = 0;
+    int rand_max = 1600;
+
+    // on génère des coordonnées aléatoires
+    int coord1 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
+    int coord2 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
+    pair<double,double> positionM = make_pair(coord1,coord2);
+
+    Monstre *monstre =new Monstre("image",positionM,current_hpM,max_hpM,speedM,dmgM,player,scene);
+    scene->addItem(monstre);
 
     show();
 }

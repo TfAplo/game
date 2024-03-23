@@ -31,6 +31,10 @@ public:
 
     virtual void keyPressEvent(QKeyEvent *event);
 
+    // crée par raph
+    QPointF getPosition() const;
+    void setPosition(const QPointF &newPosition);
+
     double speed;
 signals:
 
