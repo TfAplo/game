@@ -7,7 +7,7 @@ using namespace std;
 
 
 Player::Player(string image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, double xp,QGraphicsItem *parent) :
-    Personnage(image,position,current_hp,max_hp,speed,dmg,parent), xp(xp)
+    Personnage(image,position,current_hp,max_hp,speed,dmg,parent), xp(xp),limiteXP(100), niveau(0)
 {
     movingLeft = movingRight = movingUp = movingDown = false;
     // Charger la texture du joueur
@@ -19,6 +19,9 @@ Player::Player(string image, pair<double, double> position, double current_hp, d
 
     hpBar = new HPBar(32, 5, this); // taille de la barre de santé (modifiable)
     hpBar->setPos(0, 32); // position relative à l'objet Personnage
+
+    xpBar = new XPBar(100, 40);
+
 }
 
 void Player::details()
@@ -57,6 +60,9 @@ void Player::updateHPBar()
 void Player::keyPressEvent(QKeyEvent *event)
 {
     // Marquer la direction dans laquelle le joueur souhaite se déplacer
+    if (event->key() == Qt::Key_A){
+        xp += 5;
+    }
     switch (event->key()) {
     case Qt::Key_Left:
         movingLeft = true;
@@ -89,4 +95,30 @@ void Player::move()
 void Player::takeDamage(double dmg){
     Personnage::takeDamage(dmg);
     updateHPBar();
+}
+
+XPBar *Player::getXPBar()
+{
+    return xpBar;
+}
+
+void Player::setXP(double xp) {
+    this->xp = xp;
+}
+
+double Player::getXP(){
+    return this->xp;
+}
+
+double Player::getlimitXP(){
+    return this->limiteXP;
+}
+
+double Player::getNiveau()
+{
+    return this->niveau;
+}
+
+void Player::ajouterXP(double xp) {
+    this->xp += xp;
 }

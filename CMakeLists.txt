@@ -42,6 +42,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Game.h Game.cpp
         res.qrc
         hpbar.h hpbar.cpp
+        xpbar.h xpbar.cpp
 
 
     )

@@ -14,6 +14,7 @@ public:
     QGraphicsScene * scene;
     QTimer *gameTimer;
     Player* player;
+    XPBar *xpBar;
 
 };
 
