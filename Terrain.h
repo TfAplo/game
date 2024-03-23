@@ -6,8 +6,7 @@ using namespace std;
 
 class Terrain{
 public:
-    Terrain(const QString& texture, int width, int height, int posX, int posY)
-        : texture(texture) ,width(width), height(height), posX(posX), posY(posY) {}
+    Terrain(const QString& texture, int width, int height, int posX, int posY);
 
     virtual ~Terrain() = default;
 

@@ -2,6 +2,9 @@
 #include <iostream>
 using namespace std;
 
+Personnage::Personnage(string image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, QGraphicsItem *parent) :
+    QObject(), QGraphicsPixmapItem(parent), image(image), position(position), current_hp(current_hp), max_hp(max_hp), speed(speed), dmg(dmg) {}
+
 void Personnage::takeDamage(double dmg)
 {
     //verifier qu'on ne descent pas en dessous de 0

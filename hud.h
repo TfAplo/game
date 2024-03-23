@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "xpbar.h"
 #include <QTimer>
+#include <QTime>
 
 class HUD
 {
@@ -13,10 +14,13 @@ private:
     XPBar *xpBar;
     QGraphicsScene *scene;
     QGraphicsView *view;
+    QGraphicsTextItem *labelTimer;
+    QTime startTime;
 
 public:
     HUD(Player *player,QTimer *gameTimer,QGraphicsScene *scene, QGraphicsView *view);
     void update();
+    void updateTime();
 };
 
 #endif // HUD_H

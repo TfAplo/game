@@ -34,9 +34,6 @@ Game::Game(QWidget *parent) {
     player->setFocus();
     scene->addItem(player);
 
-    //xpBar = player->getXPBar();
-    //scene->addItem(xpBar);
-
     //timer du jeu
     gameTimer = new QTimer(this);
 
