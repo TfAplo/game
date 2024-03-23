@@ -6,6 +6,7 @@
 #include <QGraphicsScene>
 #include <QTimer>
 #include "Player.h"
+#include "hud.h"
 
 class Game: public QGraphicsView{
 public:
@@ -14,7 +15,7 @@ public:
     QGraphicsScene * scene;
     QTimer *gameTimer;
     Player* player;
-    XPBar *xpBar;
+    HUD *hud;
 
 };
 

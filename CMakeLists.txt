@@ -43,6 +43,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         res.qrc
         hpbar.h hpbar.cpp
         xpbar.h xpbar.cpp
+        hud.h hud.cpp
 
 
     )
