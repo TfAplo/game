@@ -33,7 +33,9 @@ public:
 
     // crée par raph
     QPointF getPosition() const;
-    void setPosition(const QPointF &newPosition);
+    pair<double,double> getPositionPair() const;
+    double getCurrent_hp();
+    void setPosition(const pair<double,double> newPosition);
 
     double speed;
 signals:

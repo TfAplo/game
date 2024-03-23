@@ -1,4 +1,5 @@
 #include "Monstre.h"
+#include "OrbeXP.h"
 #include <QTimer>
 
 
@@ -16,8 +17,8 @@ Monstre::Monstre(string image, pair<double, double> position, double current_hp,
     QPointF positionJoueur = player->getPosition();
     if (QPointF(position.first, position.second) == positionJoueur) {
         // Déplacer légèrement le monstre pour éviter la division par zéro
-        position.first += 10.0; // Décalage horizontal arbitraire
-        position.second += 10.0; // Décalage vertical arbitraire
+        position.first += 100.0; // Décalage horizontal arbitraire
+        position.second += 100.0; // Décalage vertical arbitraire
         setPos(position.first, position.second);
     } else {
         // Positionner le monstre à sa position initiale
@@ -26,6 +27,10 @@ Monstre::Monstre(string image, pair<double, double> position, double current_hp,
     moveTimer = new QTimer(this);
     connect(moveTimer, &QTimer::timeout, this, &Monstre::move);
     moveTimer->start(15);
+
+    QTimer::singleShot(10000, this, &Monstre::testMort);
+
+
 
 }
 
@@ -97,6 +102,27 @@ void Monstre::move()
 
     // Déplacer le monstre selon le déplacement calculé
     setPos(mapToParent(dx, dy));
+
 }
+
+void Monstre::testMort()
+{
+    // Marquer la direction dans laquelle le joueur souhaite se déplacer
+
+        this->takeDamage(110.);
+        if (getCurrent_hp() == 0){
+            OrbeXP *orbe=new OrbeXP("nom",make_pair(x(),y()));
+
+            scene->addItem(orbe);
+            scene->removeItem(this);
+
+            // Supprimer le monstre de la mémoire
+            delete this;
+        }
+
+
+
+}
+
 
 

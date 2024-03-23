@@ -5,11 +5,11 @@ using namespace std;
 void Personnage::takeDamage(double dmg)
 {
     //verifier qu'on ne descent pas en dessous de 0
-    if(this->current_hp - dmg >= 0){
+    if(this->current_hp - dmg >= 0.){
         this->current_hp -= dmg;
     } else {
         // on met a 0
-        this->current_hp = 0;
+        this->current_hp = 0.;
     }
 }
 
@@ -38,7 +38,17 @@ QPointF Personnage::getPosition() const {
     return mapToScene(pos());
 }
 
+//crée par raph
+pair<double,double> Personnage::getPositionPair() const{
+    return position;
+}
+
 // crée par raph
-void Personnage::setPosition(const QPointF &newPosition) {
-    setPos(newPosition);
+double Personnage::getCurrent_hp() {
+    return current_hp;
+}
+
+// crée par raph
+void Personnage::setPosition(const pair<double,double> newPosition){
+    position = newPosition;
 }

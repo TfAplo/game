@@ -46,6 +46,7 @@ void Player::keyReleaseEvent(QKeyEvent *event)
     }
 }
 
+
 void Player::keyPressEvent(QKeyEvent *event)
 {
     // Marquer la direction dans laquelle le joueur souhaite se déplacer
