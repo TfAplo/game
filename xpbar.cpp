@@ -37,8 +37,8 @@ void XPBar::setWidth(qreal width, qreal xp, qreal limitxp, qreal niveau)
     setRect(newRect);
     actualXP->setRect(newRectxp);
     updateBar(xp, limitxp,niveau);
-    label1->setPos(5, 5);
+    label1->setPos(5, 2);
     label1->setPlainText(QString::number(niveau));
-    label2->setPos(newRectxp.width()-25, 5);
+    label2->setPos(newRectxp.width()-25, 2);
     label2->setPlainText(QString::number(niveau+1));
 }

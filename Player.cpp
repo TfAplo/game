@@ -20,7 +20,7 @@ Player::Player(string image, pair<double, double> position, double current_hp, d
     hpBar = new HPBar(32, 5, this); // taille de la barre de santé (modifiable)
     hpBar->setPos(0, 32); // position relative à l'objet Personnage
 
-    xpBar = new XPBar(100, 40);
+    xpBar = new XPBar(100, 30);
 
 }
 
@@ -35,15 +35,19 @@ void Player::keyReleaseEvent(QKeyEvent *event)
 {
     // Annuler le marquage de la direction lorsque la touche est relâchée
     switch (event->key()) {
+    case Qt::Key_Q:
     case Qt::Key_Left:
         movingLeft = false;
         break;
+    case Qt::Key_D:
     case Qt::Key_Right:
         movingRight = false;
         break;
+    case Qt::Key_Z:
     case Qt::Key_Up:
         movingUp = false;
         break;
+    case Qt::Key_S:
     case Qt::Key_Down:
         movingDown = false;
         break;
@@ -64,15 +68,19 @@ void Player::keyPressEvent(QKeyEvent *event)
         xp += 5;
     }
     switch (event->key()) {
+    case Qt::Key_Q:
     case Qt::Key_Left:
         movingLeft = true;
         break;
+    case Qt::Key_D:
     case Qt::Key_Right:
         movingRight = true;
         break;
+    case Qt::Key_Z:
     case Qt::Key_Up:
         movingUp = true;
         break;
+    case Qt::Key_S:
     case Qt::Key_Down:
         movingDown = true;
         break;

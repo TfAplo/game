@@ -36,10 +36,6 @@ Game::Game(QWidget *parent) {
     xpBar = player->getXPBar();
     scene->addItem(xpBar);
 
-    // Positionnez le rectangle en haut de la vue
-    QPointF topLeft = mapToScene(0, 0);
-    xpBar->setPos(topLeft.x(), topLeft.y());
-
     //timer du jeu
     gameTimer = new QTimer(this);
     //conect le timer avec les methodes des classes
