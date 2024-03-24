@@ -27,7 +27,7 @@ Game::Game(QWidget *parent) {
     double speed = 2.5;
     double xp = 50.0;
     double dmg = 10.0;
-    player = new Player("image",position,current_hp,max_hp,speed,dmg,xp);
+    player = new Player(":/graphics/Tiles/tile_0084.png",position,current_hp,max_hp,speed,dmg,xp);
 
     //met le focus sur Player
     player->setFlag(QGraphicsItem::ItemIsFocusable);

@@ -17,6 +17,9 @@ private:
     double limiteXP;
     HPBar *hpBar;
     XPBar *xpBar;
+    bool leftOriented;
+    QPixmap playerTextureLeft;
+    QPixmap playerTextureRight;
 
 public:
     Player(string image, pair<double, double> position, double current_hp, double max_hp, double speed,double dmg, double xp,QGraphicsItem *parent = 0);
@@ -33,6 +36,7 @@ public:
     double getlimitXP();
     double getNiveau();
     void ajouterXP(double);
+    void updateOrientation(bool movesLeft);
 signals:
 
 public slots:

@@ -9,10 +9,11 @@ using namespace std;
 Player::Player(string image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, double xp,QGraphicsItem *parent) :
     Personnage(image,position,current_hp,max_hp,speed,dmg,parent), xp(xp),limiteXP(100), niveau(0)
 {
-    movingLeft = movingRight = movingUp = movingDown = false;
+    leftOriented =movingLeft = movingRight = movingUp = movingDown = false;
     // Charger la texture du joueur
-    QPixmap playerTexture(":/graphics/Tiles/tile_0084.png");
-    setPixmap(playerTexture.scaled(32, 32)); // Ajuster la taille de la texture du joueur
+    playerTextureRight = QPixmap(QString::fromStdString(image));
+    playerTextureLeft = playerTextureRight.transformed(QTransform().scale(-1, 1));
+    setPixmap(playerTextureRight.scaled(32, 32)); // Ajuster la taille de la texture du joueur
 
     // Positionner le joueur
     setPos(position.first, position.second);
@@ -64,17 +65,16 @@ void Player::updateHPBar()
 void Player::keyPressEvent(QKeyEvent *event)
 {
     // Marquer la direction dans laquelle le joueur souhaite se déplacer
-    if (event->key() == Qt::Key_A){
-        xp += 5;
-    }
     switch (event->key()) {
     case Qt::Key_Q:
     case Qt::Key_Left:
         movingLeft = true;
+        updateOrientation(true);
         break;
     case Qt::Key_D:
     case Qt::Key_Right:
         movingRight = true;
+        updateOrientation(false);
         break;
     case Qt::Key_Z:
     case Qt::Key_Up:
@@ -129,4 +129,19 @@ double Player::getNiveau()
 
 void Player::ajouterXP(double xp) {
     this->xp += xp;
+}
+
+void Player::updateOrientation(bool movesLeft)
+{
+    //change l'orientation de la texture du player
+    if (movesLeft && !leftOriented){
+        leftOriented = true;
+        setPixmap(playerTextureLeft);
+        setPixmap(playerTextureLeft.scaled(32, 32));
+    }else if(!movesLeft && leftOriented){
+        leftOriented = false;
+        setPixmap(playerTextureRight);
+        setPixmap(playerTextureRight.scaled(32, 32));
+    }
+
 }
