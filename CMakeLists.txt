@@ -44,6 +44,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         hpbar.h hpbar.cpp
         xpbar.h xpbar.cpp
         hud.h hud.cpp
+        damageindicator.h damageindicator.cpp
 
 
     )

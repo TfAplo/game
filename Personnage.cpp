@@ -1,5 +1,6 @@
 #include "Personnage.h"
 #include <iostream>
+#include "damageindicator.h"
 using namespace std;
 
 Personnage::Personnage(string image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, QGraphicsItem *parent) :
@@ -14,6 +15,9 @@ void Personnage::takeDamage(double dmg)
         // on met a 0
         this->current_hp = 0;
     }
+
+    DamageIndicator *indic = new DamageIndicator(pos().x(),pos().y(),dmg);
+    scene()->addItem(indic);
 }
 
 void Personnage::attack(Personnage &other)
