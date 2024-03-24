@@ -6,7 +6,7 @@
 using namespace std;
 
 
-Player::Player(string image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, double xp,QGraphicsItem *parent) :
+Player::Player(QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, double xp,QGraphicsItem *parent) :
     Personnage(image,position,current_hp,max_hp,speed,dmg,parent), xp(xp)
 {
     movingLeft = movingRight = movingUp = movingDown = false;

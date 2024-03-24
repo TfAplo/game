@@ -14,7 +14,8 @@ private:
     Player *m_player;
     QGraphicsScene * scene;
 public:
-    Monstre(string  image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, Player *player=0,QGraphicsScene *scene=0,QGraphicsItem *parent = 0);
+    Monstre(const QString&  image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, Player *player=0,QGraphicsScene *scene=0,QGraphicsItem *parent = 0);
+    Monstre(bool init,const QString&  image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg,Player *player=0,QGraphicsScene *scene=0,QGraphicsItem *parent = 0);
     virtual ~Monstre(){};
     void testMort();
 

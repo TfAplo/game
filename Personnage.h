@@ -11,14 +11,15 @@ using namespace std;
 class Personnage:public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 private:
-    string image;
+    QString image;
     pair<double, double> position;
     double current_hp;
     double max_hp;
     double dmg;
 
+
 public:
-    Personnage(string  image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg,QGraphicsItem *parent = 0) :
+    Personnage(const QString&  image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg,QGraphicsItem *parent = 0) :
         QObject(), QGraphicsPixmapItem(parent), image(image), position(position), current_hp(current_hp), max_hp(max_hp), speed(speed), dmg(dmg) {}
 
     void takeDamage(double dmg);
@@ -31,13 +32,20 @@ public:
 
     virtual void keyPressEvent(QKeyEvent *event);
 
+    double speed;
+
     // crée par raph
     QPointF getPosition() const;
     pair<double,double> getPositionPair() const;
     double getCurrent_hp();
     void setPosition(const pair<double,double> newPosition);
 
-    double speed;
+
+    QString getImage() const;
+    double getMax_hp() const;
+    double getDmg() const;
+
+
 signals:
 
 public slots:

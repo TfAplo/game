@@ -4,6 +4,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "Monstre.h"
+#include "Vague.h"
 #include <QTimer>
 
 
@@ -21,13 +22,14 @@ Game::Game(QWidget *parent) {
     map.afficher(scene);
 
     //creation du player
+    QString image="image";
     pair<double,double> position = make_pair(800,800);
     double current_hp = 100.0;
     double max_hp = 100.0;
     double speed = 2.5;
     double xp = 0.0;
     double dmg = 10.0;
-    player = new Player("image",position,current_hp,max_hp,speed,dmg,xp);
+    player = new Player(image,position,current_hp,max_hp,speed,dmg,xp);
 
     //met le focus sur Player
     player->setFlag(QGraphicsItem::ItemIsFocusable);
@@ -43,6 +45,8 @@ Game::Game(QWidget *parent) {
     });
     gameTimer->start(20);
 
+
+
     double current_hpM = 100.0;
     double max_hpM = 100.0;
     double speedM = 1.;
@@ -56,8 +60,18 @@ Game::Game(QWidget *parent) {
     int coord2 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
     pair<double,double> positionM = make_pair(coord1,coord2);
 
-    Monstre *monstre =new Monstre("image",positionM,current_hpM,max_hpM,speedM,dmgM,player,scene);
-    scene->addItem(monstre);
+    Monstre *monstre =new Monstre(true,":/graphics/Tiles/tile_0109.png",positionM,current_hpM,max_hpM,speedM,dmgM,player,scene);
+
+    int coord11 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
+    int coord21 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
+    pair<double,double> positionM1 = make_pair(coord11,coord21);
+    Monstre *monstre2 =new Monstre(true,":/graphics/Tiles/tile_0111.png",positionM1,current_hpM,max_hpM,speedM,dmgM,player,scene);
+
+    QVector<Monstre*> tableauMonstres;
+    tableauMonstres.append(monstre);
+    tableauMonstres.append(monstre2);
+    Vague *vague = new Vague(tableauMonstres,scene,gameTimer,player);
+
 
     show();
 }

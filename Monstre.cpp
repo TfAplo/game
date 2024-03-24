@@ -6,12 +6,12 @@
 
 using namespace std;
 
-Monstre::Monstre(string image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
+Monstre::Monstre(const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
     Personnage(image,position,current_hp,max_hp,speed,dmg,parent), m_player(player),scene(scene)
 {
 
     // Charger la texture du joueur
-    QPixmap playerTexture(":/graphics/Tiles/tile_0109.png");
+    QPixmap playerTexture(image);
     setPixmap(playerTexture.scaled(32, 32)); // Ajuster la taille de la texture du joueur
 
     QPointF positionJoueur = player->getPosition();
@@ -28,10 +28,15 @@ Monstre::Monstre(string image, pair<double, double> position, double current_hp,
     connect(moveTimer, &QTimer::timeout, this, &Monstre::move);
     moveTimer->start(15);
 
-    QTimer::singleShot(10000, this, &Monstre::testMort);
+   // QTimer::singleShot(10000, this, &Monstre::testMort);
 
 
 
+}
+
+Monstre::Monstre(bool init,const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
+    Personnage(image,position,current_hp,max_hp,speed,dmg,parent), m_player(player),scene(scene)
+{
 }
 
 void Monstre::move()
@@ -109,16 +114,16 @@ void Monstre::testMort()
 {
     // Marquer la direction dans laquelle le joueur souhaite se déplacer
 
-        this->takeDamage(110.);
-        if (getCurrent_hp() == 0){
-            OrbeXP *orbe=new OrbeXP("nom",make_pair(x(),y()));
+    this->takeDamage(110.);
+    if (getCurrent_hp() == 0){
+        OrbeXP *orbe=new OrbeXP("nom",make_pair(x(),y()));
 
-            scene->addItem(orbe);
-            scene->removeItem(this);
+        scene->addItem(orbe);
+        scene->removeItem(this);
 
-            // Supprimer le monstre de la mémoire
-            delete this;
-        }
+        // Supprimer le monstre de la mémoire
+        delete this;
+    }
 
 
 

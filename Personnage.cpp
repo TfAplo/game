@@ -2,6 +2,22 @@
 #include <iostream>
 using namespace std;
 
+QString Personnage::getImage() const
+{
+    return image;
+}
+
+double Personnage::getMax_hp() const
+{
+    return max_hp;
+}
+
+double Personnage::getDmg() const
+{
+    return dmg;
+}
+
+
 void Personnage::takeDamage(double dmg)
 {
     //verifier qu'on ne descent pas en dessous de 0
@@ -21,7 +37,7 @@ void Personnage::attack(Personnage &other)
 void Personnage::details()
 {
 
-    cout << "image : " << this->image << endl;
+    cout << "image : " << this->image.toStdString() << endl;
     cout << "position  x : " << this->position.first << ", y :" << this->position.second << endl;
     cout << "current_hp : " << this->current_hp << endl;
     cout << "max_hp : " << this->max_hp << endl;
