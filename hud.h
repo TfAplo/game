@@ -16,11 +16,13 @@ private:
     QGraphicsView *view;
     QGraphicsTextItem *labelTimer;
     QTime startTime;
+    vector<QGraphicsPixmapItem*> pixItems;
 
 public:
     HUD(Player *player,QTimer *gameTimer,QGraphicsScene *scene, QGraphicsView *view);
     void update();
     void updateTime();
+    void updateItems();
 };
 
 #endif // HUD_H

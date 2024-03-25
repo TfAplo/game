@@ -4,6 +4,8 @@
 #include "xpbar.h"
 #include <QGraphicsView>
 #include "Personnage.h"
+#include "upgrade.h"
+#include <vector>
 
 class Player : public Personnage {
     Q_OBJECT
@@ -20,6 +22,7 @@ private:
     bool leftOriented;
     QPixmap playerTextureLeft;
     QPixmap playerTextureRight;
+    vector<Upgrade*> upgrades;
 
 public:
     Player(string image, pair<double, double> position, double current_hp, double max_hp, double speed,double dmg, double xp,QGraphicsItem *parent = 0);
@@ -37,6 +40,8 @@ public:
     double getNiveau();
     void ajouterXP(double);
     void updateOrientation(bool movesLeft);
+    vector<Upgrade*> getUpgrades();
+
 signals:
 
 public slots:

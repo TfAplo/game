@@ -2,7 +2,6 @@
 #include <iostream>
 #include <QTimer>
 #include <QKeyEvent>
-
 using namespace std;
 
 
@@ -22,7 +21,6 @@ Player::Player(string image, pair<double, double> position, double current_hp, d
     hpBar->setPos(0, 32); // position relative à l'objet Personnage
 
     xpBar = new XPBar(100, 30);
-
 }
 
 void Player::details()
@@ -144,4 +142,9 @@ void Player::updateOrientation(bool movesLeft)
         setPixmap(playerTextureRight.scaled(32, 32));
     }
 
+}
+
+vector<Upgrade *> Player::getUpgrades()
+{
+    return upgrades;
 }

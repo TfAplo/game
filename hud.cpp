@@ -16,6 +16,8 @@ HUD::HUD(Player *player, QTimer *gameTimer,QGraphicsScene *scene,QGraphicsView *
     startTime = QTime::currentTime();
     scene->addItem(labelTimer);
 
+    updateItems();
+
 }
 
 void HUD::update()
@@ -23,11 +25,25 @@ void HUD::update()
     //update de l'HUD pour qu'il soit toujours present dans la fenetre
     QPointF topLeft = view->mapToScene(0, 0);
     QPointF topRight = view->mapToScene(view->viewport()->width(), 0);
+    //update de la barre XP
     xpBar->setPos(topLeft.x(), topLeft.y());
     xpBar->setWidth(topRight.x() - topLeft.x(),player->getXP(), player->getlimitXP(),player->getNiveau());
+    //update du temps et de sa position
     updateTime();
     float coordMilieuX = (topRight.x() + topLeft.x())/2 - labelTimer->boundingRect().width()/2;
     labelTimer->setPos(coordMilieuX, topLeft.y()+ 40);
+    //update des icones des armes
+    updateItems();
+    int i = 0;
+    int j = 0;
+    for(QGraphicsPixmapItem *item : pixItems){
+        if(i == 0)
+            j++;
+        item->setPos(topLeft.x()+i*32, topLeft.y()+j*32);
+        i++;
+        i %= 6;
+    }
+
 }
 
 void HUD::updateTime()
@@ -41,4 +57,24 @@ void HUD::updateTime()
     formattedTime = QString::number(minutes) + ":" + QString("%1").arg(secondes, 2, 10, QChar('0'));
 
     labelTimer->setPlainText(formattedTime);
+}
+
+void HUD::updateItems()
+{
+    for(QGraphicsPixmapItem *item : pixItems){
+        scene->removeItem(item);
+    }
+    pixItems.clear();
+    for(Upgrade *up : player->getUpgrades()){
+        QPixmap textureToAdd(up->getImageIcone());
+        QPixmap pix(":/graphics/Tiles/tile_0060.png");
+        QPainter painter(&pix);
+        painter.drawPixmap(0, 0, textureToAdd);
+        painter.end();
+        QGraphicsPixmapItem* item = scene->addPixmap(pix);
+        item->setPixmap(pix.scaled(32, 32));
+        pixItems.push_back(item);
+
+    }
+
 }
