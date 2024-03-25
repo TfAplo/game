@@ -55,17 +55,17 @@ Game::Game(QWidget *parent) {
     int rand_min = 0;
     int rand_max = 1600;
 
+    double first_circle = 200;
+    double second_circle = 500;
+
     // on génère des coordonnées aléatoires
-    int coord1 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
-    int coord2 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
-    pair<double,double> positionM = make_pair(coord1,coord2);
+    pair<double,double> positionM = Game::getRandomPos(*player,first_circle,second_circle);
     vector<Monstre*> v;
 
     Monstre *monstre =new Monstre(true,false,":/graphics/Tiles/tile_0109.png",positionM,current_hpM,max_hpM,speedM,dmgM,gameTimer,v,player,scene);
 
-    int coord11 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
-    int coord21 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
-    pair<double,double> positionM1 = make_pair(coord11,coord21);
+    pair<double,double> positionM1 = Game::getRandomPos(*player,first_circle,second_circle);
+
     Monstre *monstre2 =new Monstre(true,true,":/graphics/Tiles/tile_0111.png",positionM1,current_hpM,max_hpM,speedM,dmgM,gameTimer,v,player,scene);
 
     vector<Monstre*> tableauMonstres;
