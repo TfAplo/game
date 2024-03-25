@@ -18,7 +18,7 @@ private:
     //fin ajout
 
 public:
-    Player(string image, pair<double, double> position, double current_hp, double max_hp, double speed,double dmg, double xp,QGraphicsItem *parent = 0);
+    Player(string image, pair<double, double> position, double current_hp, double max_hp, double speed,double dmg, double xp, double limiteXP,QGraphicsItem *parent = 0);
 
     virtual void details() override;
     virtual ~Player(){};
@@ -37,6 +37,7 @@ public:
 
     void setXP(double);
     void ajouterXP(double);
+    double getNiveau();
     void setNiveau(double);
     void augmenterNiveau(double);
     //fin ajout

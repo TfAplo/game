@@ -15,14 +15,18 @@ private:
     pair<double, double> position;
     double valeurXP;
 public:
-    OrbeXP(string nom, pair<double, double> position) :
-        Objet(nom), position(position) {}
+    static vector<OrbeXP*> vecOrbeXP;
+
+    OrbeXP(string nom, pair<double, double> position, double valeurXP) :
+        Objet(nom), position(position), valeurXP(valeurXP) {
+        vecOrbeXP.push_back(this);
+    }
 
     pair<double, double> getPos();
     void setPos(pair<double, double>);
     double getXP();
     void setXP(double);
-
+    static vector<OrbeXP*> getVecOrbeXP();
 };
 
 #endif // ORBEXP_H

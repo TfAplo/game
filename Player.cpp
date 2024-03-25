@@ -12,8 +12,8 @@
 using namespace std;
 
 
-Player::Player(string image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, double xp,QGraphicsItem *parent) :
-    Personnage(image,position,current_hp,max_hp,speed,dmg,parent), xp(xp)
+Player::Player(string image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, double xp, double limiteXP,QGraphicsItem *parent) :
+    Personnage(image,position,current_hp,max_hp,speed,dmg,parent), xp(xp), limiteXP(limiteXP)
 {
     movingLeft = movingRight = movingUp = movingDown = false;
     // Charger la texture du joueur
@@ -88,28 +88,35 @@ void Player::move()
 
 void Player::recupXP() {
     // a supp car test
-    vector<OrbeXP*> vecOrbeXP;
-    OrbeXP* orbe1 = new OrbeXP("Orbe", make_pair(200, 200));
-    vecOrbeXP.push_back(orbe1);
-    for (OrbeXP* orbeXP : vecOrbeXP) {
-        pair<double, double> pos = orbeXP->getPos(); //orbe.getPos();
-        if (Game::calculDistance(pos, this->getPos()) <= 5) {
-            //ajouter l'XP au joueur
+    QPointF posJ = this->pos();
+    pair<double, double> posJoueur = make_pair(posJ.x(), posJ.y());
+
+    for (auto it = OrbeXP::vecOrbeXP.begin(); it != OrbeXP::vecOrbeXP.end(); ++it) {
+        OrbeXP* orbeXP = *it;
+        pair<double, double> pos = orbeXP->getPos();
+        if (Game::calculDistance(pos, posJoueur) <= 10) {
+            // ajoute l'orbe dans vecASupp
+            // vecASupp.push_back(orbeXP); // Je commente cette ligne car vous n'utilisez pas vecASupp
+            // ajouter l'XP au joueur
             this->ajouterXP(orbeXP->getXP());
-            //supprimer l'orbeXP
-            delete orbeXP;
+            cout << "Xp augmenté : " << xp << endl;
+            delete orbeXP; // Supprime l'objet orbeXP
+            OrbeXP::vecOrbeXP.erase(it); // Supprime l'élément du vecteur
+            --it; // Décrémente l'itérateur pour rester sur le bon élément après l'effacement
         }
     }
+
     if (this->xp >= this->limiteXP) {
         this->augmenterNiveau(1);
     }
 }
 
-void Player::augmenterNiveau(double niveau) {
-    this->niveau += niveau;
+void Player::augmenterNiveau(double niv) {
+    this->niveau += niv;
     this->xp = this->xp - this->limiteXP;
     this->limiteXP *= 1.5;
 
+    cout << "Niveau augmente : " << this->getNiveau() << endl;
     //Game::afficherChoix(); // comment appeler afficherChoix de Game dans Player (passage en argument, ou alors attribut Game* game;)
 
 }
@@ -120,6 +127,10 @@ void Player::setXP(double xp) {
 
 void Player::ajouterXP(double xp) {
     this->xp += xp;
+}
+
+double Player::getNiveau() {
+    return niveau;
 }
 
 void Player::setNiveau(double niveau) {

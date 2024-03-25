@@ -18,4 +18,9 @@ void OrbeXP::setXP(double valeurXP) {
     this->valeurXP = valeurXP;
 }
 
+vector<OrbeXP*> getVecOrbeXP() {
+    return OrbeXP::vecOrbeXP;
+}
+
+vector<OrbeXP*> OrbeXP::vecOrbeXP;
 
