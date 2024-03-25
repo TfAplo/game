@@ -1,13 +1,16 @@
 #include "Monstre.h"
 #include "OrbeXP.h"
+#include "Projectile.h"
 #include <QTimer>
+#include <vector>
 
+#include <iostream>
 
 
 using namespace std;
 
-Monstre::Monstre(bool degDistance,const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
-    Personnage(image,position,current_hp,max_hp,speed,dmg,parent), m_player(player),scene(scene), degDistance(degDistance)
+Monstre::Monstre(bool degDistance,const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, QTimer *gameTimer,vector<Monstre*> vectMonstre,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
+    Personnage(image,position,current_hp,max_hp,speed,dmg,parent), m_player(player),scene(scene), degDistance(degDistance),gameTimer(gameTimer),vectMonstre(vectMonstre)
 {
 
     // Charger la texture du Monstre
@@ -24,23 +27,23 @@ Monstre::Monstre(bool degDistance,const QString& image, pair<double, double> pos
         // Positionner le monstre à sa position initiale
         setPos(position.first, position.second);
     }
-    moveTimer = new QTimer(this);
-    connect(moveTimer, &QTimer::timeout, this, &Monstre::move);
-    moveTimer->start(15);
+    connect(gameTimer, &QTimer::timeout, this, &Monstre::move);
 
-   QTimer::singleShot(10000, this, &Monstre::testMort);
+    elapsed=0;
+   QTimer::singleShot(2000, this, &Monstre::testMort);
 
 
 
 }
 
-Monstre::Monstre(bool initNoCreation,bool degDistance,const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
-    Personnage(image,position,current_hp,max_hp,speed,dmg,parent), m_player(player),scene(scene),degDistance(degDistance)
+Monstre::Monstre(bool initNoCreation,bool degDistance,const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, QTimer *gameTimer,vector<Monstre*> vectMonstre,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
+    Personnage(image,position,current_hp,max_hp,speed,dmg,parent), m_player(player),scene(scene),degDistance(degDistance),vectMonstre(vectMonstre)
 {
 }
 
 void Monstre::move()
 {
+
     // Obtenir les coordonnées actuelles du monstre
     qreal positionX = this->x();
     qreal positionY = this->y();
@@ -50,10 +53,8 @@ void Monstre::move()
     qreal playerPositionY = m_player->y();
 
     // Calculer la direction vers le joueur
-    qreal joueurX = playerPositionX;
-    qreal joueurY = playerPositionY;
-    qreal directionVersJoueurX = joueurX - positionX;
-    qreal directionVersJoueurY = joueurY - positionY;
+    qreal directionVersJoueurX = playerPositionX - x();
+    qreal directionVersJoueurY = playerPositionY - y();
 
     // Normaliser la direction vers le joueur
     qreal length = qSqrt(directionVersJoueurX * directionVersJoueurX + directionVersJoueurY * directionVersJoueurY);
@@ -66,6 +67,8 @@ void Monstre::move()
     qreal dx = directionVersJoueurX * speed;
     qreal dy = directionVersJoueurY * speed;
 
+
+
     // Définir une distance minimale entre le joueur et le monstre
     qreal distanceMinJM = 100.;
     qreal distanceMinMM=30.;
@@ -73,38 +76,38 @@ void Monstre::move()
     // Calculer la distance entre le joueur et le monstre
     qreal distanceJoueurMonstre = qSqrt((positionX - playerPositionX) * (positionX - playerPositionX) + (positionY - playerPositionY) * (positionY - playerPositionY));
 
-
+    cout << vectMonstre.size() << endl;
     // Vérifier les collisions avec les autres monstres
-    for (QGraphicsItem *item : scene->items()) {
-        if (Monstre *other_monster = dynamic_cast<Monstre*>(item)) {
-            // Exclure le monstre lui-même
-            if (other_monster != this) {
-                // Calculer la distance entre les monstres
-                qreal distanceMonstre = qSqrt((positionX - other_monster->x()) * (positionX - other_monster->x()) + (positionY - other_monster->y()) * (positionY - other_monster->y()));
-                // Si la distance est inférieure à la distance minimale, ajuster le déplacement
-                if (distanceMonstre < distanceMinMM) {
-                    // Calculer la direction pour éviter la collision
-                    qreal avoidDirectionX = positionX - other_monster->x();
-                    qreal avoidDirectionY = positionY - other_monster->y();
-                    // Normaliser la direction
-                    qreal avoidLength = qSqrt(avoidDirectionX * avoidDirectionX + avoidDirectionY * avoidDirectionY);
-                    if (avoidLength > 0.0) {
-                        avoidDirectionX /= avoidLength;
-                        avoidDirectionY /= avoidLength;
-                    }
-                    // Ajouter la direction d'évitement au déplacement
-                    dx += avoidDirectionX * speed;
-                    dy += avoidDirectionY * speed;
+    for (Monstre* other_monster : vectMonstre) {
+        cout << other_monster << " ";
+        /*// Exclure le monstre lui-même
+        if (other_monster != this) {
+            // Calculer la distance entre les monstres
+            qreal distanceMonstre = qSqrt((positionX - other_monster->x()) * (positionX - other_monster->x()) + (positionY - other_monster->y()) * (positionY - other_monster->y()));
+            // Si la distance est inférieure à la distance minimale, ajuster le déplacement
+            if (distanceMonstre < distanceMinMM) {
+                // Calculer la direction pour éviter la collision
+                qreal avoidDirectionX = positionX - other_monster->x();
+                qreal avoidDirectionY = positionY - other_monster->y();
+                // Normaliser la direction
+                qreal avoidLength = qSqrt(avoidDirectionX * avoidDirectionX + avoidDirectionY * avoidDirectionY);
+                if (avoidLength > 0.0) {
+                    avoidDirectionX /= avoidLength;
+                    avoidDirectionY /= avoidLength;
                 }
+                // Ajouter la direction d'évitement au déplacement
+                dx += avoidDirectionX * speed;
+                dy += avoidDirectionY * speed;
             }
-        }
+        }*/
     }
+
 
     if (degDistance){
         if (distanceJoueurMonstre<distanceMinJM){
             dx = 0; // Arrêter le déplacement en x
             dy = 0; // Arrêter le déplacement en y
-
+            attackPlayer();
 
         }
     }else{
@@ -122,19 +125,29 @@ void Monstre::move()
 
 
 
+
+void Monstre::attackPlayer(){
+    if (elapsed>3000){
+        elapsed=0;
+        Projectile *p1 = new Projectile(m_player,scene,make_pair(x(),y()),gameTimer,make_pair(m_player->x(),m_player->y()));
+        scene->addItem(p1);
+
+    }
+    elapsed+=20;
+}
+
 void Monstre::testMort()
 {
-    // Marquer la direction dans laquelle le joueur souhaite se déplacer
-
     this->takeDamage(110.);
     if (getCurrent_hp() == 0){
         OrbeXP *orbe=new OrbeXP("nom",make_pair(x(),y()));
 
         scene->addItem(orbe);
-        scene->removeItem(this);
 
-        // Supprimer le monstre de la mémoire
+        scene->removeItem(this);
+        vectMonstre.erase(remove(vectMonstre.begin(), vectMonstre.end(), this), vectMonstre.end());
         delete this;
+
     }
 
 }
@@ -142,6 +155,7 @@ void Monstre::testMort()
 bool Monstre::getDegDistance(){
     return degDistance;
 }
+
 
 
 

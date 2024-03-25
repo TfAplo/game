@@ -11,12 +11,13 @@ class Projectile:public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 private:
-    QTimer *moveTimer;
+    QTimer *gameTimer;
     Player *player;
     QGraphicsScene * scene;
     pair<double, double> positionM;
+    pair<double, double> positionP;
 public:
-    Projectile(Player *player,QGraphicsScene * scene,pair<double, double> positionM);
+    Projectile(Player *player,QGraphicsScene * scene,pair<double, double> positionM,QTimer *gameTimer,pair<double, double> positionP);
 signals:
 
 public slots:
