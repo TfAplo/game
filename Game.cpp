@@ -75,3 +75,15 @@ Game::Game(QWidget *parent) {
 
     show();
 }
+
+pair<int,int> Game::getRandomPos(Player& player, int first_circle, int second_circle){
+    // random compris entre les deux rayon
+    int randDist = first_circle  + rand() % (second_circle - first_circle + 1);
+    double randomAngle = (rand() / (RAND_MAX / (2 * M_PI))); // Angle aléatoire
+    //out << randDist <<": " <<randomAngle << Qt::endl;
+
+    int x = player.pos().x() + randDist * cos(randomAngle);
+    int y = player.pos().y() + randDist * sin(randomAngle);
+    //out << x <<": " <<y << Qt::endl;
+    return make_pair(x,y);
+}

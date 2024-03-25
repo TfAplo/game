@@ -1,4 +1,5 @@
 #include "Vague.h"
+#include "Game.h"
 #include <QTimer>
 
 using namespace std;
@@ -23,6 +24,12 @@ void Vague::apparaitreMonstre() {
     int rand_min = 0;
     int rand_max = 1600;
 
+
+    double first_circle = 200;
+    double second_circle = 500;
+
+    srand(time(0));
+
     // Vérifie si le temps écoulé est supérieur ou égal à 30000 millisecondes (30 secondes)
     // et s'il reste des monstres à faire apparaître dans le tableauMonstres
     if (elapsedTime >= 30000 && currentIndex < tableauMonstres.size()) {
@@ -31,21 +38,18 @@ void Vague::apparaitreMonstre() {
     }
     // si on arrive à la fin du vecteur alors on fait apparaitre les monstres des deux dernières vagues
     if (currentIndex==tableauMonstres.size()){
-        // Génère des coordonnées aléatoires pour la position du monstre
-        int coord11 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
-        int coord21 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
-        // Crée une paire de doubles représentant la position du monstre
-        pair<double,double> positionM1 = make_pair(coord11, coord21);
+       // Génère des coordonnées aléatoires pour la position du monstre
+
+       pair<double,double> positionM1 = Game::getRandomPos(*player,first_circle,second_circle);
+
+
         // Crée un nouvel objet Monstre avec les données du monstre de l'index précédent dans le tableauMonstres
         Monstre *monstre1 =new Monstre(tableauMonstres.at(currentIndex-1)->getDegDistance(),tableauMonstres.at(currentIndex-1)->getImage(),positionM1,tableauMonstres.at(currentIndex-1)->getCurrent_hp(),tableauMonstres.at(currentIndex-1)->getMax_hp(),tableauMonstres.at(currentIndex-1)->speed,tableauMonstres.at(currentIndex-1)->getDmg(),player,scene);
         scene->addItem(monstre1);// Ajoute le monstre à la scène
 
 
         // Génère des coordonnées aléatoires pour la position du monstre
-        int coord1 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
-        int coord2 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
-        // Crée une paire de doubles représentant la position du monstre
-        pair<double,double> positionM2 = make_pair(coord1, coord2);
+        pair<double,double> positionM2 = Game::getRandomPos(*player,first_circle,second_circle);
         // Crée un nouvel objet Monstre avec les données du monstre de l'index précédent dans le tableauMonstres
         Monstre *monstre2 =new Monstre(tableauMonstres.at(currentIndex-2)->getDegDistance(),tableauMonstres.at(currentIndex-2)->getImage(),positionM2,tableauMonstres.at(currentIndex-2)->getCurrent_hp(),tableauMonstres.at(currentIndex-2)->getMax_hp(),tableauMonstres.at(currentIndex-2)->speed,tableauMonstres.at(currentIndex-2)->getDmg(),player,scene);
         scene->addItem(monstre2);// Ajoute le monstre à la scène
