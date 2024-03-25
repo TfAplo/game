@@ -58,10 +58,8 @@ void Vague::apparaitreMonstre() {
         // Vérifie si currentIndex est inférieur à la taille du tableauMonstres
         if (currentIndex < tableauMonstres.size()) {
             // Génère des coordonnées aléatoires pour la position du monstre
-            int coord11 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
-            int coord21 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
-            // Crée une paire de doubles représentant la position du monstre
-            pair<double,double> positionM1 = make_pair(coord11, coord21);
+            pair<double,double> positionM1 = Game::getRandomPos(*player,first_circle,second_circle);
+
             // Crée un nouvel objet Monstre avec les données du monstre actuel dans le tableauMonstres
             Monstre *monstre =new Monstre(tableauMonstres.at(currentIndex)->getDegDistance(),tableauMonstres.at(currentIndex)->getImage(),positionM1,tableauMonstres.at(currentIndex)->getCurrent_hp(),tableauMonstres.at(currentIndex)->getMax_hp(),tableauMonstres.at(currentIndex)->speed,tableauMonstres.at(currentIndex)->getDmg(),player,scene);
             scene->addItem(monstre);// Ajoute le monstre à la scène
