@@ -60,12 +60,12 @@ Game::Game(QWidget *parent) {
     int coord2 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
     pair<double,double> positionM = make_pair(coord1,coord2);
 
-    Monstre *monstre =new Monstre(true,":/graphics/Tiles/tile_0109.png",positionM,current_hpM,max_hpM,speedM,dmgM,player,scene);
+    Monstre *monstre =new Monstre(true,false,":/graphics/Tiles/tile_0109.png",positionM,current_hpM,max_hpM,speedM,dmgM,player,scene);
 
     int coord11 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
     int coord21 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
     pair<double,double> positionM1 = make_pair(coord11,coord21);
-    Monstre *monstre2 =new Monstre(true,":/graphics/Tiles/tile_0111.png",positionM1,current_hpM,max_hpM,speedM,dmgM,player,scene);
+    Monstre *monstre2 =new Monstre(true,true,":/graphics/Tiles/tile_0111.png",positionM1,current_hpM,max_hpM,speedM,dmgM,player,scene);
 
     QVector<Monstre*> tableauMonstres;
     tableauMonstres.append(monstre);

@@ -29,20 +29,42 @@ void Vague::apparaitreMonstre() {
         currentIndex += 1; // Passe au prochain monstre dans le tableau
         elapsedTime = 0; // Réinitialise le temps écoulé à 0
     }
-
-    // Vérifie si currentIndex est inférieur à la taille du tableauMonstres
-    if (currentIndex < tableauMonstres.size()) {
+    // si on arrive à la fin du vecteur alors on fait apparaitre les monstres des deux dernières vagues
+    if (currentIndex==tableauMonstres.size()){
         // Génère des coordonnées aléatoires pour la position du monstre
         int coord11 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
         int coord21 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
         // Crée une paire de doubles représentant la position du monstre
         pair<double,double> positionM1 = make_pair(coord11, coord21);
-        // Crée un nouvel objet Monstre avec les données du monstre actuel dans le tableauMonstres
-        Monstre *monstre =new Monstre(tableauMonstres.at(currentIndex)->getImage(),positionM1,tableauMonstres.at(currentIndex)->getCurrent_hp(),tableauMonstres.at(currentIndex)->getMax_hp(),tableauMonstres.at(currentIndex)->speed,tableauMonstres.at(currentIndex)->getDmg(),player,scene);
-        scene->addItem(monstre);// Ajoute le monstre à la scène
+        // Crée un nouvel objet Monstre avec les données du monstre de l'index précédent dans le tableauMonstres
+        Monstre *monstre1 =new Monstre(tableauMonstres.at(currentIndex-1)->getDegDistance(),tableauMonstres.at(currentIndex-1)->getImage(),positionM1,tableauMonstres.at(currentIndex-1)->getCurrent_hp(),tableauMonstres.at(currentIndex-1)->getMax_hp(),tableauMonstres.at(currentIndex-1)->speed,tableauMonstres.at(currentIndex-1)->getDmg(),player,scene);
+        scene->addItem(monstre1);// Ajoute le monstre à la scène
+
+
+        // Génère des coordonnées aléatoires pour la position du monstre
+        int coord1 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
+        int coord2 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
+        // Crée une paire de doubles représentant la position du monstre
+        pair<double,double> positionM2 = make_pair(coord1, coord2);
+        // Crée un nouvel objet Monstre avec les données du monstre de l'index précédent dans le tableauMonstres
+        Monstre *monstre2 =new Monstre(tableauMonstres.at(currentIndex-2)->getDegDistance(),tableauMonstres.at(currentIndex-2)->getImage(),positionM2,tableauMonstres.at(currentIndex-2)->getCurrent_hp(),tableauMonstres.at(currentIndex-2)->getMax_hp(),tableauMonstres.at(currentIndex-2)->speed,tableauMonstres.at(currentIndex-2)->getDmg(),player,scene);
+        scene->addItem(monstre2);// Ajoute le monstre à la scène
 
     }else{
-        timer->stop();// Arrête le timer si tous les monstres ont été créés
+        // Vérifie si currentIndex est inférieur à la taille du tableauMonstres
+        if (currentIndex < tableauMonstres.size()) {
+            // Génère des coordonnées aléatoires pour la position du monstre
+            int coord11 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
+            int coord21 = arc4random_uniform(rand_max - rand_min + 1) + rand_min;
+            // Crée une paire de doubles représentant la position du monstre
+            pair<double,double> positionM1 = make_pair(coord11, coord21);
+            // Crée un nouvel objet Monstre avec les données du monstre actuel dans le tableauMonstres
+            Monstre *monstre =new Monstre(tableauMonstres.at(currentIndex)->getDegDistance(),tableauMonstres.at(currentIndex)->getImage(),positionM1,tableauMonstres.at(currentIndex)->getCurrent_hp(),tableauMonstres.at(currentIndex)->getMax_hp(),tableauMonstres.at(currentIndex)->speed,tableauMonstres.at(currentIndex)->getDmg(),player,scene);
+            scene->addItem(monstre);// Ajoute le monstre à la scène
+
+        }else{
+            timer->stop();// Arrête le timer si tous les monstres ont été créés
+        }
     }
 
 }

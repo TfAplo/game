@@ -6,11 +6,11 @@
 
 using namespace std;
 
-Monstre::Monstre(const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
-    Personnage(image,position,current_hp,max_hp,speed,dmg,parent), m_player(player),scene(scene)
+Monstre::Monstre(bool degDistance,const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
+    Personnage(image,position,current_hp,max_hp,speed,dmg,parent), m_player(player),scene(scene), degDistance(degDistance)
 {
 
-    // Charger la texture du joueur
+    // Charger la texture du Monstre
     QPixmap playerTexture(image);
     setPixmap(playerTexture.scaled(32, 32)); // Ajuster la taille de la texture du joueur
 
@@ -28,14 +28,14 @@ Monstre::Monstre(const QString& image, pair<double, double> position, double cur
     connect(moveTimer, &QTimer::timeout, this, &Monstre::move);
     moveTimer->start(15);
 
-   // QTimer::singleShot(10000, this, &Monstre::testMort);
+   QTimer::singleShot(10000, this, &Monstre::testMort);
 
 
 
 }
 
-Monstre::Monstre(bool init,const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
-    Personnage(image,position,current_hp,max_hp,speed,dmg,parent), m_player(player),scene(scene)
+Monstre::Monstre(bool initNoCreation,bool degDistance,const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
+    Personnage(image,position,current_hp,max_hp,speed,dmg,parent), m_player(player),scene(scene),degDistance(degDistance)
 {
 }
 
@@ -68,7 +68,7 @@ void Monstre::move()
 
     // Définir une distance minimale entre le joueur et le monstre
     qreal distanceMinJM = 100.;
-    qreal distanceMinMM=20.;
+    qreal distanceMinMM=30.;
 
     // Calculer la distance entre le joueur et le monstre
     qreal distanceJoueurMonstre = qSqrt((positionX - playerPositionX) * (positionX - playerPositionX) + (positionY - playerPositionY) * (positionY - playerPositionY));
@@ -99,16 +99,28 @@ void Monstre::move()
             }
         }
     }
-    // Si le monstre est trop proche du joueur, arrêter le déplacement
-    if (distanceJoueurMonstre < distanceMinJM) {
-        dx = 0; // Arrêter le déplacement en x
-        dy = 0; // Arrêter le déplacement en y
+
+    if (degDistance){
+        if (distanceJoueurMonstre<distanceMinJM){
+            dx = 0; // Arrêter le déplacement en x
+            dy = 0; // Arrêter le déplacement en y
+
+
+        }
+    }else{
+        if (distanceJoueurMonstre<distanceMinMM){
+            dx=0;
+            dy=0;
+            this->attack(*m_player);
+        }
     }
 
     // Déplacer le monstre selon le déplacement calculé
     setPos(mapToParent(dx, dy));
 
 }
+
+
 
 void Monstre::testMort()
 {
@@ -125,8 +137,10 @@ void Monstre::testMort()
         delete this;
     }
 
+}
 
-
+bool Monstre::getDegDistance(){
+    return degDistance;
 }
 
 
