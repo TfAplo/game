@@ -27,16 +27,15 @@ void Upgrades::defaultAttack(Player& player, vector<Monstre*> monstres){
     int width = 5;
     int height = 3;
     int dmg = 10;
-    //calculer la zone dans laquelle les monstres prennent des degats en X
+    // parcourir tous les monstres
     for(const auto& monstre : monstres){
-        if(monstre->pos().x() <= player.pos().x() + width || monstre->pos().x() > player.pos().x()){
-            // en Y
-            if(monstre->pos().y() <= player.pos().y() + height || monstre->pos().y() > player.pos().y()){
-                // dans la zone pour subir des degats
-                monstre->takeDamage(dmg);
-                cout << "kill" << endl;
-            }
+        // vérifier si le monstre est dans la zone de dégâts
+        if(monstre->pos().x() >= player.pos().x() && monstre->pos().x() <= player.pos().x() + width &&
+            monstre->pos().y() >= player.pos().y() && monstre->pos().y() <= player.pos().y() + height){
+            // le monstre est dans la zone de dégâts, lui infliger des dégâts
+            monstre->takeDamage(dmg);
+            cout << "Le monstre a été touché !" << endl;
         }
     }
-
 }
+
