@@ -24,8 +24,8 @@ void Upgrades::upgradeLevel(Player& player)
 
 //met un coup dans un ray on de 5 cases devant lui sur une largeur de 3 cases
 void Upgrades::defaultAttack(Player& player, vector<Monstre*> monstres){
-    int width = 5;
-    int height = 3;
+    int width = 100;
+    int height = 50;
     int dmg = 10;
     // parcourir tous les monstres
     for(const auto& monstre : monstres){
@@ -34,7 +34,11 @@ void Upgrades::defaultAttack(Player& player, vector<Monstre*> monstres){
             monstre->pos().y() >= player.pos().y() && monstre->pos().y() <= player.pos().y() + height){
             // le monstre est dans la zone de dégâts, lui infliger des dégâts
             monstre->takeDamage(dmg);
+<<<<<<< HEAD
             cout << "Le monstre a été touché !" << endl;
+=======
+            cout << "Le monstre kill !" << endl;
+>>>>>>> c2dec5af9ce9ee8429a82bd8abfecdcfaacefc75
         }
     }
 }
