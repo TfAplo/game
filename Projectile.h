@@ -17,11 +17,12 @@ private:
     pair<double, double> positionM;
     pair<double, double> positionP;
 public:
-    Projectile(Player *player,QGraphicsScene * scene,pair<double, double> positionM,QTimer *gameTimer,pair<double, double> positionP);
+    Projectile(Player* player,QGraphicsScene *scene,pair<double, double> positionM,QTimer *gameTimer,pair<double, double> positionP);
 signals:
 
 public slots:
     void move();
+    void destroyProjectile();
 };
 
 #endif // PROJECTILE_H

@@ -60,13 +60,12 @@ Game::Game(QWidget *parent) {
 
     // on génère des coordonnées aléatoires
     pair<double,double> positionM = Game::getRandomPos(*player,first_circle,second_circle);
-    vector<Monstre*> v;
 
-    Monstre *monstre =new Monstre(true,false,":/graphics/Tiles/tile_0109.png",positionM,current_hpM,max_hpM,speedM,dmgM,gameTimer,v,player,scene);
+    Monstre *monstre =new Monstre(true,false,":/graphics/Tiles/tile_0109.png",positionM,current_hpM,max_hpM,speedM,dmgM,gameTimer,player,scene);
 
     pair<double,double> positionM1 = Game::getRandomPos(*player,first_circle,second_circle);
 
-    Monstre *monstre2 =new Monstre(true,true,":/graphics/Tiles/tile_0111.png",positionM1,current_hpM,max_hpM,speedM,dmgM,gameTimer,v,player,scene);
+    Monstre *monstre2 =new Monstre(true,true,":/graphics/Tiles/tile_0111.png",positionM1,current_hpM,max_hpM,speedM,dmgM,gameTimer,player,scene);
 
     vector<Monstre*> tableauMonstres;
     tableauMonstres.push_back(monstre);

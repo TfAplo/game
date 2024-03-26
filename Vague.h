@@ -28,7 +28,6 @@ private:
     QTimer *gameTimer;
     Player *player;
     int elapsedTime;
-    vector<Monstre*> vectMonstre;
 
 };
 

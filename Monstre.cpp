@@ -4,15 +4,15 @@
 #include <QTimer>
 #include <vector>
 
-#include <iostream>
 
 
 using namespace std;
 
-Monstre::Monstre(bool degDistance,const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, QTimer *gameTimer,vector<Monstre*> vectMonstre,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
-    Personnage(image,position,current_hp,max_hp,speed,dmg,parent), m_player(player),scene(scene), degDistance(degDistance),gameTimer(gameTimer),vectMonstre(vectMonstre)
-{
+vector<Monstre*> Monstre::vectMonstre;
 
+Monstre::Monstre(bool degDistance,const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, QTimer *gameTimer,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
+    Personnage(image,position,current_hp,max_hp,speed,dmg,parent), m_player(player),scene(scene), degDistance(degDistance),gameTimer(gameTimer)
+{
     // Charger la texture du Monstre
     QPixmap playerTexture(image);
     setPixmap(playerTexture.scaled(32, 32)); // Ajuster la taille de la texture du joueur
@@ -30,20 +30,16 @@ Monstre::Monstre(bool degDistance,const QString& image, pair<double, double> pos
     connect(gameTimer, &QTimer::timeout, this, &Monstre::move);
 
     elapsed=0;
-   QTimer::singleShot(2000, this, &Monstre::testMort);
-
-
-
+    QTimer::singleShot(10000, this, &Monstre::testMort);
 }
 
-Monstre::Monstre(bool initNoCreation,bool degDistance,const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, QTimer *gameTimer,vector<Monstre*> vectMonstre,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
-    Personnage(image,position,current_hp,max_hp,speed,dmg,parent), m_player(player),scene(scene),degDistance(degDistance),vectMonstre(vectMonstre)
+Monstre::Monstre(bool initNoCreation,bool degDistance,const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, QTimer *gameTimer,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
+    Personnage(image,position,current_hp,max_hp,speed,dmg,parent), m_player(player),scene(scene),degDistance(degDistance)
 {
 }
 
 void Monstre::move()
 {
-
     // Obtenir les coordonnées actuelles du monstre
     qreal positionX = this->x();
     qreal positionY = this->y();
@@ -76,11 +72,9 @@ void Monstre::move()
     // Calculer la distance entre le joueur et le monstre
     qreal distanceJoueurMonstre = qSqrt((positionX - playerPositionX) * (positionX - playerPositionX) + (positionY - playerPositionY) * (positionY - playerPositionY));
 
-    cout << vectMonstre.size() << endl;
     // Vérifier les collisions avec les autres monstres
     for (Monstre* other_monster : vectMonstre) {
-        cout << other_monster << " ";
-        /*// Exclure le monstre lui-même
+        // Exclure le monstre lui-même
         if (other_monster != this) {
             // Calculer la distance entre les monstres
             qreal distanceMonstre = qSqrt((positionX - other_monster->x()) * (positionX - other_monster->x()) + (positionY - other_monster->y()) * (positionY - other_monster->y()));
@@ -99,7 +93,7 @@ void Monstre::move()
                 dx += avoidDirectionX * speed;
                 dy += avoidDirectionY * speed;
             }
-        }*/
+        }
     }
 
 

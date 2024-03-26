@@ -1,9 +1,10 @@
 #include "Projectile.h"
 #include <QTimer>
+#include <QGraphicsScene>
 
 using namespace std;
 
-Projectile::Projectile(Player *player,QGraphicsScene * scene,pair<double, double> position,QTimer *gameTimer,pair<double, double> positionP) : player(player), scene(scene),positionM(position),gameTimer(gameTimer),positionP(positionP){
+Projectile::Projectile(Player *player,QGraphicsScene *scene,pair<double, double> position,QTimer *gameTimer,pair<double, double> positionP) : player(player), scene(scene),positionM(position),gameTimer(gameTimer),positionP(positionP){
 
 
     QPixmap playerTexture(":/graphics/Tiles/tile_0102.png");
@@ -11,55 +12,35 @@ Projectile::Projectile(Player *player,QGraphicsScene * scene,pair<double, double
     setPos(positionM.first, positionM.second);
 
 
-
+    QTimer::singleShot(5000, this, &Projectile::destroyProjectile);
     connect(gameTimer, &QTimer::timeout, this, &Projectile::move);
 
 
 }
 
 void Projectile::move(){
-    // Obtenir les coordonnées actuelles projectile
-   /* qreal positionX = this->x();
-    qreal positionY = this->y();
+    // Calculer la direction initiale du projectile lorsqu'il est tiré
+    qreal directionX = positionP.first - positionM.first;
+    qreal directionY = positionP.second - positionM.second;
 
-    // Obtenir les coordonnées du player
-    qreal positionPlayerX = positionM.first;
-    qreal positionPlayerY=positionM.second;
-
-
-
-    qreal directionVersJoueurX = positionPlayerX - positionX;
-    qreal directionVersJoueurY = positionPlayerY - positionY;
-
-    // Normaliser la direction vers le joueur
-    qreal length = qSqrt(directionVersJoueurX * directionVersJoueurX + directionVersJoueurY * directionVersJoueurY);
-    if (length > 0.0) {
-        directionVersJoueurX /= length;
-        directionVersJoueurY /= length;
-    }
-
-    // Calculer le déplacement nécessaire pour se rapprocher de la cible
-    qreal dx = directionVersJoueurX * 1.5;
-    qreal dy = directionVersJoueurY * 1.5;
-
-    setPos(mapToParent(dx, dy));*/
-
-
-
-    // Stocker la direction vers le joueur au moment du tir du projectile
-    qreal playerPositionX = positionP.first;
-    qreal playerPositionY = positionP.second;
-    qreal directionX = playerPositionX - x();
-    qreal directionY = playerPositionY - y();
-
-    // Normaliser la direction
+    // Calculer la longueur de la direction initiale
     qreal length = qSqrt(directionX * directionX + directionY * directionY);
+
+    // Normaliser la direction initiale
     if (length > 0.0) {
         directionX /= length;
         directionY /= length;
     }
-    qreal dx = directionX * 1.4;
-    qreal dy = directionY * 1.4;
-    setPos(mapToParent(dx, dy));
 
+    qreal speed = 3.; // Vitesse du projectile
+
+    // Déplacer le projectile dans la direction initiale
+    qreal dx = directionX * speed;
+    qreal dy = directionY * speed;
+    setPos(mapToParent(dx, dy));
+}
+
+void Projectile::destroyProjectile() {
+    scene->removeItem(this); // Supprimer le projectile de la scène
+    delete this; // Libérer la mémoire allouée pour le projectile
 }
