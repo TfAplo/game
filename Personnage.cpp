@@ -1,4 +1,5 @@
 #include "Personnage.h"
+#include "Monstre.h"
 #include <iostream>
 using namespace std;
 
@@ -17,6 +18,10 @@ double Personnage::getDmg() const
     return dmg;
 }
 
+
+void Personnage::setCurrent_hp(double hp){
+    this->current_hp = hp;
+}
 
 void Personnage::takeDamage(double dmg)
 {

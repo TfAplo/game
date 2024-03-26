@@ -22,24 +22,25 @@ void Upgrades::upgradeLevel(Player& player)
 }
 
 
-//met un coup dans un ray on de 5 cases devant lui sur une largeur de 3 cases
+//met un coup dans un rayon de 5 cases devant lui sur une largeur de 3 cases
 void Upgrades::defaultAttack(Player& player, vector<Monstre*> monstres){
-    int width = 100;
-    int height = 50;
-    int dmg = 10;
+    int dmg = 1000;
+    int side = 1;
+    /*
+    if(touche == Qt::Key_Left){
+        side = -1;
+        cout << "left" << endl;
+    }*/
+    int width = 80 *side;
+    int height = 130 *side;
+
+    //cout << "test" << endl;
     // parcourir tous les monstres
     for(const auto& monstre : monstres){
         // vérifier si le monstre est dans la zone de dégâts
-        if(monstre->pos().x() >= player.pos().x() && monstre->pos().x() <= player.pos().x() + width &&
-            monstre->pos().y() >= player.pos().y() && monstre->pos().y() <= player.pos().y() + height){
-            // le monstre est dans la zone de dégâts, lui infliger des dégâts
-            monstre->takeDamage(dmg);
-<<<<<<< HEAD
-            cout << "Le monstre a été touché !" << endl;
-=======
-            cout << "Le monstre kill !" << endl;
->>>>>>> c2dec5af9ce9ee8429a82bd8abfecdcfaacefc75
+         if(monstre->pos().x()  >= player.pos().x() && monstre->pos().x()<= player.pos().x() + width &&
+            monstre->pos().y() <= player.pos().y() + (height / 2) && monstre->pos().y() >= player.pos().y() - (height /2)){
+               monstre->takeDamages(dmg);
         }
     }
 }
-

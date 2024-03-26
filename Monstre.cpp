@@ -118,7 +118,16 @@ void Monstre::move()
 }
 
 
-
+void Monstre::takeDamages(int dmg){
+    //verifier qu'on ne descent pas en dessous de 0
+    if(this->getCurrent_hp() - dmg >= 0.){
+        this->setCurrent_hp(this->getCurrent_hp() - dmg) ;
+    } else {
+        // on met a 0
+        this->setCurrent_hp(0);
+        Monstre::testMort();
+    }
+}
 
 void Monstre::attackPlayer(){
     if (elapsed>3000){
@@ -132,7 +141,7 @@ void Monstre::attackPlayer(){
 
 void Monstre::testMort()
 {
-    this->takeDamage(110.);
+    //this->takeDamage(110.);
     if (getCurrent_hp() == 0){
         OrbeXP *orbe=new OrbeXP("nom",make_pair(x(),y()));
 

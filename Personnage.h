@@ -24,6 +24,8 @@ public:
 
     void takeDamage(double dmg);
 
+    void setCurrent_hp(double hp);
+
     void attack(Personnage& other);
 
     virtual void details();

@@ -89,7 +89,7 @@ Game::Game(QWidget *parent) {
     connect(attackTimer, &QTimer::timeout, [this]() {
         Upgrades::defaultAttack(*player, Monstre::vectMonstre);
     });
-    attackTimer->start(1000);
+    attackTimer->start(500);
 
     show();
 }
