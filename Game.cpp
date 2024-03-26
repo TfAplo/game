@@ -84,7 +84,7 @@ Game::Game(QWidget *parent) {
         cout << positionM.first << ": " << positionM.second << endl;
         scene->addItem(monstre);
     }*/
-    // cooldown des attaques
+    // cooldown des attaques ok
     QTimer *attackTimer = new QTimer(this);
     connect(attackTimer, &QTimer::timeout, [this]() {
         Upgrades::defaultAttack(*player, Monstre::vectMonstre);
