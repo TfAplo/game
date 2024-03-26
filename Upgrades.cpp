@@ -22,7 +22,7 @@ void Upgrades::upgradeLevel(Player& player)
 }
 
 
-//met un coup dans un rayon de 5 cases devant lui sur une largeur de 3 cases
+//met un coup dans un ray on de 5 cases devant lui sur une largeur de 3 cases
 void Upgrades::defaultAttack(Player& player, vector<Monstre*> monstres){
     int width = 5;
     int height = 3;
