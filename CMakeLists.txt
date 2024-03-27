@@ -26,19 +26,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Personnage.h
         Player.h
         Monstre.h
-        Terrain.h
-        Sol.h
-        Obstacle.h
         Map.h
         Niveau.h
         Map.h Map.cpp
         Monstre.h Monstre.cpp
         Niveau.h Niveau.cpp
-        Obstacle.h Obstacle.cpp
         Personnage.h Personnage.cpp
         Player.h Player.cpp
-        Sol.h Sol.cpp
-        Terrain.h Terrain.cpp
         Game.h Game.cpp
         res.qrc
         hpbar.h hpbar.cpp

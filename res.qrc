@@ -137,5 +137,6 @@
     <qresource prefix="/">
         <file>Niveau1.csv</file>
         <file>Niveau2.csv</file>
+        <file>modules/map2_800.png</file>
     </qresource>
 </RCC>
