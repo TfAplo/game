@@ -5,8 +5,10 @@
 #include <QWidget>
 #include <QGraphicsScene>
 #include <QTimer>
+#include <QPoint>
 #include "Player.h"
 #include "hud.h"
+#include "Map.h"
 
 class Game: public QGraphicsView{
 public:
@@ -16,6 +18,7 @@ public:
     QTimer *gameTimer;
     Player* player;
     HUD *hud;
+    Map *map;
 
 };
 

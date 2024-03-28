@@ -40,6 +40,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         hud.h hud.cpp
         damageindicator.h damageindicator.cpp
         upgrade.h upgrade.cpp
+        chunk.h chunk.cpp
 
 
     )

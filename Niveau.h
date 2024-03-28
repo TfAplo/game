@@ -19,7 +19,7 @@ public:
 
     void afficherNiveau();
 
-    void setMap(const Map& map_);
+    //void setMap(const Map& map_);
 
     QGraphicsScene * scene;
     QTimer *levelTimer;
@@ -27,7 +27,7 @@ public:
 
 private:
     vector<unique_ptr<Monstre>> monstres;
-    Map map;
+    //Map map;
 };
 
 #endif // NIVEAU_H

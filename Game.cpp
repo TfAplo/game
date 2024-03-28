@@ -10,18 +10,16 @@
 Game::Game(QWidget *parent) {
     // create the scene
     scene = new QGraphicsScene();
-    scene->setSceneRect(0,0,1600,1600);
 
     // make the newly created scene the scene to visualize (since Game is a QGraphicsView Widget,
     // it can be used to visualize scenes)
     setScene(scene);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    Map map(QString(":/Niveau2.csv"));
-    map.afficher(scene);
+    map = new Map(scene);
 
     //creation du player
-    pair<double,double> position = make_pair(800,800);
+    pair<double,double> position = make_pair(1200,1200);
     double current_hp = 100.0;
     double max_hp = 100.0;
     double speed = 2.5;
@@ -45,6 +43,7 @@ Game::Game(QWidget *parent) {
     connect(gameTimer, &QTimer::timeout, this, [this](){
         centerOn(player);
         hud->update();
+        map->chunkUpdate(QPoint(static_cast<int>(player->pos().x()), static_cast<int>(player->pos().y())));
     });
     gameTimer->start(20);
 

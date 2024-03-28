@@ -3,28 +3,24 @@
 
 #include <QGraphicsView>
 #include <QGraphicsScene>
-#include <vector>
-#include <memory> // Pour std::unique_ptr
-#include "Terrain.h"
+#include <QGraphicsPixmapItem>
+#include "chunk.h"
 using namespace std;
 
 class Map {
 public:
-    Map() {}
-
-    Map(const QString& pathNiveau) {
-        genererMap(pathNiveau);
-    }
+    Map(QGraphicsScene *scene);
     ~Map() = default;
 
-    void ajouterTerrain(unique_ptr<Terrain> terrain);
+    void genererMap();
+    QPoint resoudrePosition(QPoint pos);
+    void chunkUpdate(QPoint pos);
 
-    void genererMap(const QString& pathNiveau);
-
-    void afficher(QGraphicsScene *scene);
 
 private:
-    vector<unique_ptr<Terrain>> terrains;
+    vector<vector<Chunk*>> tableau;
+    QGraphicsScene *scene;
+    QPoint playerFact;
 };
 
 #endif // MAP_H
