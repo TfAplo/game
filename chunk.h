@@ -6,6 +6,9 @@
 #include <QObject>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
+#include <random>
+
+using namespace std;
 
 class Chunk : public QObject {
     Q_OBJECT
@@ -16,6 +19,8 @@ public:
     void loadTerrain();
     void afficherChunk(QGraphicsScene* scene);
     void supprimerChunk(QGraphicsScene *scene);
+    int randomModifier();
+    int randomNumber(int n);
 
     QPoint position;
     QPoint positionFictive;
@@ -23,7 +28,6 @@ public:
 private:
     int size;
     QGraphicsPixmapItem* pixmapItem;
-
 };
 
 

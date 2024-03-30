@@ -135,8 +135,9 @@
     </qresource>
     <qresource prefix="/Niveaux"/>
     <qresource prefix="/">
-        <file>Niveau1.csv</file>
-        <file>Niveau2.csv</file>
-        <file>modules/map2_800.png</file>
+        <file>modules/map_800.png</file>
+        <file>modules/map_801.png</file>
+        <file>modules/map_802.png</file>
+        <file>modules/map_803.png</file>
     </qresource>
 </RCC>
