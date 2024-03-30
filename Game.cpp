@@ -18,6 +18,7 @@
 #include <random> // pour std::random_device et std::mt19937
 #include <map>
 #include <set>
+#include <algorithm> // Pour std::find
 using namespace std;
 //fin ajout test
 
@@ -51,8 +52,8 @@ Game::Game(QWidget *parent) {
     scene->addItem(player);
 
     //ajout
-    for (int i=0; i<40; i++) {
-        OrbeXP* orbe = new OrbeXP("Orbe", make_pair(40*i, 40*i), 30);
+    for (int i=0; i<200; i++) {
+        OrbeXP* orbe = new OrbeXP("Orbe", make_pair(5*i, 5*i), 30);
     }
     connect(player, &Player::signalToGame, this, &Game::handleSignalFromPlayer);
 
@@ -118,15 +119,27 @@ void Game::afficherChoix() {
     // stop la partie
     gameTimer->stop();
 
-    //definit quel objet sera dans le shop (1 ou 2 du perso et 2 ou 1 nouveau)
+    //definit quel objet sera dans le shop (1 nouveau et 2 du perso OU 2 nouveaux et 1 du perso)
     random_device rd;
     mt19937 gen(rd());
-    uniform_int_distribution<> dis(1, 2);
-    int nbObjetNouveau = dis(gen);
-    int nbObjetPasNouveau = 3 - nbObjetNouveau;
+    int nbObjetNouveau;
+    int nbObjetPasNouveau;
+    if (vecUpPasJoueur.size() > 1) {
+        uniform_int_distribution<> dis(1, 2);
+        nbObjetNouveau = dis(gen);
+        nbObjetPasNouveau = 3 - nbObjetNouveau;
+    } else if (vecUpPasJoueur.size() == 1){
+        nbObjetNouveau = 1;
+        nbObjetPasNouveau = 2;
+    } else {
+        nbObjetNouveau = 0;
+        nbObjetPasNouveau = 3;
+    }
 
     vector<Upgrade*> vecUpgradeChoix(3);
     set<int> indicesChoisis;
+    cout << nbObjetNouveau << endl;
+    cout << nbObjetPasNouveau << endl;
     for (int i=0; i<nbObjetPasNouveau; i++) { //i<nbObjetPasNouveau
         random_device rd;
         mt19937 gen(rd());
@@ -138,7 +151,7 @@ void Game::afficherChoix() {
         vecUpgradeChoix[i] = vecUpJoueur[indice];
         indicesChoisis.insert(indice); // Ajouter l'indice choisi à l'ensemble
     }
-
+    indicesChoisis.clear();
     for (int i=nbObjetPasNouveau; i<3; i++) {
         uniform_int_distribution<> dis(0, vecUpPasJoueur.size()-1);
         int indice;
@@ -148,6 +161,7 @@ void Game::afficherChoix() {
         vecUpgradeChoix[i] = vecUpPasJoueur[indice];
         indicesChoisis.insert(indice); // Ajouter l'indice choisi à l'ensemble
     }
+
 
     //afficher 3 rectangles avec 3 choix
     QPointF topLeft = mapToScene(0, 0);
@@ -160,16 +174,35 @@ void Game::afficherChoix() {
     connect(choix1, &ChoixNiveauUp::signalFinChoix, this, &Game::handleSignalFinChoix);
     connect(choix2, &ChoixNiveauUp::signalFinChoix, this, &Game::handleSignalFinChoix);
     connect(choix3, &ChoixNiveauUp::signalFinChoix, this, &Game::handleSignalFinChoix);
-    //signal pb pas recu
-    //pas 2 fois le meme objet (FINI)
 }
 
 void Game::handleSignalFromPlayer() {
     this->afficherChoix();
 }
 
-void Game::handleSignalFinChoix() {
-    cout << "valentinnn" << endl;
+void Game::handleSignalFinChoix(Upgrade *upgrade) {
+    if (std::find(vecUpJoueur.begin(), vecUpJoueur.end(), upgrade) != vecUpJoueur.end()) {
+        cout << "Appel methode monter niveau upgrade de Valentin" << endl;
+    } else {
+        cout << "Appel methode creer upgrade de Valentin" << endl;
+        //mettre l'upgrade dans vecUpJoueur et le supprimer de vecUpPasJoueur
+        auto it = std::find(vecUpPasJoueur.begin(), vecUpPasJoueur.end(), upgrade);
+        vecUpJoueur.push_back(std::move(*it));
+
+        // Supprimer l'élément de vecUpPasJoueur
+        vecUpPasJoueur.erase(it);
+    }
+
+    cout << "vecUpJoueur : ";
+    for (Upgrade *upgrade : vecUpJoueur) {
+        cout << upgrade->getNom() << " - ";
+    }
+    cout << endl;
+    cout << "vecUpPasJoueur : ";
+    for (Upgrade *upgrade : vecUpPasJoueur) {
+        cout << upgrade->getNom() << " - ";
+    }
+    cout << endl;
 }
 
 //fin ajout

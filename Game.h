@@ -28,7 +28,7 @@ public:
 
 public slots:
     void handleSignalFromPlayer();
-    void handleSignalFinChoix();
+    void handleSignalFinChoix(Upgrade *upgrade);
 // fin ajout
 };
 
