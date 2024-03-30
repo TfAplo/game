@@ -18,7 +18,7 @@ private:
     double dmg;
 
 public:
-    Personnage(string  image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg,QGraphicsItem *parent = 0) :
+    Personnage(string  image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, QGraphicsItem *parent) :
         QObject(), QGraphicsPixmapItem(parent), image(image), position(position), current_hp(current_hp), max_hp(max_hp), speed(speed), dmg(dmg) {}
 
     void takeDamage(double dmg);

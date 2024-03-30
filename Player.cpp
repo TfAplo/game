@@ -99,7 +99,7 @@ void Player::recupXP() {
             // vecASupp.push_back(orbeXP); // Je commente cette ligne car vous n'utilisez pas vecASupp
             // ajouter l'XP au joueur
             this->ajouterXP(orbeXP->getXP());
-            cout << "Xp augmenté : " << xp << endl;
+            cout << "Xp augmentee : " << xp << endl;
             delete orbeXP; // Supprime l'objet orbeXP
             OrbeXP::vecOrbeXP.erase(it); // Supprime l'élément du vecteur
             --it; // Décrémente l'itérateur pour rester sur le bon élément après l'effacement
@@ -117,8 +117,8 @@ void Player::augmenterNiveau(double niv) {
     this->limiteXP *= 1.5;
 
     cout << "Niveau augmente : " << this->getNiveau() << endl;
-    //Game::afficherChoix(); // comment appeler afficherChoix de Game dans Player (passage en argument, ou alors attribut Game* game;)
-
+    //Game::afficherChoix();
+    emit signalToGame();
 }
 
 void Player::setXP(double xp) {

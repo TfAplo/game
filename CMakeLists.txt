@@ -44,6 +44,14 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Objet.h
         OrbeXP.h
         OrbeXP.cpp
+        ChoixNiveauUp.h
+        ChoixNiveauUp.cpp
+        upgrade.cpp
+        upgrade.h
+        Arme.h
+        Arme.cpp
+        Gadget.h
+        Gadget.cpp
 
 
     )

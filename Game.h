@@ -6,6 +6,7 @@
 #include <QGraphicsScene>
 #include <QTimer>
 #include "Player.h"
+#include "upgrade.h"
 
 class Game: public QGraphicsView{
 public:
@@ -16,11 +17,19 @@ public:
     Player* player;
 
     //ajout
-    void stopTimer(); // ici stop le timer (donc affichage, mouvement et attaque des ennemis et du player
-    void gererClicChoix(); // ici appeler methode de valentin
+    int nbObjetPossible;
+    map<string, string> mapUpgradeNoms;
+    vector<Upgrade*> vecUpgrades; //renvoie un vecteur d'une instance de chaque upgrade dispo dans le jeu
+    vector<Upgrade*> vecUpJoueur; //renvoie un vecteur d'une instance de chaque upgrade dispo dans le jeu
+    vector<Upgrade*> vecUpPasJoueur; //renvoie un vecteur d'une instance de chaque upgrade dispo dans le jeu
+
     static double calculDistance(pair<double, double>, pair<double, double>);
     void afficherChoix();
-    // fin ajout
+
+public slots:
+    void handleSignalFromPlayer();
+    void handleSignalFinChoix();
+// fin ajout
 };
 
 #endif // GAME_H

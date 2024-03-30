@@ -13,7 +13,7 @@ private:
     double xp;
 
     //ajout
-    double niveau;
+    double niveau = 0;
     double limiteXP;
     //fin ajout
 
@@ -42,7 +42,7 @@ public:
     void augmenterNiveau(double);
     //fin ajout
 signals:
-
+    void signalToGame();
 public slots:
     void move();
 };
