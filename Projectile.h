@@ -16,8 +16,9 @@ private:
     QGraphicsScene * scene;
     pair<double, double> positionM;
     pair<double, double> positionP;
+    double dmg;
 public:
-    Projectile(Player* player,QGraphicsScene *scene,pair<double, double> positionM,QTimer *gameTimer,pair<double, double> positionP);
+    Projectile(Player* player,QGraphicsScene *scene,pair<double, double> positionM,QTimer *gameTimer,pair<double, double> positionP,double dmg);
 signals:
 
 public slots:

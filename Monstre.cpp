@@ -10,33 +10,13 @@ using namespace std;
 
 vector<Monstre*> Monstre::vectMonstre;
 
-Monstre::Monstre(bool degDistance,const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, QTimer *gameTimer,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
+Monstre::Monstre(bool initNoCreation,bool degDistance,const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, QTimer *gameTimer,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
     Personnage(image,position,current_hp,max_hp,speed,dmg,parent), m_player(player),scene(scene), degDistance(degDistance),gameTimer(gameTimer)
 {
-    // Charger la texture du Monstre
-    QPixmap playerTexture(image);
-    setPixmap(playerTexture.scaled(32, 32)); // Ajuster la taille de la texture du joueur
 
-    QPointF positionJoueur = player->getPosition();
-    if (QPointF(position.first, position.second) == positionJoueur) {
-        // Déplacer légèrement le monstre pour éviter la division par zéro
-        position.first += 100.0; // Décalage horizontal arbitraire
-        position.second += 100.0; // Décalage vertical arbitraire
-        setPos(position.first, position.second);
-    } else {
-        // Positionner le monstre à sa position initiale
-        setPos(position.first, position.second);
-    }
-    connect(gameTimer, &QTimer::timeout, this, &Monstre::move);
-
-    elapsed=0;
-    QTimer::singleShot(10000, this, &Monstre::testMort);
 }
 
-Monstre::Monstre(bool initNoCreation,bool degDistance,const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, QTimer *gameTimer,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
-    Personnage(image,position,current_hp,max_hp,speed,dmg,parent), m_player(player),scene(scene),degDistance(degDistance)
-{
-}
+
 
 void Monstre::move()
 {
@@ -66,7 +46,7 @@ void Monstre::move()
 
 
     // Définir une distance minimale entre le joueur et le monstre
-    qreal distanceMinJM = 100.;
+    qreal distanceMinJM = 200.;
     qreal distanceMinMM=30.;
 
     // Calculer la distance entre le joueur et le monstre
@@ -123,7 +103,7 @@ void Monstre::move()
 void Monstre::attackPlayer(){
     if (elapsed>3000){
         elapsed=0;
-        Projectile *p1 = new Projectile(m_player,scene,make_pair(x(),y()),gameTimer,make_pair(m_player->x(),m_player->y()));
+        Projectile *p1 = new Projectile(m_player,scene,make_pair(x(),y()),gameTimer,make_pair(m_player->x(),m_player->y()),this->getDmg());
         scene->addItem(p1);
 
     }

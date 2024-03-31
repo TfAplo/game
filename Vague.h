@@ -12,7 +12,7 @@ class Vague : public QObject
 {
     Q_OBJECT
 public:
-    explicit Vague(const vector<Monstre*> monstres, QGraphicsScene *scene, QTimer *gameTimer,Player *player=0);
+    explicit Vague(const vector<string> monstres, QGraphicsScene *scene, QTimer *gameTimer,Player *player=0);
 
 
 
@@ -22,6 +22,7 @@ private slots:
 
 private:
     vector<Monstre*> tableauMonstres;
+    vector<string> tableauMonstre;
     int currentIndex;
     QTimer *timer;
     QGraphicsScene *scene;

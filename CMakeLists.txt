@@ -46,6 +46,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         OrbeXP.h OrbeXP.cpp
         Vague.h Vague.cpp
         Projectile.h Projectile.cpp
+        Ghost.h Ghost.cpp
+        Sorcier.h Sorcier.cpp
+        Cyclope.h Cyclope.cpp
+        Boss.h Boss.cpp
 
 
     )

@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Monstre.h"
 #include "Vague.h"
+#include "Ghost.h"
 #include <QTimer>
 
 
@@ -47,30 +48,12 @@ Game::Game(QWidget *parent) {
 
 
 
-    double current_hpM = 100.0;
-    double max_hpM = 100.0;
-    double speedM = 1.;
-    double dmgM = 10.0;
 
-    int rand_min = 0;
-    int rand_max = 1600;
-
-    double first_circle = 200;
-    double second_circle = 500;
-
-    // on génère des coordonnées aléatoires
-    pair<double,double> positionM = Game::getRandomPos(*player,first_circle,second_circle);
-
-    Monstre *monstre =new Monstre(true,false,":/graphics/Tiles/tile_0109.png",positionM,current_hpM,max_hpM,speedM,dmgM,gameTimer,player,scene);
-
-    pair<double,double> positionM1 = Game::getRandomPos(*player,first_circle,second_circle);
-
-    Monstre *monstre2 =new Monstre(true,true,":/graphics/Tiles/tile_0111.png",positionM1,current_hpM,max_hpM,speedM,dmgM,gameTimer,player,scene);
-
-    vector<Monstre*> tableauMonstres;
-    tableauMonstres.push_back(monstre);
-    tableauMonstres.push_back(monstre2);
-    Vague *vague = new Vague(tableauMonstres,scene,gameTimer,player);
+    vector<string> tableauMonstre;
+    tableauMonstre.push_back("ghost");
+    tableauMonstre.push_back("sorcier");
+    tableauMonstre.push_back("cyclope");
+    Vague *vague = new Vague(tableauMonstre,scene,gameTimer,player);
 
 
     show();

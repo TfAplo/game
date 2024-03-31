@@ -4,7 +4,7 @@
 
 using namespace std;
 
-Projectile::Projectile(Player *player,QGraphicsScene *scene,pair<double, double> position,QTimer *gameTimer,pair<double, double> positionP) : player(player), scene(scene),positionM(position),gameTimer(gameTimer),positionP(positionP){
+Projectile::Projectile(Player *player,QGraphicsScene *scene,pair<double, double> position,QTimer *gameTimer,pair<double, double> positionP,double dmg) : player(player), scene(scene),positionM(position),gameTimer(gameTimer),positionP(positionP),dmg(dmg){
 
 
     QPixmap playerTexture(":/graphics/Tiles/tile_0102.png");
@@ -38,6 +38,12 @@ void Projectile::move(){
     qreal dx = directionX * speed;
     qreal dy = directionY * speed;
     setPos(mapToParent(dx, dy));
+
+    qreal distanceToPlayer = qSqrt(pow(player->x() - x(), 2) + pow(player->y() - y(), 2));
+    if (distanceToPlayer < 20) {
+        player->takeDamage(dmg);
+        destroyProjectile();
+    }
 }
 
 void Projectile::destroyProjectile() {
