@@ -7,6 +7,7 @@
 #include "Vague.h"
 #include <QTimer>
 #include "Upgrades.h"
+#include "MeleeUpgrade.h"
 
 
 Game::Game(QWidget *parent) {
@@ -30,7 +31,31 @@ Game::Game(QWidget *parent) {
     double speed = 2.5;
     double xp = 0.0;
     double dmg = 10.0;
-    player = new Player(image,position,current_hp,max_hp,speed,dmg,xp);
+    bool side;
+    player = new Player(image,position,current_hp,max_hp,speed,dmg,xp,side);
+
+    // ajout valentin
+    vector<Upgrades*> upgrades;
+
+    QString attack_name = "THOUSAND EDGE";
+    QString description = "Inflige de lourds dégâts dans la direction dans laquelle regarde votre personnage. Bien évidemment, les lames transpercent les ennemis. Cette arme légendaire est plutôt utile pour faire fondre rapidement les points de vie des boss, mais ne sera pas la plus pratique lorsque vous serez encerclé d'ennemis en fin de partie.";
+    QString pathImage = ":/graphics/Tiles/tile_0104.png";
+    int level = 1;
+    double cooldown = 500;
+    double animationDuration = 300;
+    double attack_dmg = 100;
+    double widthRange = 120;
+    double heightRange = 100;
+
+    MeleeUpgrade* defaultAttack = new MeleeUpgrade(attack_name,description,pathImage, level,cooldown,animationDuration, attack_dmg, widthRange, heightRange);
+    MeleeUpgrade* missile = new MeleeUpgrade("missile",description,":/graphics/Tiles/tile_0120.png", level,4800,2000, 300, 300000, 300000);
+
+    upgrades.push_back(defaultAttack);
+    upgrades.push_back(missile);
+
+
+
+    //fin ajout
 
     //met le focus sur Player
     player->setFlag(QGraphicsItem::ItemIsFocusable);
@@ -75,22 +100,31 @@ Game::Game(QWidget *parent) {
     Vague *vague = new Vague(tableauMonstres,scene,gameTimer,player);
 
     // VALENTIN AJOUT
-    /*
-    for(int i = 0; i < 10; i++){
-        // on génère des coordonnées aléatoires
-        pair<double,double> positionM = Game::getRandomPos(*player,first_circle,second_circle);
-        Monstre *monstre =new Monstre(true,false,":/graphics/Tiles/tile_0109.png",positionM,current_hpM,max_hpM,speedM,dmgM,gameTimer,player,scene);
-        monstres.push_back(monstre);
-        cout << positionM.first << ": " << positionM.second << endl;
-        scene->addItem(monstre);
-    }*/
-    // cooldown des attaques
-    QTimer *attackTimer = new QTimer(this);
-    connect(attackTimer, &QTimer::timeout, [this]() {
-        Upgrades::defaultAttack(*player, Monstre::vectMonstre);
-    });
-    attackTimer->start(500);
 
+    // activer toutes les attaques
+    for(const auto& upgrade : upgrades){
+        QTimer *attackTimer = new QTimer(this);
+        connect(attackTimer, &QTimer::timeout, [this, upgrade]() {
+            upgrade->defaultAttack(*player,Monstre::vectMonstre);
+            //afficher une image
+            QGraphicsPixmapItem* attackEffect = new QGraphicsPixmapItem(QPixmap(upgrade->getPathImage()));
+            attackEffect->setScale(5);
+            int side = player->getSide() ? -1 : 1;
+            int rota = player->getSide() ? 270 : 90;
+            attackEffect->setRotation(rota);
+            attackEffect->setPos(player->pos().x() + 120 * side, player->pos().y() - 16);
+            scene->addItem(attackEffect);
+            //supprimer l'image
+            QTimer *imageRemovalTimer = new QTimer(this);
+            connect(imageRemovalTimer, &QTimer::timeout, [this, attackEffect, imageRemovalTimer]() {
+                scene->removeItem(attackEffect);
+                delete attackEffect;
+                imageRemovalTimer->deleteLater();
+            });
+            imageRemovalTimer->start(upgrade->getAnimationDuration());
+        });
+        attackTimer->start(upgrade->getCooldown());
+    }
     show();
 }
 

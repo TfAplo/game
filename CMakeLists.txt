@@ -46,6 +46,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         OrbeXP.h OrbeXP.cpp
         Projectile.h Projectile.cpp
         Upgrades.h Upgrades.cpp
+        MeleeUpgrade.h MeleeUpgrade.cpp
+        ProjectileUpgrade.h ProjectileUpgrade.cpp
 
 
 

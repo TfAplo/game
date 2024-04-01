@@ -118,7 +118,7 @@ void Monstre::move()
 }
 
 
-void Monstre::takeDamages(int dmg){
+void Monstre::takeDamages(double dmg){
     //verifier qu'on ne descent pas en dessous de 0
     if(this->getCurrent_hp() - dmg >= 0.){
         this->setCurrent_hp(this->getCurrent_hp() - dmg) ;

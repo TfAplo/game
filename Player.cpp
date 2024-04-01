@@ -6,7 +6,7 @@
 using namespace std;
 
 
-Player::Player(QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, double xp,QGraphicsItem *parent) :
+Player::Player(QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, double xp,bool side,QGraphicsItem *parent) :
     Personnage(image,position,current_hp,max_hp,speed,dmg,parent), xp(xp)
 {
     movingLeft = movingRight = movingUp = movingDown = false;
@@ -16,6 +16,9 @@ Player::Player(QString& image, pair<double, double> position, double current_hp,
 
     // Positionner le joueur
     setPos(position.first, position.second);
+
+    // ajout valentin
+    this->side = false;
 }
 
 void Player::details()
@@ -25,6 +28,16 @@ void Player::details()
     cout << "xp : " << this->xp << endl;
 }
 
+// AJOUT VALENTIN
+
+bool Player::getSide(){
+    return this->side;
+}
+
+
+
+
+// FIN AJOUT
 void Player::keyReleaseEvent(QKeyEvent *event)
 {
     // Annuler le marquage de la direction lorsque la touche est relâchée
@@ -53,9 +66,11 @@ void Player::keyPressEvent(QKeyEvent *event)
     switch (event->key()) {
     case Qt::Key_Left:
         movingLeft = true;
+        this->side = true; // ajout valentin
         break;
     case Qt::Key_Right:
         movingRight = true;
+        this->side = false; // ajout valentin
         break;
     case Qt::Key_Up:
         movingUp = true;
