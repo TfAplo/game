@@ -53,6 +53,15 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         upgrade.h upgrade.cpp
         chunk.h chunk.cpp
 
+        Objet.h
+        OrbeXP.h OrbeXP.cpp
+        Vague.h Vague.cpp
+        Projectile.h Projectile.cpp
+        Ghost.h Ghost.cpp
+        Sorcier.h Sorcier.cpp
+        Cyclope.h Cyclope.cpp
+        Boss.h Boss.cpp
+
 
     )
 # Define target properties for Android with Qt 6 as:

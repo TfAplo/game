@@ -25,7 +25,7 @@ private:
     vector<Upgrade*> upgrades;
 
 public:
-    Player(string image, pair<double, double> position, double current_hp, double max_hp, double speed,double dmg, double xp, double limiteXP,QGraphicsItem *parent = 0);
+    Player(QString& image, pair<double, double> position, double current_hp, double max_hp, double speed,double dmg, double xp, double limiteXP,QGraphicsItem *parent = 0);
 
     virtual void details() override;
     virtual ~Player(){};

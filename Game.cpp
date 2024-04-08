@@ -3,6 +3,9 @@
 #include <QGraphicsPixmapItem>
 #include "Map.h"
 #include "Player.h"
+#include "Monstre.h"
+#include "Vague.h"
+#include "Ghost.h"
 #include <QTimer>
 #include <cmath>
 
@@ -101,7 +104,29 @@ Game::Game(QWidget *parent) {
     });
     gameTimer->start(20);
 
+
+
+
+    vector<string> tableauMonstre;
+    tableauMonstre.push_back("ghost");
+    tableauMonstre.push_back("sorcier");
+    tableauMonstre.push_back("cyclope");
+    Vague *vague = new Vague(tableauMonstre,scene,gameTimer,player);
+
+
     show();
+}
+
+pair<int,int> Game::getRandomPos(Player& player, int first_circle, int second_circle){
+    // random compris entre les deux rayon
+    int randDist = first_circle  + rand() % (second_circle - first_circle + 1);
+    double randomAngle = (rand() / (RAND_MAX / (2 * M_PI))); // Angle aléatoire
+    //out << randDist <<": " <<randomAngle << Qt::endl;
+
+    int x = player.pos().x() + randDist * cos(randomAngle);
+    int y = player.pos().y() + randDist * sin(randomAngle);
+    //out << x <<": " <<y << Qt::endl;
+    return make_pair(x,y);
 }
 
 

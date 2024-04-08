@@ -2,18 +2,34 @@
 #define MONSTRE_H
 
 #include "Personnage.h"
+#include "Player.h"
+#include <QGraphicsScene>
+#include <QObject>
+#include <vector>
+
 
 class Monstre : public Personnage {
     Q_OBJECT
-public:
-    Monstre(string  image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg,QGraphicsItem *parent = 0) :
-        Personnage(image,position,current_hp,max_hp,speed,dmg,parent) {}
+private:
+    QTimer *gameTimer;
+    Player *m_player;
+    QGraphicsScene * scene;
+    bool degDistance;
+    int elapsed;
 
+
+public:
+    Monstre(bool initNoCreation,bool degDistance,const QString&  image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, QTimer *gameTimer,Player *player=0,QGraphicsScene *scene=0,QGraphicsItem *parent = 0);
+    void testMort();
+    bool getDegDistance();
+    void attackPlayer();
+    static vector<Monstre*> vectMonstre;
     virtual ~Monstre(){};
 
 signals:
 
 public slots:
+    virtual void move();
 };
 
 

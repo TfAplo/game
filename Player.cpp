@@ -12,12 +12,12 @@
 using namespace std;
 
 
-Player::Player(string image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, double xp, double limiteXP,QGraphicsItem *parent) :
+Player::Player(QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, double xp, double limiteXP,QGraphicsItem *parent) :
     Personnage(image,position,current_hp,max_hp,speed,dmg,parent), xp(xp), limiteXP(limiteXP), niveau(0)
 {
     leftOriented =movingLeft = movingRight = movingUp = movingDown = false;
     // Charger la texture du joueur
-    playerTextureRight = QPixmap(QString::fromStdString(image));
+    playerTextureRight = QPixmap(image);
     playerTextureLeft = playerTextureRight.transformed(QTransform().scale(-1, 1));
     setPixmap(playerTextureRight.scaled(32, 32)); // Ajuster la taille de la texture du joueur
 
