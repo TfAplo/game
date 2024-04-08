@@ -35,3 +35,17 @@ void Personnage::details()
     cout << "speed : " << this->speed << endl;
 }
 
+void Personnage::keyPressEvent(QKeyEvent *event)
+{
+
+}
+
+//ajout
+pair<double, double> Personnage::getPos(){
+    return this->position;
+}
+
+//fin ajout
+
+
+

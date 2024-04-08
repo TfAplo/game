@@ -7,6 +7,7 @@
 #include <QTimer>
 #include <QPoint>
 #include "Player.h"
+#include "upgrade.h"
 #include "hud.h"
 #include "Map.h"
 
@@ -17,9 +18,21 @@ public:
     QGraphicsScene * scene;
     QTimer *gameTimer;
     Player* player;
-    HUD *hud;
-    Map *map;
 
+    //ajout
+    int nbObjetPossible;
+    map<string, string> mapUpgradeNoms;
+    vector<Upgrade*> vecUpgrades; //renvoie un vecteur d'une instance de chaque upgrade dispo dans le jeu
+    vector<Upgrade*> vecUpJoueur; //renvoie un vecteur d'une instance de chaque upgrade dispo dans le jeu
+    vector<Upgrade*> vecUpPasJoueur; //renvoie un vecteur d'une instance de chaque upgrade dispo dans le jeu
+
+    static double calculDistance(pair<double, double>, pair<double, double>);
+    void afficherChoix();
+
+public slots:
+    void handleSignalFromPlayer();
+    void handleSignalFinChoix(Upgrade *upgrade);
+// fin ajout
 };
 
 #endif // GAME_H

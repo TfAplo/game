@@ -25,25 +25,37 @@ private:
     vector<Upgrade*> upgrades;
 
 public:
-    Player(string image, pair<double, double> position, double current_hp, double max_hp, double speed,double dmg, double xp,QGraphicsItem *parent = 0);
+    Player(string image, pair<double, double> position, double current_hp, double max_hp, double speed,double dmg, double xp, double limiteXP,QGraphicsItem *parent = 0);
 
     virtual void details() override;
     virtual ~Player(){};
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
+
+    //ajout
+    //recup xp
+    //augmente xp
+    //si besoin augmente niveau
+    //si niveau augmenté, afficher les 3 choix
+    //appeler methode de valentin (creerObjet(objet) ou upgrade(objet))
+    void recupXP();
+    void augmenterNiveau();
+    void ajouterXP(double);
+    double getNiveau();
+    void setNiveau(double);
+    void augmenterNiveau(double);
+    //fin ajout
     void updateHPBar();
     void takeDamage(double dmg) override;
     XPBar* getXPBar();
     void setXP(double);
     double getXP();
     double getlimitXP();
-    double getNiveau();
-    void ajouterXP(double);
     void updateOrientation(bool movesLeft);
     vector<Upgrade*> getUpgrades();
 
 signals:
-
+    void signalToGame();
 public slots:
     void move();
 };

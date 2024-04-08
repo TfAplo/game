@@ -35,6 +35,17 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Player.h Player.cpp
         Game.h Game.cpp
         res.qrc
+        Objet.h
+        OrbeXP.h
+        OrbeXP.cpp
+        ChoixNiveauUp.h
+        ChoixNiveauUp.cpp
+        upgrade.cpp
+        upgrade.h
+        Arme.h
+        Arme.cpp
+        Gadget.h
+        Gadget.cpp
         hpbar.h hpbar.cpp
         xpbar.h xpbar.cpp
         hud.h hud.cpp
