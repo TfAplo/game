@@ -1,10 +1,7 @@
 #include <QPixmap>
 #include <QGraphicsPixmapItem>
-#include "Map.h"
-#include "Player.h"
 #include "ChoixNiveauUp.h"
 #include <QTimer>
-#include <cmath>
 #include <QMessageBox>
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
@@ -14,17 +11,22 @@
 using namespace std;
 
 vector<ChoixNiveauUp*> ChoixNiveauUp::vecChoix;
-vector<QGraphicsTextItem*> ChoixNiveauUp::vecTitres;
+vector<QGraphicsPixmapItem*> ChoixNiveauUp::vecImages;
 vector<QPushButton*> ChoixNiveauUp::vecBoutons;
 
-ChoixNiveauUp::ChoixNiveauUp(Upgrade *upgrade, double x, double y, double largeur, double hauteur, QGraphicsScene *scene, QGraphicsView *view, QTimer *gameTimer, QGraphicsItem *parent) :
-    QObject(), QGraphicsRectItem(x, y, largeur, hauteur, parent), upgrade(upgrade), scene(scene), view(view), gameTimer(gameTimer) {
+ChoixNiveauUp::ChoixNiveauUp(Upgrade *upgrade, bool estNouveau, double x, double y, double largeur, double hauteur, QGraphicsScene *scene, QGraphicsView *view, QTimer *gameTimer, QGraphicsItem *parent) :
+    QObject(), QGraphicsRectItem(x, y, largeur, hauteur, parent), upgrade(upgrade), estNouveau(estNouveau), scene(scene), view(view), gameTimer(gameTimer) {
     scene->addItem(this);
     setPos(x, y);
     setRect(0, 0, largeur, hauteur);
 
     // Ajouter un titre au choix
-    QString nomUpgrade = QString::fromStdString(upgrade->getNom().append(" lvl ").append(to_string(upgrade->getNiveau())));
+    QString nomUpgrade;
+    if (estNouveau) {
+        nomUpgrade = QString::fromStdString(upgrade->getNom().append(" lvl ").append(to_string(upgrade->getNiveau())));
+    } else {
+        nomUpgrade = QString::fromStdString(upgrade->getNom().append(" lvl ").append(to_string(upgrade->getNiveau()+1)));
+    }
     titre = new QGraphicsTextItem(nomUpgrade, this);
     qreal textWidth = titre->boundingRect().width(); // Largeur du texte
     qreal textHeight = titre->boundingRect().height(); // Hauteur du texte
@@ -34,6 +36,19 @@ ChoixNiveauUp::ChoixNiveauUp(Upgrade *upgrade, double x, double y, double largeu
     titre->setDefaultTextColor(Qt::white); // Couleur du texte
 
     // Ajouter une image au choix
+    // Chargez l'image à l'aide de QPixmap
+    QString image = ":/graphics/UpgradeImages/" + QString::fromStdString(upgrade->getNom()) + ".png";
+    QPixmap pixmap(image);
+    QPixmap newPixmap = pixmap.scaled(160, 160);
+
+    // Créez un objet QGraphicsPixmapItem en utilisant l'image chargée
+    QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(newPixmap);
+
+    // Définissez la position de l'image
+    pixmapItem->setPos(x + 5, y +80); // Remplacez x et y par les coordonnées où vous voulez placer l'image
+
+    // Ajoutez l'objet QGraphicsPixmapItem à votre scène
+    scene->addItem(pixmapItem);
 
     // Ajouter un bouton au choix
     bouton = new QPushButton("Sélectionner", nullptr);
@@ -58,7 +73,7 @@ ChoixNiveauUp::ChoixNiveauUp(Upgrade *upgrade, double x, double y, double largeu
     connect(bouton, &QPushButton::clicked, this, &ChoixNiveauUp::handleButtonClick);
 
     vecChoix.push_back(this);
-    vecTitres.push_back(titre);
+    vecImages.push_back(pixmapItem);
     vecBoutons.push_back(bouton);
 }
 
@@ -71,7 +86,10 @@ void ChoixNiveauUp::handleButtonClick() {
     }
     vecChoix.clear();
 
-    vecTitres.clear();
+    for (QGraphicsPixmapItem *image : vecImages) {
+        delete image;
+    }
+    vecImages.clear();
     for (QPushButton *bouton : vecBoutons) {
         delete bouton;
     }
