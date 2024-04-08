@@ -45,7 +45,8 @@ Game::Game(QWidget *parent) {
     double xp = 50.0;
     double dmg = 10.0;
     double limiteXP = 100.0;
-    player = new Player(":/graphics/Tiles/tile_0084.png",position,current_hp,max_hp,speed,dmg,xp, limiteXP);
+    QString qs(":/graphics/Tiles/tile_0084.png");
+    player = new Player(qs,position,current_hp,max_hp,speed,dmg,xp, limiteXP);
 
     //met le focus sur Player
     player->setFlag(QGraphicsItem::ItemIsFocusable);

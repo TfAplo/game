@@ -11,6 +11,7 @@ HUD::HUD(Player *player, QTimer *gameTimer,QGraphicsScene *scene,QGraphicsView *
     police.setBold(true);
     police.setPointSize(12);
     labelTimer = new QGraphicsTextItem("temps");
+    labelTimer->setZValue(2);
     labelTimer->setFont(police);
     labelTimer->setDefaultTextColor(Qt::white);
     startTime = QTime::currentTime();
@@ -40,6 +41,7 @@ void HUD::update()
         if(i == 0)
             j++;
         item->setPos(topLeft.x()+i*32, topLeft.y()+j*32);
+        item->setZValue(2);
         i++;
         i %= 6;
     }
@@ -72,6 +74,7 @@ void HUD::updateItems()
         painter.drawPixmap(0, 0, textureToAdd);
         painter.end();
         QGraphicsPixmapItem* item = scene->addPixmap(pix);
+        item->setZValue(2);
         item->setPixmap(pix.scaled(32, 32));
         pixItems.push_back(item);
 

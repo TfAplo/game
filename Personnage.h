@@ -19,7 +19,7 @@ protected:
 
 
 public:
-    Personnage(const QString&  image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg,QGraphicsItem *parent = 0);
+    Personnage(const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg,QGraphicsItem *parent = 0);
 
     virtual void takeDamage(double dmg);
 

@@ -28,6 +28,7 @@ Player::Player(QString& image, pair<double, double> position, double current_hp,
     hpBar->setPos(0, 32); // position relative à l'objet Personnage
 
     xpBar = new XPBar(100, 30);
+    xpBar->setZValue(2);
 }
 
 void Player::details()
@@ -115,7 +116,7 @@ void Player::recupXP() {
     for (auto it = OrbeXP::vecOrbeXP.begin(); it != OrbeXP::vecOrbeXP.end(); ++it) {
         OrbeXP* orbeXP = *it;
         pair<double, double> pos = orbeXP->getPos();
-        if (Game::calculDistance(pos, posJoueur) <= 10) {
+        if (Game::calculDistance(pos, posJoueur) <= 30) {
             // ajoute l'orbe dans vecASupp
             // vecASupp.push_back(orbeXP); // Je commente cette ligne car vous n'utilisez pas vecASupp
             // ajouter l'XP au joueur

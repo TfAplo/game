@@ -13,7 +13,7 @@ vector<Monstre*> Monstre::vectMonstre;
 Monstre::Monstre(bool initNoCreation,bool degDistance,const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, QTimer *gameTimer,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
     Personnage(image,position,current_hp,max_hp,speed,dmg,parent), m_player(player),scene(scene), degDistance(degDistance),gameTimer(gameTimer)
 {
-
+    QTimer::singleShot(10000,this,&Monstre::testMort);
 }
 
 
@@ -114,7 +114,7 @@ void Monstre::testMort()
 {
     this->takeDamage(110.);
     if (getCurrent_hp() == 0){
-        OrbeXP *orbe=new OrbeXP("nom",make_pair(x(),y()));
+        OrbeXP *orbe=new OrbeXP("nom",make_pair(x(),y()),10.);
 
         scene->addItem(orbe);
 

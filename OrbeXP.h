@@ -20,7 +20,7 @@ public:
     OrbeXP(string nom, pair<double, double> position, double valeurXP);
 
     pair<double, double> getPos();
-    void setPos(pair<double, double>);
+    void setPosition(pair<double, double>);
     double getXP();
     void setXP(double);
     static vector<OrbeXP*> getVecOrbeXP();
