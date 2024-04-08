@@ -24,12 +24,13 @@ private:
     QGraphicsScene *scene;
     QGraphicsView *view;
     QTimer *gameTimer;
+    bool estNouveau;
 public:
     static vector<ChoixNiveauUp*> vecChoix;
-    static vector<QGraphicsTextItem*> vecTitres;
+    static vector<QGraphicsPixmapItem*> vecImages;
     static vector<QPushButton*> vecBoutons;
 
-    ChoixNiveauUp(Upgrade *upgrade, double x, double y, double largeur, double hauteur, QGraphicsScene *scene, QGraphicsView *view, QTimer *gameTimer, QGraphicsItem *parent = nullptr);
+    ChoixNiveauUp(Upgrade *upgrade, bool estNouveau, double x, double y, double largeur, double hauteur, QGraphicsScene *scene, QGraphicsView *view, QTimer *gameTimer, QGraphicsItem *parent = nullptr);
 
 signals:
     void signalFinChoix(Upgrade *upgrade);

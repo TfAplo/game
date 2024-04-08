@@ -4,7 +4,7 @@
 #include <QGraphicsPixmapItem>
 #include <QObject>
 //ajout
-#include <string.h>
+#include <string>
 //fin ajout
 
 using namespace std;
@@ -23,6 +23,7 @@ public:
     string getNom();
     int getNiveau();
     void setNiveau(int niveau);
+    void incrementerNiveau();
     static vector<Upgrade*> initUpgrade(vector<pair<string, string>> vecUpgradesString);
     virtual bool estArme() = 0;
     virtual bool estGadget() = 0;

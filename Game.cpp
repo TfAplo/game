@@ -16,7 +16,6 @@
 #include "ChoixNiveauUp.h"
 #include "upgrade.h"
 #include <random> // pour std::random_device et std::mt19937
-#include <map>
 #include <set>
 #include <algorithm> // Pour std::find
 using namespace std;
@@ -52,17 +51,14 @@ Game::Game(QWidget *parent) {
     scene->addItem(player);
 
     //ajout
-    for (int i=0; i<200; i++) {
-        OrbeXP* orbe = new OrbeXP("Orbe", make_pair(5*i, 5*i), 30);
-    }
     connect(player, &Player::signalToGame, this, &Game::handleSignalFromPlayer);
 
     vector<pair<string, string>> vecUpgradeNoms = {
         {"Arme", "Epee"},
-        {"Arme", "Fouet"},
-        {"Arme", "Shuriken"},
-        {"Gadget", "Chaussure"},
-        {"Gadget", "Aile"},
+        {"Arme", "Hache"},
+        {"Arme", "Sceptre"},
+        {"Gadget", "Chaussures"},
+        {"Gadget", "Ailes"},
         {"Gadget", "Armure"}
     };
     vecUpgrades = Upgrade::initUpgrade(vecUpgradeNoms);
@@ -137,6 +133,7 @@ void Game::afficherChoix() {
     }
 
     vector<Upgrade*> vecUpgradeChoix(3);
+    vector<bool> estNouveau(3);
     set<int> indicesChoisis;
     cout << nbObjetNouveau << endl;
     cout << nbObjetPasNouveau << endl;
@@ -150,6 +147,7 @@ void Game::afficherChoix() {
         } while (indicesChoisis.count(indice) > 0); // Vérifier si l'indice est déjà choisi
         vecUpgradeChoix[i] = vecUpJoueur[indice];
         indicesChoisis.insert(indice); // Ajouter l'indice choisi à l'ensemble
+        estNouveau[i] = false;
     }
     indicesChoisis.clear();
     for (int i=nbObjetPasNouveau; i<3; i++) {
@@ -160,6 +158,7 @@ void Game::afficherChoix() {
         } while (indicesChoisis.count(indice) > 0); // Vérifier si l'indice est déjà choisi
         vecUpgradeChoix[i] = vecUpPasJoueur[indice];
         indicesChoisis.insert(indice); // Ajouter l'indice choisi à l'ensemble
+        estNouveau[i] = true;
     }
 
 
@@ -168,9 +167,9 @@ void Game::afficherChoix() {
     QPointF topRight = mapToScene(viewport()->width(), viewport()->height());
     int largeur = topRight.x() - topLeft.x();
     int hauteur = topRight.y() - topLeft.y();
-    ChoixNiveauUp *choix1 = new ChoixNiveauUp(vecUpgradeChoix[0], topLeft.x()+largeur/10, topLeft.y()+hauteur/10, (largeur/10)*2, (hauteur/10)*8, scene, this, gameTimer);
-    ChoixNiveauUp *choix2 = new ChoixNiveauUp(vecUpgradeChoix[1], topLeft.x()+(largeur/10)*4, topLeft.y()+hauteur/10, (largeur/10)*2, (hauteur/10)*8, scene, this, gameTimer);
-    ChoixNiveauUp *choix3 = new ChoixNiveauUp(vecUpgradeChoix[2], topLeft.x()+(largeur/10)*7, topLeft.y()+hauteur/10, (largeur/10)*2, (hauteur/10)*8, scene, this, gameTimer);
+    ChoixNiveauUp *choix1 = new ChoixNiveauUp(vecUpgradeChoix[0], estNouveau[0], topLeft.x()+largeur/10, topLeft.y()+hauteur/10, (largeur/10)*2, (hauteur/10)*8, scene, this, gameTimer);
+    ChoixNiveauUp *choix2 = new ChoixNiveauUp(vecUpgradeChoix[1], estNouveau[1], topLeft.x()+(largeur/10)*4, topLeft.y()+hauteur/10, (largeur/10)*2, (hauteur/10)*8, scene, this, gameTimer);
+    ChoixNiveauUp *choix3 = new ChoixNiveauUp(vecUpgradeChoix[2], estNouveau[2], topLeft.x()+(largeur/10)*7, topLeft.y()+hauteur/10, (largeur/10)*2, (hauteur/10)*8, scene, this, gameTimer);
     connect(choix1, &ChoixNiveauUp::signalFinChoix, this, &Game::handleSignalFinChoix);
     connect(choix2, &ChoixNiveauUp::signalFinChoix, this, &Game::handleSignalFinChoix);
     connect(choix3, &ChoixNiveauUp::signalFinChoix, this, &Game::handleSignalFinChoix);
@@ -182,9 +181,8 @@ void Game::handleSignalFromPlayer() {
 
 void Game::handleSignalFinChoix(Upgrade *upgrade) {
     if (std::find(vecUpJoueur.begin(), vecUpJoueur.end(), upgrade) != vecUpJoueur.end()) {
-        cout << "Appel methode monter niveau upgrade de Valentin" << endl;
+        upgrade->incrementerNiveau();
     } else {
-        cout << "Appel methode creer upgrade de Valentin" << endl;
         //mettre l'upgrade dans vecUpJoueur et le supprimer de vecUpPasJoueur
         auto it = std::find(vecUpPasJoueur.begin(), vecUpPasJoueur.end(), upgrade);
         vecUpJoueur.push_back(std::move(*it));
@@ -195,12 +193,12 @@ void Game::handleSignalFinChoix(Upgrade *upgrade) {
 
     cout << "vecUpJoueur : ";
     for (Upgrade *upgrade : vecUpJoueur) {
-        cout << upgrade->getNom() << " - ";
+        cout << upgrade->getNom() << "lvl " << upgrade->getNiveau() << " - ";
     }
     cout << endl;
     cout << "vecUpPasJoueur : ";
     for (Upgrade *upgrade : vecUpPasJoueur) {
-        cout << upgrade->getNom() << " - ";
+        cout << upgrade->getNom() << "lvl " << upgrade->getNiveau()  << " - ";
     }
     cout << endl;
 }

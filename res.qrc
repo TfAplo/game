@@ -132,6 +132,12 @@
         <file>Tiles/tile_0129.png</file>
         <file>Tiles/tile_0130.png</file>
         <file>Tiles/tile_0131.png</file>
+        <file>UpgradeImages/Epee.png</file>
+        <file>UpgradeImages/Hache.png</file>
+        <file>UpgradeImages/Sceptre.png</file>
+        <file>UpgradeImages/Armure.png</file>
+        <file>UpgradeImages/Ailes.png</file>
+        <file>UpgradeImages/Chaussures.png</file>
     </qresource>
     <qresource prefix="/Niveaux"/>
     <qresource prefix="/">

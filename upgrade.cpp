@@ -1,6 +1,6 @@
 #include "upgrade.h"
 //ajout
-#include <string.h>
+#include <string>
 #include <vector>
 #include "Arme.h"
 #include "Gadget.h"
@@ -25,6 +25,10 @@ int Upgrade::getNiveau() {
 
 void Upgrade::setNiveau(int niveau) {
     this->niveau = niveau;
+}
+
+void Upgrade::incrementerNiveau() {
+    this->niveau++;
 }
 
 vector<Upgrade*> Upgrade::initUpgrade(vector<pair<string, string>> vecUpgradesString) {
