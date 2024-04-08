@@ -10,6 +10,7 @@
 #include "upgrade.h"
 #include "hud.h"
 #include "Map.h"
+#include <map>
 
 class Game: public QGraphicsView{
 public:
@@ -18,10 +19,12 @@ public:
     QGraphicsScene * scene;
     QTimer *gameTimer;
     Player* player;
+    HUD *hud;
+    Map *map;
 
     //ajout
     int nbObjetPossible;
-    map<string, string> mapUpgradeNoms;
+    std::map<string, string> mapUpgradeNoms;
     vector<Upgrade*> vecUpgrades; //renvoie un vecteur d'une instance de chaque upgrade dispo dans le jeu
     vector<Upgrade*> vecUpJoueur; //renvoie un vecteur d'une instance de chaque upgrade dispo dans le jeu
     vector<Upgrade*> vecUpPasJoueur; //renvoie un vecteur d'une instance de chaque upgrade dispo dans le jeu
