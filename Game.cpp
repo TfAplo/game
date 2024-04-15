@@ -3,117 +3,35 @@
 #include <QGraphicsPixmapItem>
 #include "Map.h"
 #include "Player.h"
-#include "Monstre.h"
 #include "Vague.h"
-#include "Ghost.h"
 #include <QTimer>
 #include <cmath>
-
-//ajout test
 #include <QMessageBox>
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <iostream>
-#include "OrbeXP.h"
 #include "ChoixNiveauUp.h"
 #include "upgrade.h"
 #include <random> // pour std::random_device et std::mt19937
 #include <set>
 #include <algorithm> // Pour std::find
 using namespace std;
-//fin ajout test
 #include "hud.h"
+#include "Menu.h"
+#include <QApplication>
 
 
 Game::Game(QWidget *parent) {
-    // create the scene
-    scene = new QGraphicsScene();
-
-    // make the newly created scene the scene to visualize (since Game is a QGraphicsView Widget,
-    // it can be used to visualize scenes)
-    setScene(scene);
+    //créer la scene de menu
+    Menu *menu = new Menu();
+    connect(menu, &Menu::onPlaySignal, this, &Game::handleSignalPlay);
+    connect(menu, &Menu::onExitSignal, this, &Game::handleSignalExit);
+    //masque les barres de défilement
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    map = new Map(scene);
-
-    //creation du player
-    pair<double,double> position = make_pair(1200,1200);
-    double current_hp = 100.0;
-    double max_hp = 100.0;
-    double speed = 2.5;
-    double xp = 50.0;
-    double dmg = 10.0;
-    double limiteXP = 100.0;
-    QString qs(":/graphics/Tiles/tile_0084.png");
-    player = new Player(qs,position,current_hp,max_hp,speed,dmg,xp, limiteXP);
-
-    //met le focus sur Player
-    player->setFlag(QGraphicsItem::ItemIsFocusable);
-    player->setFocus();
-    scene->addItem(player);
-
-    //ajout
-    connect(player, &Player::signalToGame, this, &Game::handleSignalFromPlayer);
-
-    vector<pair<string, string>> vecUpgradeNoms = {
-        {"Arme", "Epee"},
-        {"Arme", "Hache"},
-        {"Arme", "Sceptre"},
-        {"Gadget", "Chaussures"},
-        {"Gadget", "Ailes"},
-        {"Gadget", "Armure"}
-    };
-    vecUpgrades = Upgrade::initUpgrade(vecUpgradeNoms);
-    bool arme = false, gadget = false;
-    for (Upgrade* upgrade : vecUpgrades) {
-        if (upgrade->estArme()) {
-            if (!arme) {
-                arme = true;
-                vecUpJoueur.push_back(upgrade);
-            } else {
-                vecUpPasJoueur.push_back(upgrade);
-            }
-        } else if (upgrade->estGadget()) {
-            if (!gadget) {
-                gadget = true;
-                vecUpJoueur.push_back(upgrade);
-            } else {
-                vecUpPasJoueur.push_back(upgrade);
-            }
-        }
-    }
-    //fin ajout
-
-    //timer du jeu
-    gameTimer = new QTimer(this);
-
-    //creation de l'HUD
-    hud = new HUD(player, gameTimer,scene,this);
-
-    //conect le timer avec les methodes des classes
-    connect(gameTimer,SIGNAL(timeout()), player,SLOT(move()));
-    connect(gameTimer, &QTimer::timeout, this, [this](){
-        centerOn(player);
-        //ajout
-        player->recupXP();
-        player->setFocus();
-
-        //fin ajout
-        hud->update();
-        map->chunkUpdate(QPoint(static_cast<int>(player->pos().x()), static_cast<int>(player->pos().y())));
-    });
-    gameTimer->start(20);
-
-
-
-
-    vector<string> tableauMonstre;
-    tableauMonstre.push_back("ghost");
-    tableauMonstre.push_back("sorcier");
-    tableauMonstre.push_back("cyclope");
-    Vague *vague = new Vague(tableauMonstre,scene,gameTimer,player);
-
+    setFixedSize(1280,720);
+    setScene(menu);
 
     show();
 }
@@ -206,6 +124,89 @@ void Game::afficherChoix() {
     connect(choix3, &ChoixNiveauUp::signalFinChoix, this, &Game::handleSignalFinChoix);
 }
 
+void Game::makeNewGame()
+{
+    // creer une scene
+    scene = new QGraphicsScene();
+
+    // make the newly created scene the scene to visualize (since Game is a QGraphicsView Widget,
+    // it can be used to visualize scenes)
+    setScene(scene);
+
+    map = new Map(scene);
+
+    //creation du player
+    pair<double,double> position = make_pair(1200,1200);
+    double current_hp = 100.0;
+    double max_hp = 100.0;
+    double speed = 2.5;
+    double xp = 50.0;
+    double dmg = 10.0;
+    double limiteXP = 100.0;
+    QString qs(":/graphics/Tiles/tile_0084.png");
+    player = new Player(qs,position,current_hp,max_hp,speed,dmg,xp, limiteXP);
+
+    //met le focus sur Player
+    player->setFlag(QGraphicsItem::ItemIsFocusable);
+    player->setFocus();
+    scene->addItem(player);
+
+    connect(player, &Player::signalToGame, this, &Game::handleSignalFromPlayer);
+
+    vector<pair<string, string>> vecUpgradeNoms = {
+        {"Arme", "Epee"},
+        {"Arme", "Hache"},
+        {"Arme", "Sceptre"},
+        {"Gadget", "Chaussures"},
+        {"Gadget", "Ailes"},
+        {"Gadget", "Armure"}
+    };
+    vecUpgrades = Upgrade::initUpgrade(vecUpgradeNoms);
+    bool arme = false, gadget = false;
+    for (Upgrade* upgrade : vecUpgrades) {
+        if (upgrade->estArme()) {
+            if (!arme) {
+                arme = true;
+                vecUpJoueur.push_back(upgrade);
+            } else {
+                vecUpPasJoueur.push_back(upgrade);
+            }
+        } else if (upgrade->estGadget()) {
+            if (!gadget) {
+                gadget = true;
+                vecUpJoueur.push_back(upgrade);
+            } else {
+                vecUpPasJoueur.push_back(upgrade);
+            }
+        }
+    }
+
+    //timer du jeu
+    gameTimer = new QTimer(this);
+
+    //creation de l'HUD
+    hud = new HUD(player, gameTimer,scene,this);
+
+    //conect le timer avec les methodes des classes
+    connect(gameTimer,SIGNAL(timeout()), player,SLOT(move()));
+    connect(gameTimer, &QTimer::timeout, this, [this](){
+        centerOn(player);
+        player->recupXP();
+        player->setFocus();
+        hud->update();
+        map->chunkUpdate(QPoint(static_cast<int>(player->pos().x()), static_cast<int>(player->pos().y())));
+    });
+    gameTimer->start(20);
+
+    vector<string> tableauMonstre;
+    tableauMonstre.push_back("ghost");
+    tableauMonstre.push_back("sorcier");
+    tableauMonstre.push_back("cyclope");
+    Vague *vague = new Vague(tableauMonstre,scene,gameTimer,player);
+
+    show();
+}
+
 void Game::handleSignalFromPlayer() {
     this->afficherChoix();
 }
@@ -234,4 +235,13 @@ void Game::handleSignalFinChoix(Upgrade *upgrade) {
     cout << endl;
 }
 
-//fin ajout
+void Game::handleSignalPlay()
+{
+    makeNewGame();
+}
+
+void Game::handleSignalExit()
+{
+    QApplication::instance()->quit();
+}
+

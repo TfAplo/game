@@ -138,6 +138,7 @@
         <file>UpgradeImages/Armure.png</file>
         <file>UpgradeImages/Ailes.png</file>
         <file>UpgradeImages/Chaussures.png</file>
+        <file>backgrounds/background1.jpg</file>
     </qresource>
     <qresource prefix="/Niveaux"/>
     <qresource prefix="/">
