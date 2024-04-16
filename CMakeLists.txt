@@ -62,6 +62,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Cyclope.h Cyclope.cpp
         Boss.h Boss.cpp
         Menu.h Menu.cpp
+        Wizard.h Wizard.cpp
+        Tank.h Tank.cpp
+        Runner.h Runner.cpp
 
 
     )

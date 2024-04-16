@@ -29,7 +29,7 @@ public slots:
     void displayMenu();
 
 signals:
-    void onPlaySignal();
+    void onPlaySignal(QString name);
     void onExitSignal();
 };
 

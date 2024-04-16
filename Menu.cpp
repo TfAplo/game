@@ -21,6 +21,7 @@ Menu::Menu(QObject *parent) : QGraphicsScene(parent) {
         "   border: none;"
         "   padding: 10px 20px;"
         "   font-size: 30px;"
+        "   border: 2px solid white;"
         "}"
         "QPushButton:hover {"
         "   background-color: rgba(255, 255, 255, 100);"
@@ -59,7 +60,7 @@ void Menu::displayCharacter(QString image, QString name, QString hp, QString dmg
     QGraphicsRectItem *characterRect = new QGraphicsRectItem(0, 0, 200, 300);
     characterRect->setPos(posX,posY);
     characterRect->setPen(QPen(Qt::white));
-    characterRect->setBrush(QBrush(Qt::black));
+    characterRect->setBrush(QBrush(QColor(0, 0, 0, 150)));
 
     // Ajouter le rectangle à la scène
     addItem(characterRect);
@@ -74,7 +75,9 @@ void Menu::displayCharacter(QString image, QString name, QString hp, QString dmg
     ChooseButtons.push_back(buttonChoose);
 
     //connexion du bouton au signal pour choisir
-    connect(buttonChoose, &QPushButton::clicked, this, &Menu::onPlaySignal);
+    connect(buttonChoose, &QPushButton::clicked, this, [this, name]() {
+        emit onPlaySignal(name);
+    });
 
     // Style et position du texte
     nameText->setPos(10, 10);
@@ -159,9 +162,11 @@ void Menu::displayCharacterSelection()
     addItem(labelChoose);
     addWidget(buttonBackFromChoice);
 
-    displayCharacter(":/graphics/Tiles/tile_0084.png", "Wizard","100", "10", "3.4", 100, 200);
-    displayCharacter(":/graphics/Tiles/tile_0084.png", "Wizard","100", "10", "3.4", 100 +1280/3, 200);
-    displayCharacter(":/graphics/Tiles/tile_0084.png", "Wizard","100", "10", "3.4", 100+ (1280/3)*2, 200);
+    // Appeler la fonction displayCharacter avec les positions calculées
+    displayCharacter(":/graphics/Tiles/tile_0084.png", "Wizard", "100", "10", "2.5", 300, 200);
+    displayCharacter(":/graphics/Tiles/tile_0087.png", "Tank", "150", "8", "2.3", 540, 200);
+    displayCharacter(":/graphics/Tiles/tile_0112.png", "Runner", "80", "8", "2.8", 780, 200);
+
 
 }
 

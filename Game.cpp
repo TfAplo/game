@@ -20,6 +20,9 @@ using namespace std;
 #include "hud.h"
 #include "Menu.h"
 #include <QApplication>
+#include "Wizard.h"
+#include "Tank.h"
+#include "Runner.h"
 
 
 Game::Game(QWidget *parent) {
@@ -124,7 +127,7 @@ void Game::afficherChoix() {
     connect(choix3, &ChoixNiveauUp::signalFinChoix, this, &Game::handleSignalFinChoix);
 }
 
-void Game::makeNewGame()
+void Game::makeNewGame(QString choixPerso)
 {
     // creer une scene
     scene = new QGraphicsScene();
@@ -135,16 +138,13 @@ void Game::makeNewGame()
 
     map = new Map(scene);
 
-    //creation du player
-    pair<double,double> position = make_pair(1200,1200);
-    double current_hp = 100.0;
-    double max_hp = 100.0;
-    double speed = 2.5;
-    double xp = 50.0;
-    double dmg = 10.0;
-    double limiteXP = 100.0;
-    QString qs(":/graphics/Tiles/tile_0084.png");
-    player = new Player(qs,position,current_hp,max_hp,speed,dmg,xp, limiteXP);
+    if (choixPerso == "Wizard") {
+        player = new Wizard();
+    } else if (choixPerso == "Tank") {
+        player = new Tank();
+    } else if (choixPerso == "Runner") {
+        player = new Runner();
+    }
 
     //met le focus sur Player
     player->setFlag(QGraphicsItem::ItemIsFocusable);
@@ -235,9 +235,9 @@ void Game::handleSignalFinChoix(Upgrade *upgrade) {
     cout << endl;
 }
 
-void Game::handleSignalPlay()
+void Game::handleSignalPlay(QString name)
 {
-    makeNewGame();
+    makeNewGame(name);
 }
 
 void Game::handleSignalExit()

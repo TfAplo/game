@@ -32,13 +32,13 @@ public:
 
     static double calculDistance(pair<double, double>, pair<double, double>);
     void afficherChoix();
-    void makeNewGame();
+    void makeNewGame(QString choixPerso);
     void showMenu();
 
 public slots:
     void handleSignalFromPlayer();
     void handleSignalFinChoix(Upgrade *upgrade);
-    void handleSignalPlay();
+    void handleSignalPlay(QString name);
     void handleSignalExit();
 // fin ajout
 };
