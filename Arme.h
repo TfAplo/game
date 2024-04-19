@@ -1,3 +1,4 @@
+/*
 #ifndef ARME_H
 #define ARME_H
 
@@ -23,3 +24,4 @@ public slots:
 };
 
 #endif // ARME_H
+*/

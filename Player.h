@@ -28,7 +28,7 @@ public:
     Player(QString& image, pair<double, double> position, double current_hp, double max_hp, double speed,double dmg, double xp, double limiteXP,QGraphicsItem *parent = 0);
 
     virtual void details() override;
-    virtual ~Player(){};
+    virtual ~Player(){}
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
 
@@ -52,7 +52,16 @@ public:
     double getXP();
     double getlimitXP();
     void updateOrientation(bool movesLeft);
+    bool getOrientation() const;
     vector<Upgrade*> getUpgrades();
+
+    // AJOUT VALENTIN
+    void setSpeed(double s);
+    double getSpeed() const;
+    void setMaxHp(double hp);
+    double getMaxHp() const;
+    void setCurrentHp(double hp);
+    // FIN
 
 signals:
     void signalToGame();

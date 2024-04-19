@@ -13,21 +13,24 @@ class Upgrade: public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 private:
-    string nom;
-    QString imageIcone;
-    int niveau = 1;
+    QString name; // nom de l'upgrade
+    QString description; // description de l'upgrade
+    QString imageIcone; // chemin vers l'image utiliser pour l'icone
+    int level = 1;
+
 public:
-    Upgrade(QString imageIcone, string nom, QGraphicsItem *parent = 0);
+    Upgrade(QString name,QString description,QString imageIcone, QGraphicsItem *parent = 0);
+
+    QString getName() const;
+    QString getDescription() const;
     QString getImageIcone() const;
-    //ajout
-    string getNom();
+    int getLevel() const;
+    void levelUp();
+
+    QString getName();
     int getNiveau();
     void setNiveau(int niveau);
     void incrementerNiveau();
-    static vector<Upgrade*> initUpgrade(vector<pair<string, string>> vecUpgradesString);
-    virtual bool estArme() = 0;
-    virtual bool estGadget() = 0;
-    //fin ajout
 };
 
 #endif // UPGRADE_H

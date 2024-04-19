@@ -21,9 +21,17 @@
 #include <random> // pour std::random_device et std::mt19937
 #include <set>
 #include <algorithm> // Pour std::find
+#include <iostream>
 using namespace std;
 //fin ajout test
 #include "hud.h"
+//attaques
+#include "upgradeAttaqueMelee.h"
+#include "upgradeAttaqueShield.h"
+#include "upgradePlayer.h"
+#include "upgradeSpeed.h"
+#include "upgradeHealth.h"
+#include "Meat.h"
 
 
 Game::Game(QWidget *parent) {
@@ -54,35 +62,9 @@ Game::Game(QWidget *parent) {
     scene->addItem(player);
 
     //ajout
+
     connect(player, &Player::signalToGame, this, &Game::handleSignalFromPlayer);
 
-    vector<pair<string, string>> vecUpgradeNoms = {
-        {"Arme", "Epee"},
-        {"Arme", "Hache"},
-        {"Arme", "Sceptre"},
-        {"Gadget", "Chaussures"},
-        {"Gadget", "Ailes"},
-        {"Gadget", "Armure"}
-    };
-    vecUpgrades = Upgrade::initUpgrade(vecUpgradeNoms);
-    bool arme = false, gadget = false;
-    for (Upgrade* upgrade : vecUpgrades) {
-        if (upgrade->estArme()) {
-            if (!arme) {
-                arme = true;
-                vecUpJoueur.push_back(upgrade);
-            } else {
-                vecUpPasJoueur.push_back(upgrade);
-            }
-        } else if (upgrade->estGadget()) {
-            if (!gadget) {
-                gadget = true;
-                vecUpJoueur.push_back(upgrade);
-            } else {
-                vecUpPasJoueur.push_back(upgrade);
-            }
-        }
-    }
     //fin ajout
 
     //timer du jeu
@@ -115,18 +97,122 @@ Game::Game(QWidget *parent) {
     Vague *vague = new Vague(tableauMonstre,scene,gameTimer,player);
 
 
+    // AJOUT ATTAQUES
+
+    upgradeAttaqueMelee* defaultAttack = new upgradeAttaqueMelee("Thousand Edge", "Inflige de lourds dégâts dans la direction dans laquelle regarde votre personnage. Bien évidemment, les lames transpercent les ennemis. Cette arme légendaire est plutôt utile pour faire fondre rapidement les points de vie des boss, mais ne sera pas la plus pratique lorsque vous serez encerclé d'ennemis en fin de partie.", ":/graphics/Tiles/tile_0104.png", ":/graphics/Tiles/tile_0104.png", 500, 300, 120, 50);
+    upgradeAttaqueShield* shield = new upgradeAttaqueShield("Bouclier","inflige des degats aux ennemis trop proche",":/graphics/Tiles/tile_0061.png",":/graphics/Tiles/tile_0061.png",400,0,100,50);
+    upgradeSpeed* SuperBoots = new upgradeSpeed("Super Boots","Augmente la vitesse de 10%",":/graphics/Tiles/tile_0020.png",10);
+    upgradeHealth* PotionHealth = new upgradeHealth("Potion de Vie","Augmente les pv max de 15%",":/graphics/Tiles/tile_0030.png",15);
+    // liste upgrades : Epee, Hache, Sceptre, Chaussures, Ailes, Armure
+
+    // toutes les upgrades disponibles
+    vecUpgrades.push_back(defaultAttack);
+    vecUpgrades.push_back(shield);
+    vecUpgrades.push_back(SuperBoots);
+    vecUpgrades.push_back(PotionHealth);
+
+    //upgrades d'attaques appliqué dans la partie
+    vecUpJoueur.push_back(defaultAttack);
+
+    // toutes les upgrades indisponible pour le moment
+    vecUpPasJoueur.push_back(shield);
+    vecUpPasJoueur.push_back(SuperBoots);
+    vecUpPasJoueur.push_back(PotionHealth);
+
+
+    // activer toutes les attaques
+    for(const auto& upgrade : vecUpJoueur){
+        cout << upgrade->getName().toStdString() << endl;
+        // test si l'upgrade est une instance de upgradeAttaque
+        if(upgradeAttaque* attackUpgrade = dynamic_cast<upgradeAttaque*>(upgrade)){
+            QTimer *attackTimer = new QTimer(this);
+            connect(attackTimer, &QTimer::timeout, [this, attackUpgrade]() {
+                attackUpgrade->defaultAttack(*player,Monstre::vectMonstre);
+                attackUpgrade->affichage(*player,*attackUpgrade,*scene);
+            });
+            attackTimer->start(attackUpgrade->getCooldown());
+        }
+        else {
+            // objet à utiliser une seule fois
+            if(upgradePlayer* upgrade_Player = dynamic_cast<upgradePlayer*>(upgrade)){
+                if(upgrade_Player->getIsUsed() == false){
+                    upgrade_Player->defaultAttack(*player);
+                    upgrade_Player->setIsUsed(true);
+                }
+            }
+        }
+    }
+
+    // ajouter des objets au sol temps aleatoire entre 20s et 60s
+    addRandomObject(player,scene);
+
+    QTimer *objectTimer = new QTimer(this);
+    connect(objectTimer, &QTimer::timeout, [this]() {
+        auto it = objects.begin();
+        while (it != objects.end()) {
+            auto object = *it;
+
+            if (object) {
+                // Vérifiez les conditions de collision
+                if (object->getPosition().first >= player->pos().x() && object->getPosition().first <= player->pos().x() + 32 ||
+                    object->getPosition().first <= player->pos().x() && object->getPosition().first > player->pos().x() + 32) {
+                    if (object->getPosition().second <= player->pos().y() + (32 / 2) && object->getPosition().second >= player->pos().y() - (32 / 2)) {
+                        object->catchObject(*player);
+                        // Supprimez l'objet de la scène et du vector
+                        scene->removeItem(object);
+                        delete object;
+                        it = objects.erase(it); // Effacez l'élément du vector
+                        continue; // Passez à l'élément suivant
+                    }
+                }
+            }
+
+            ++it;
+        }
+    });
+    objectTimer->start(100);
+
+    // FIN AJOUT
+
     show();
+}
+
+void Game::addRandomObject(Player* player, QGraphicsScene* scene){
+    pair<int,int> pos = getRandomPos(*player, 500, 1500);
+    cout << pos.first <<": " << pos.second << endl;
+    Meat* meat = new Meat(":/graphics/Tiles/tile_0101.png", pos);
+    QGraphicsPixmapItem* itemMeat = new QGraphicsPixmapItem(QPixmap(meat->getImage()));
+    itemMeat->setScale(4);
+    itemMeat->setPos(pos.first, pos.second);
+    scene->addItem(itemMeat);
+    objects.push_back(meat);
+
+    int minDelay = 20000;
+    int maxDelay = 60000;
+    int randomDelay = getRandomDelay(minDelay, maxDelay);
+
+    cout << "spawn" << endl;
+
+    QTimer::singleShot(randomDelay, [this,player, scene]() {
+        addRandomObject(player, scene);
+    });
+}
+int Game::getRandomDelay(int minDelay, int maxDelay){
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> distribution(minDelay, maxDelay);
+    return distribution(gen);
 }
 
 pair<int,int> Game::getRandomPos(Player& player, int first_circle, int second_circle){
     // random compris entre les deux rayon
     int randDist = first_circle  + rand() % (second_circle - first_circle + 1);
     double randomAngle = (rand() / (RAND_MAX / (2 * M_PI))); // Angle aléatoire
-    //out << randDist <<": " <<randomAngle << Qt::endl;
+    //cout << randDist <<": " <<randomAngle << Qt::endl;
 
     int x = player.pos().x() + randDist * cos(randomAngle);
     int y = player.pos().y() + randDist * sin(randomAngle);
-    //out << x <<": " <<y << Qt::endl;
+    //cout << x <<": " <<y << Qt::endl;
     return make_pair(x,y);
 }
 
@@ -151,7 +237,10 @@ void Game::afficherChoix() {
     mt19937 gen(rd());
     int nbObjetNouveau;
     int nbObjetPasNouveau;
-    if (vecUpPasJoueur.size() > 1) {
+    if (vecUpJoueur.size() == 1) {
+        nbObjetNouveau = 2;
+        nbObjetPasNouveau = 1;
+    } else if (vecUpPasJoueur.size() > 1) {
         uniform_int_distribution<> dis(1, 2);
         nbObjetNouveau = dis(gen);
         nbObjetPasNouveau = 3 - nbObjetNouveau;
@@ -212,7 +301,7 @@ void Game::handleSignalFromPlayer() {
 
 void Game::handleSignalFinChoix(Upgrade *upgrade) {
     if (std::find(vecUpJoueur.begin(), vecUpJoueur.end(), upgrade) != vecUpJoueur.end()) {
-        upgrade->incrementerNiveau();
+        upgrade->levelUp();
     } else {
         //mettre l'upgrade dans vecUpJoueur et le supprimer de vecUpPasJoueur
         auto it = std::find(vecUpPasJoueur.begin(), vecUpPasJoueur.end(), upgrade);
@@ -224,14 +313,15 @@ void Game::handleSignalFinChoix(Upgrade *upgrade) {
 
     cout << "vecUpJoueur : ";
     for (Upgrade *upgrade : vecUpJoueur) {
-        cout << upgrade->getNom() << "lvl " << upgrade->getNiveau() << " - ";
+        cout << upgrade->getName().toStdString() << " lvl " << upgrade->getLevel() << " - ";
     }
     cout << endl;
     cout << "vecUpPasJoueur : ";
     for (Upgrade *upgrade : vecUpPasJoueur) {
-        cout << upgrade->getNom() << "lvl " << upgrade->getNiveau()  << " - ";
+        cout << upgrade->getName().toStdString() << " lvl " << upgrade->getLevel()  << " - ";
     }
     cout << endl;
 }
 
 //fin ajout
+

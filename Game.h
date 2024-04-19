@@ -11,8 +11,13 @@
 #include "hud.h"
 #include "Map.h"
 #include <map>
+#include "upgradeAttaque.h"
+#include "ObjectOnFloor.h"
 
 class Game: public QGraphicsView{
+
+private:
+    vector<ObjectOnFloor*> objects;
 public:
     Game(QWidget * parent=0);
     static pair<int,int> getRandomPos(Player& player, int first_circle, int second_circle);
@@ -32,6 +37,9 @@ public:
 
     static double calculDistance(pair<double, double>, pair<double, double>);
     void afficherChoix();
+    // AJOUT VALENTIN
+    void addRandomObject(Player* player, QGraphicsScene* scene);
+    int getRandomDelay(int minDelay, int maxDelay);
 
 public slots:
     void handleSignalFromPlayer();
