@@ -13,6 +13,7 @@ public:
     void updateBar(qreal hp, qreal maxhp);
 private:
     QGraphicsRectItem *actualHP;
+    qreal firstWidth;
 };
 
 #endif // HPBAR_H

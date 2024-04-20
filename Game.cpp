@@ -190,6 +190,7 @@ void Game::makeNewGame(QString choixPerso)
     //conect le timer avec les methodes des classes
     connect(gameTimer,SIGNAL(timeout()), player,SLOT(move()));
     connect(gameTimer, &QTimer::timeout, this, [this](){
+        cout << player->pos().x() << " " << player->pos().x() << endl;
         centerOn(player);
         player->recupXP();
         player->setFocus();
