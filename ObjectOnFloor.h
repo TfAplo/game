@@ -1,26 +1,22 @@
 #ifndef OBJECTONFLOOR_H
 #define OBJECTONFLOOR_H
+#include <QPoint>
 #include <QObject>
 #include <QGraphicsPixmapItem>
-#include "Player.h"
+#include <QGraphicsScene>
 
-class ObjectOnFloor : public QObject, public QGraphicsPixmapItem
-{
+class objectOnFloor : public QObject, public QGraphicsPixmapItem{
     Q_OBJECT
 private:
-    QString image;
-    pair<int, int> position;
+    QPointF position;
+    QString imageIcone;
+    QGraphicsScene* scene;
 
 public:
-    ObjectOnFloor(QString image,pair<int, int> position,QGraphicsItem *parent = 0);
+    objectOnFloor(QPointF position, QString imageIcone,QGraphicsScene* scene,QGraphicsItem *parent = 0);
 
-    // GETTER / SETTER
-    QString getImage() const;
-    pair<int,int> getPosition() const;
-    void setPosition(pair<int,int> pos);
-
-    virtual void catchObject(Player& player) = 0;
-    virtual ~ObjectOnFloor(){}
+    virtual void catchObject() = 0;
+    virtual ~objectOnFloor(){}
 };
 
 #endif // OBJECTONFLOOR_H

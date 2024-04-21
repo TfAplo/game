@@ -138,6 +138,9 @@
         <file>UpgradeImages/Armure.png</file>
         <file>UpgradeImages/Ailes.png</file>
         <file>UpgradeImages/Chaussures.png</file>
+        <file>Tiles/bombe_pixel.png</file>
+        <file>Tiles/meat_pixel.png</file>
+        <file>Tiles/aimant.png</file>
     </qresource>
     <qresource prefix="/Niveaux"/>
     <qresource prefix="/">

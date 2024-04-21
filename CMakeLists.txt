@@ -61,8 +61,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Sorcier.h Sorcier.cpp
         Cyclope.h Cyclope.cpp
         Boss.h Boss.cpp
-        Meat.h
-        Meat.cpp
+
+
         ObjectOnFloor.h
         ObjectOnFloor.cpp
         upgradeAttaque.h upgradeAttaque.cpp
@@ -72,6 +72,11 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         upgradePlayer.h upgradePlayer.cpp
         upgradePlayerSpeed.h upgradePlayerSpeed.cpp
         upgradeAttaqueSelfHeal.h upgradeAttaqueSelfHeal.cpp
+        objectOnFloor.h objectOnFloor.cpp
+        bombe.h bombe.cpp
+        bouf.h bouf.cpp
+        aimant.h aimant.cpp
+
 
 
 

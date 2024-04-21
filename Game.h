@@ -11,12 +11,12 @@
 #include "hud.h"
 #include "Map.h"
 #include <map>
-#include "ObjectOnFloor.h"
+#include "objectOnFloor.h"
 
 class Game: public QGraphicsView{
 
 private:
-    vector<ObjectOnFloor*> objects;
+    vector<objectOnFloor*> objects;
 public:
     Game(QWidget * parent=0);
     static pair<int,int> getRandomPos(Player& player, int first_circle, int second_circle);

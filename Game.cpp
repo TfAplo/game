@@ -26,11 +26,15 @@ using namespace std;
 //fin ajout test
 #include "hud.h"
 //attaques
+#include "Fonctions.h"
 #include "upgradeAttaqueDefault.h"
 #include "upgradeAttaqueShield.h"
 #include "upgradePlayerSpeed.h"
 #include "upgradeAttaqueSelfHeal.h"
-#include "Meat.h"
+// objets
+#include "bombe.h"
+#include "bouf.h"
+#include "aimant.h"
 
 
 Game::Game(QWidget *parent) {
@@ -122,6 +126,27 @@ Game::Game(QWidget *parent) {
     vecUpPasJoueur.push_back(seringue);
 
 
+    //nouvel objet
+    //bombe* objBombe = new bombe(scene,player);
+    //objects.push_back(objBombe);
+
+    Fonctions fonctions;
+    addRandomObject(player,scene);
+
+    QTimer* verifyCollisionObjet = new QTimer(this);
+    connect(verifyCollisionObjet, &QTimer::timeout, this,[this,&fonctions](){
+        // verifier si le player entre en collision avec des objets sur la map
+        for(const auto& obj : objects){
+            if(fonctions.isCollide(player->pos(),obj->pos())){
+                obj->catchObject();
+                //supprimer de la scene et du vecteur
+                scene->removeItem(obj);
+                //delete obj;
+            }
+        }
+    });
+    verifyCollisionObjet->start(200);
+
 
 
     // FIN AJOUT
@@ -129,18 +154,24 @@ Game::Game(QWidget *parent) {
     show();
 }
 
-void Game::addRandomObject(Player* player, QGraphicsScene* scene){
-    pair<int,int> pos = getRandomPos(*player, 500, 1500);
-    cout << pos.first <<": " << pos.second << endl;
-    Meat* meat = new Meat(":/graphics/Tiles/tile_0101.png", pos);
-    QGraphicsPixmapItem* itemMeat = new QGraphicsPixmapItem(QPixmap(meat->getImage()));
-    itemMeat->setScale(4);
-    itemMeat->setPos(pos.first, pos.second);
-    scene->addItem(itemMeat);
-    objects.push_back(meat);
 
-    int minDelay = 20000;
-    int maxDelay = 60000;
+void Game::addRandomObject(Player* player, QGraphicsScene* scene){
+
+    int rdm = getRandomDelay(1,2);
+    pair<int, int> posMeat = getRandomPos(*player,500,1000);
+    QPointF pos(posMeat.first,posMeat.second);
+
+    if(rdm == 1){
+        aimant* aim = new aimant(scene,player,pos);
+        objects.push_back(aim);
+    } else if(rdm == 2){
+        bouf* meat = new bouf(scene,player,pos);
+        objects.push_back(meat);
+    }
+
+
+    int minDelay = 2000;
+    int maxDelay = 6000;
     int randomDelay = getRandomDelay(minDelay, maxDelay);
 
     cout << "spawn" << endl;

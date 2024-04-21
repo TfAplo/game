@@ -1,19 +1,16 @@
-#include "ObjectOnFloor.h"
+#include "objectOnFloor.h"
 
-ObjectOnFloor::ObjectOnFloor( QString image,pair<int, int> position,QGraphicsItem *parent)
-    : QObject(), QGraphicsPixmapItem(parent), image(image), position(position){
-    this->position = position;
-    this->image = image;
-}
+objectOnFloor::objectOnFloor(QPointF position, QString imageIcone, QGraphicsScene* scene,QGraphicsItem *parent) :
+ QObject(), QGraphicsPixmapItem(parent)
+{
+    this->imageIcone = imageIcone;
+    this->scene = scene;
+    setPos(position);
 
-QString ObjectOnFloor::getImage() const{
-    return this->image;
-}
-pair<int,int> ObjectOnFloor::getPosition() const{
-    return this->position;
-}
-void ObjectOnFloor::setPosition(pair<int,int> pos){
-    this->position = make_pair(pos.first, pos.second);
-}
+    // poser l'objet sur la scene
+    QGraphicsPixmapItem* objet = new QGraphicsPixmapItem(QPixmap(imageIcone));
+    objet->setPos(position);
+    objet->setScale(2);
+    scene->addItem(objet);
 
-//void ObjectOnFloor::catchObject(){}
+}
