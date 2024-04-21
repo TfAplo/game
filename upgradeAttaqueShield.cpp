@@ -18,11 +18,11 @@ void upgradeAttaqueShield::effect(){
     // recuperer la position du joueur
     QPointF playerCenter = player->pos();
 
-    int width = 100;
-    int dmg = 15;
+    int width = 80;
+    int dmg = 15 + this->getLevel() * 5;
 
     //calculer une zone en cercle autour du joueur en fonction du level
-    int taille = width + (10 * this->getLevel()) / 100;
+    int taille = width + (15 * this->getLevel()) / 100;
 
     for(const auto& monstre : Monstre::vectMonstre){
         // si la position du monstre est dans le cercle on lui inflige des degats

@@ -23,17 +23,18 @@ void upgradeAttaqueDefault::effect(){
     int width = 120 * side;
     int height = 50;
 
-    int lvl = this->getLevel() * 5 /100;
+    int lvl = this->getLevel() * 5;
     // parcourir tous les monstres
     for(const auto& monstre : Monstre::vectMonstre){
         // vérifier si le monstre est dans la zone de dégâts
         if(monstre->pos().x()  >= player->pos().x() && monstre->pos().x()<= player->pos().x() + width || monstre->pos().x() <= player->pos().x() && monstre->pos().x() > player->pos().x() + width)
             if(monstre->pos().y() <= player->pos().y() + (height / 2) && monstre->pos().y() >= player->pos().y() - (height /2)){
-                monstre->takeDamage(100 + lvl);
+                monstre->takeDamage(20 + lvl);
             }
     }
     affichage();
 }
+// connecter le timer au gameTimer
 
 void upgradeAttaqueDefault::affichage(){
     //afficher une image
