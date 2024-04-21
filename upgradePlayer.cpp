@@ -1,25 +1,20 @@
 #include "upgradePlayer.h"
 
-upgradePlayer::upgradePlayer(QString name,QString description,QString imageIcone,int boostValue,QGraphicsItem *parent)
-    : Upgrade(name,description,imageIcone,parent){
-    this->boostValue = boostValue;
-    this->isUsed = false;
+upgradePlayer::upgradePlayer(QString name, QString description, QString imageIcone, Player *player,int valueBoost,QGraphicsItem *parent):
+    Upgrade(name, description,imageIcone,player)
+{
+    this->valueBoost = valueBoost;
 }
 
 
-int upgradePlayer::getBoostValue() const{
-    return this->boostValue;
+void upgradePlayer::setValueBoost(int b){
+    this->valueBoost = b;
 }
-void upgradePlayer::setBoostValue(int v){
-    this->boostValue = v;
-}
-
-bool upgradePlayer::getIsUsed() const{
-    return this->isUsed;
+int upgradePlayer::getValueBoost() const{
+    return this->valueBoost;
 }
 
-void upgradePlayer::setIsUsed(bool b){
-    this->isUsed = b;
-}
 
-//void upgradePlayer::defaultAttack(){}
+void upgradePlayer::setActif(){
+    QTimer::singleShot(0, this, effect);
+}

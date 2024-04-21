@@ -5,13 +5,13 @@ HPBar::HPBar(qreal width, qreal height, QGraphicsItem *parent) :
     actualHP = new QGraphicsRectItem(0, 0, width, height, this);
     setBrush(QBrush(Qt::black));
     actualHP->setBrush(QBrush(Qt::red));
-
+    firstWidth = actualHP->rect().width();
 }
 
 void HPBar::updateBar(qreal hp, qreal maxhp)
 {
     qreal ratio = hp / maxhp;
     QRectF barRect = actualHP->rect();
-    barRect.setWidth(barRect.width() * ratio);
+    barRect.setWidth(firstWidth*ratio);
     actualHP->setRect(barRect);
 }

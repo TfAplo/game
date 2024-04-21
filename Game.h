@@ -11,7 +11,6 @@
 #include "hud.h"
 #include "Map.h"
 #include <map>
-#include "upgradeAttaque.h"
 #include "ObjectOnFloor.h"
 
 class Game: public QGraphicsView{

@@ -1,24 +1,21 @@
 #ifndef UPGRADEPLAYER_H
 #define UPGRADEPLAYER_H
 #include "upgrade.h"
-#include "Player.h"
+#include <QTimer>
 
 class upgradePlayer : public Upgrade
 {
 private:
-    int boostValue;
-    bool isUsed;
+    int valueBoost;
+
 public:
-    upgradePlayer(QString name,QString description,QString imageIcone,int boostValue,QGraphicsItem *parent = 0);
+    upgradePlayer(QString name, QString description,QString imageIcone, Player* player,int valueBoost,QGraphicsItem *parent = 0);
 
-    //GETTER / SETTER
-    int getBoostValue() const;
-    void setBoostValue(int v);
-    bool getIsUsed() const;
-    void setIsUsed(bool b);
+    virtual void effect() = 0;
+    virtual void setActif();
 
-    // methodes
-    virtual void defaultAttack(Player& player) = 0;
+    void setValueBoost(int b);
+    int getValueBoost() const;
 };
 
 #endif // UPGRADEPLAYER_H

@@ -163,7 +163,15 @@ void Player::takeDamage(double dmg){
     Personnage::takeDamage(dmg);
     updateHPBar();
 }
-
+void Player::heal(double pv){
+    //verifier si on ne depasse pas les hp
+    if(pv > this->max_hp){
+        this->current_hp = this->max_hp;
+    } else{
+        this->current_hp = pv;
+    }
+    updateHPBar();
+}
 XPBar *Player::getXPBar()
 {
     return xpBar;
@@ -200,11 +208,12 @@ bool Player::getOrientation() const{
     return this->leftOriented;
 }
 
+/*
 vector<Upgrade *> Player::getUpgrades()
 {
     return upgrades;
 }
-
+*/
 // AJOUT VALENTIN
 
 void Player::setSpeed(double s){

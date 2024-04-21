@@ -1,9 +1,9 @@
-#ifndef UPGRADEATTAQUESHIELD_H
-#define UPGRADEATTAQUESHIELD_H
+#ifndef UPGRADEATTAQUEDEFAULT_H
+#define UPGRADEATTAQUEDEFAULT_H
 
 #include "upgradeAttaque.h"
 
-class upgradeAttaqueShield : public upgradeAttaque
+class upgradeAttaqueDefault : public upgradeAttaque
 {
 private:
     static QString name;
@@ -13,11 +13,11 @@ private:
     static double animationDuration;
 
 public:
-    upgradeAttaqueShield(Player* player);
+    upgradeAttaqueDefault(Player* player);
 
     virtual void effect();
     void affichage();
 
 };
 
-#endif // UPGRADEATTAQUESHIELD_H
+#endif // UPGRADEATTAQUEDEFAULT_H

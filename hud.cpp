@@ -17,7 +17,7 @@ HUD::HUD(Player *player, QTimer *gameTimer,QGraphicsScene *scene,QGraphicsView *
     startTime = QTime::currentTime();
     scene->addItem(labelTimer);
 
-    updateItems();
+    //updateItems();
 
 }
 
@@ -34,7 +34,7 @@ void HUD::update()
     float coordMilieuX = (topRight.x() + topLeft.x())/2 - labelTimer->boundingRect().width()/2;
     labelTimer->setPos(coordMilieuX, topLeft.y()+ 40);
     //update des icones des armes
-    updateItems();
+    //updateItems();
     int i = 0;
     int j = 0;
     for(QGraphicsPixmapItem *item : pixItems){
@@ -61,6 +61,7 @@ void HUD::updateTime()
     labelTimer->setPlainText(formattedTime);
 }
 
+/*
 void HUD::updateItems()
 {
     for(QGraphicsPixmapItem *item : pixItems){
@@ -81,3 +82,4 @@ void HUD::updateItems()
     }
 
 }
+*/

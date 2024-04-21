@@ -1,9 +1,9 @@
-#ifndef UPGRADEATTAQUESHIELD_H
-#define UPGRADEATTAQUESHIELD_H
+#ifndef UPGRADEATTAQUESELFHEAL_H
+#define UPGRADEATTAQUESELFHEAL_H
 
 #include "upgradeAttaque.h"
 
-class upgradeAttaqueShield : public upgradeAttaque
+class upgradeAttaqueSelfHeal : public upgradeAttaque
 {
 private:
     static QString name;
@@ -11,13 +11,14 @@ private:
     static QString imageIcone;
     static double cooldown;
     static double animationDuration;
+    static double valueBoost;
 
 public:
-    upgradeAttaqueShield(Player* player);
+    upgradeAttaqueSelfHeal(Player* player);
 
     virtual void effect();
     void affichage();
 
 };
 
-#endif // UPGRADEATTAQUESHIELD_H
+#endif // UPGRADEATTAQUESELFHEAL_H

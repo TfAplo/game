@@ -42,10 +42,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ChoixNiveauUp.cpp
         upgrade.cpp
         upgrade.h
-        Arme.h
-        Arme.cpp
-        Gadget.h
-        Gadget.cpp
+
+
+
+
         hpbar.h hpbar.cpp
         xpbar.h xpbar.cpp
         hud.h hud.cpp
@@ -65,18 +65,25 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Meat.cpp
         ObjectOnFloor.h
         ObjectOnFloor.cpp
-        upgradeAttaque.h
-        upgradeAttaque.cpp
-        upgradeAttaqueMelee.h
-        upgradeAttaqueMelee.cpp
-        upgradeAttaqueShield.h
-        upgradeAttaqueShield.cpp
-        upgradeHealth.h
-        upgradeHealth.cpp
-        upgradePlayer.h
-        upgradePlayer.cpp
-        upgradeSpeed.h
-        upgradeSpeed.cpp
+        upgradeAttaque.h upgradeAttaque.cpp
+        upgradeAttaqueDefault.h upgradeAttaqueDefault.cpp
+        Fonctions.h Fonctions.cpp
+        upgradeAttaqueShield.h upgradeAttaqueShield.cpp
+        upgradePlayer.h upgradePlayer.cpp
+        upgradePlayerSpeed.h upgradePlayerSpeed.cpp
+        upgradeAttaqueSelfHeal.h upgradeAttaqueSelfHeal.cpp
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     )

@@ -26,11 +26,10 @@ using namespace std;
 //fin ajout test
 #include "hud.h"
 //attaques
-#include "upgradeAttaqueMelee.h"
+#include "upgradeAttaqueDefault.h"
 #include "upgradeAttaqueShield.h"
-#include "upgradePlayer.h"
-#include "upgradeSpeed.h"
-#include "upgradeHealth.h"
+#include "upgradePlayerSpeed.h"
+#include "upgradeAttaqueSelfHeal.h"
 #include "Meat.h"
 
 
@@ -98,79 +97,32 @@ Game::Game(QWidget *parent) {
 
 
     // AJOUT ATTAQUES
+    upgradeAttaqueDefault* defaultAttaque = new upgradeAttaqueDefault(player);
+    upgradeAttaqueShield* shield = new upgradeAttaqueShield(player);
+    upgradePlayerSpeed* boots = new upgradePlayerSpeed(player);
+    upgradeAttaqueSelfHeal* seringue = new upgradeAttaqueSelfHeal(player);
 
-    upgradeAttaqueMelee* defaultAttack = new upgradeAttaqueMelee("Thousand Edge", "Inflige de lourds dégâts dans la direction dans laquelle regarde votre personnage. Bien évidemment, les lames transpercent les ennemis. Cette arme légendaire est plutôt utile pour faire fondre rapidement les points de vie des boss, mais ne sera pas la plus pratique lorsque vous serez encerclé d'ennemis en fin de partie.", ":/graphics/Tiles/tile_0104.png", ":/graphics/Tiles/tile_0104.png", 500, 300, 120, 50);
-    upgradeAttaqueShield* shield = new upgradeAttaqueShield("Bouclier","inflige des degats aux ennemis trop proche",":/graphics/Tiles/tile_0061.png",":/graphics/Tiles/tile_0061.png",400,0,100,50);
-    upgradeSpeed* SuperBoots = new upgradeSpeed("Super Boots","Augmente la vitesse de 10%",":/graphics/Tiles/tile_0020.png",10);
-    upgradeHealth* PotionHealth = new upgradeHealth("Potion de Vie","Augmente les pv max de 15%",":/graphics/Tiles/tile_0030.png",15);
-    // liste upgrades : Epee, Hache, Sceptre, Chaussures, Ailes, Armure
 
-    // toutes les upgrades disponibles
-    vecUpgrades.push_back(defaultAttack);
+
+    // All
+    vecUpgrades.push_back(defaultAttaque);
     vecUpgrades.push_back(shield);
-    vecUpgrades.push_back(SuperBoots);
-    vecUpgrades.push_back(PotionHealth);
+    vecUpgrades.push_back(boots);
+    vecUpgrades.push_back(seringue);
 
-    //upgrades d'attaques appliqué dans la partie
-    vecUpJoueur.push_back(defaultAttack);
 
-    // toutes les upgrades indisponible pour le moment
+    //current
+    vecUpJoueur.push_back(defaultAttaque);
+
+
+
+    // non
     vecUpPasJoueur.push_back(shield);
-    vecUpPasJoueur.push_back(SuperBoots);
-    vecUpPasJoueur.push_back(PotionHealth);
+    vecUpJoueur.push_back(boots);
+    vecUpPasJoueur.push_back(seringue);
 
 
-    // activer toutes les attaques
-    for(const auto& upgrade : vecUpJoueur){
-        cout << upgrade->getName().toStdString() << endl;
-        // test si l'upgrade est une instance de upgradeAttaque
-        if(upgradeAttaque* attackUpgrade = dynamic_cast<upgradeAttaque*>(upgrade)){
-            QTimer *attackTimer = new QTimer(this);
-            connect(attackTimer, &QTimer::timeout, [this, attackUpgrade]() {
-                attackUpgrade->defaultAttack(*player,Monstre::vectMonstre);
-                attackUpgrade->affichage(*player,*attackUpgrade,*scene);
-            });
-            attackTimer->start(attackUpgrade->getCooldown());
-        }
-        else {
-            // objet à utiliser une seule fois
-            if(upgradePlayer* upgrade_Player = dynamic_cast<upgradePlayer*>(upgrade)){
-                if(upgrade_Player->getIsUsed() == false){
-                    upgrade_Player->defaultAttack(*player);
-                    upgrade_Player->setIsUsed(true);
-                }
-            }
-        }
-    }
 
-    // ajouter des objets au sol temps aleatoire entre 20s et 60s
-    addRandomObject(player,scene);
-
-    QTimer *objectTimer = new QTimer(this);
-    connect(objectTimer, &QTimer::timeout, [this]() {
-        auto it = objects.begin();
-        while (it != objects.end()) {
-            auto object = *it;
-
-            if (object) {
-                // Vérifiez les conditions de collision
-                if (object->getPosition().first >= player->pos().x() && object->getPosition().first <= player->pos().x() + 32 ||
-                    object->getPosition().first <= player->pos().x() && object->getPosition().first > player->pos().x() + 32) {
-                    if (object->getPosition().second <= player->pos().y() + (32 / 2) && object->getPosition().second >= player->pos().y() - (32 / 2)) {
-                        object->catchObject(*player);
-                        // Supprimez l'objet de la scène et du vector
-                        scene->removeItem(object);
-                        delete object;
-                        it = objects.erase(it); // Effacez l'élément du vector
-                        continue; // Passez à l'élément suivant
-                    }
-                }
-            }
-
-            ++it;
-        }
-    });
-    objectTimer->start(100);
 
     // FIN AJOUT
 
@@ -302,10 +254,12 @@ void Game::handleSignalFromPlayer() {
 void Game::handleSignalFinChoix(Upgrade *upgrade) {
     if (std::find(vecUpJoueur.begin(), vecUpJoueur.end(), upgrade) != vecUpJoueur.end()) {
         upgrade->levelUp();
+
     } else {
         //mettre l'upgrade dans vecUpJoueur et le supprimer de vecUpPasJoueur
         auto it = std::find(vecUpPasJoueur.begin(), vecUpPasJoueur.end(), upgrade);
         vecUpJoueur.push_back(std::move(*it));
+        upgrade->setActif();
 
         // Supprimer l'élément de vecUpPasJoueur
         vecUpPasJoueur.erase(it);

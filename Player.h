@@ -4,7 +4,7 @@
 #include "xpbar.h"
 #include <QGraphicsView>
 #include "Personnage.h"
-#include "upgrade.h"
+//#include "upgrade.h"
 #include <vector>
 
 class Player : public Personnage {
@@ -22,7 +22,7 @@ private:
     bool leftOriented;
     QPixmap playerTextureLeft;
     QPixmap playerTextureRight;
-    vector<Upgrade*> upgrades;
+    //vector<Upgrade*> upgrades;
 
 public:
     Player(QString& image, pair<double, double> position, double current_hp, double max_hp, double speed,double dmg, double xp, double limiteXP,QGraphicsItem *parent = 0);
@@ -53,7 +53,7 @@ public:
     double getlimitXP();
     void updateOrientation(bool movesLeft);
     bool getOrientation() const;
-    vector<Upgrade*> getUpgrades();
+    //vector<Upgrade*> getUpgrades();
 
     // AJOUT VALENTIN
     void setSpeed(double s);
@@ -61,6 +61,7 @@ public:
     void setMaxHp(double hp);
     double getMaxHp() const;
     void setCurrentHp(double hp);
+    void heal(double pv);
     // FIN
 
 signals:
