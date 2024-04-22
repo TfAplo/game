@@ -1,3 +1,4 @@
+/*
 #ifndef GADGET_H
 #define GADGET_H
 
@@ -23,3 +24,4 @@ public slots:
 };
 
 #endif // GADGET_H
+*/

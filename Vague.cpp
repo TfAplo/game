@@ -33,8 +33,6 @@ void Vague::apparaitreMonstre() {
     double first_circle = 200;
     double second_circle = 800;
 
-    srand(time(0));
-
     // Vérifie si le temps écoulé est supérieur ou égal à 30000 millisecondes (30 secondes)
     // et s'il reste des monstres à faire apparaître dans le tableauMonstres
     if (elapsedTime >= 30000 && currentIndex < tableauMonstre.size()) {

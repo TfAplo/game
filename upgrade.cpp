@@ -1,21 +1,53 @@
 #include "upgrade.h"
 //ajout
+/*
 #include <string>
 #include <vector>
 #include "Arme.h"
 #include "Gadget.h"
 #include <iostream>
 //fin ajout
+*/
 
 using namespace std;
 
-Upgrade::Upgrade(QString imageIcone, string nom, QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent), imageIcone(imageIcone), nom(nom)
+Upgrade::Upgrade(QString name,QString description,QString imageIcone,QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent)
 {
-
+    this->name = name;
+    this->description = description;
+    this->imageIcone = imageIcone;
 }
 
+// increment le niveau de l'upgrade par 1
+void Upgrade::levelUp(){
+    this->level = this->getLevel() + 1;
+}
+
+
+
+
+// ---- GETTERS -----
+
+QString Upgrade::getName() const {
+    return this->name;
+}
+QString Upgrade::getDescription() const{
+    return this->description;
+}
+QString Upgrade::getImageIcone() const{
+    return this->imageIcone;
+}
+int Upgrade::getLevel() const{
+    return  this->level;
+}
+
+
+
+
+
 //ajout
-string Upgrade::getNom() {
+/*
+string Upgrade::getN() {
     return nom;
 }
 
@@ -48,8 +80,4 @@ vector<Upgrade*> Upgrade::initUpgrade(vector<pair<string, string>> vecUpgradesSt
     return vecUpgrades;
 }
 //fin ajout
-
-QString Upgrade::getImageIcone() const
-{
-    return imageIcone;
-}
+*/

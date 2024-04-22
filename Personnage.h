@@ -27,7 +27,7 @@ public:
 
     virtual void details();
 
-    virtual ~Personnage(){};
+    virtual ~Personnage(){}
 
     virtual void keyPressEvent(QKeyEvent *event);
 

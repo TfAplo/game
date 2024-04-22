@@ -23,9 +23,9 @@ ChoixNiveauUp::ChoixNiveauUp(Upgrade *upgrade, bool estNouveau, double x, double
     // Ajouter un titre au choix
     QString nomUpgrade;
     if (estNouveau) {
-        nomUpgrade = QString::fromStdString(upgrade->getNom().append(" lvl ").append(to_string(upgrade->getNiveau())));
+        nomUpgrade = QString::fromStdString(upgrade->getName().toStdString().append(" lvl ").append(to_string(upgrade->getLevel())));
     } else {
-        nomUpgrade = QString::fromStdString(upgrade->getNom().append(" lvl ").append(to_string(upgrade->getNiveau()+1)));
+        nomUpgrade = QString::fromStdString(upgrade->getName().toStdString().append(" lvl ").append(to_string(upgrade->getLevel()+1)));
     }
     titre = new QGraphicsTextItem(nomUpgrade, this);
     qreal textWidth = titre->boundingRect().width(); // Largeur du texte
@@ -37,7 +37,7 @@ ChoixNiveauUp::ChoixNiveauUp(Upgrade *upgrade, bool estNouveau, double x, double
 
     // Ajouter une image au choix
     // Chargez l'image à l'aide de QPixmap
-    QString image = ":/graphics/UpgradeImages/" + QString::fromStdString(upgrade->getNom()) + ".png";
+    QString image = ":/graphics/UpgradeImages/" + QString::fromStdString(upgrade->getName().toStdString()) + ".png";
     QPixmap pixmap(image);
     QPixmap newPixmap = pixmap.scaled(160, 160);
 

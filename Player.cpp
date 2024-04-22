@@ -195,7 +195,38 @@ void Player::updateOrientation(bool movesLeft)
 
 }
 
+bool Player::getOrientation() const{
+    return this->leftOriented;
+}
+
 vector<Upgrade *> Player::getUpgrades()
 {
     return upgrades;
+}
+
+// AJOUT VALENTIN
+
+void Player::setSpeed(double s){
+    this->speed = s;
+}
+
+double Player::getSpeed() const{
+    return this->speed;
+}
+
+void Player::setMaxHp(double hp){
+    this->max_hp = hp;
+}
+
+double Player::getMaxHp() const {
+    return this->max_hp;
+}
+
+void Player::setCurrentHp(double hp){
+    if(hp <= this->getMaxHp()){
+        this->current_hp = hp;
+    } else {
+        this->current_hp = this->getMaxHp();
+    }
+
 }

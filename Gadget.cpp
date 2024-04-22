@@ -1,4 +1,4 @@
-
+/*
 #include "Gadget.h"
 
 bool Gadget::estArme() {
@@ -8,3 +8,4 @@ bool Gadget::estArme() {
 bool Gadget::estGadget() {
     return true;
 }
+*/

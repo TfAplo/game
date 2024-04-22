@@ -24,7 +24,7 @@ public:
     bool getDegDistance();
     void attackPlayer();
     static vector<Monstre*> vectMonstre;
-    virtual ~Monstre(){};
+    virtual ~Monstre(){}
 
 signals:
 
