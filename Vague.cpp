@@ -5,8 +5,9 @@
 #include "Sorcier.h"
 #include "Cyclope.h"
 #include "Boss.h"
+#include <algorithm>
+#include <random>
 
-#include <iostream>
 
 using namespace std;
 
@@ -17,8 +18,15 @@ Vague::Vague(const vector<string> monstres,QGraphicsScene *scene, QTimer *gameTi
     connect(timer, &QTimer::timeout, this, &Vague::apparaitreMonstre);
     timer->start(2000);
     elapsedTime=0;
+
 }
 
+
+void Vague::genererNouveauTableauMonstre() {
+    random_device rd;
+    mt19937 g(rd());
+    shuffle(tableauMonstre.begin(), tableauMonstre.end(), g);
+}
 
 
 void Vague::apparaitreMonstre() {
@@ -42,8 +50,21 @@ void Vague::apparaitreMonstre() {
         elapsedTime = 0; // Réinitialise le temps écoulé à 0
     }
 
+    if (currentIndex >= tableauMonstre.size()) {
+        // Si tous les monstres ont été créés, apparaître le boss
+
+        pair<double,double> positionM1 = Game::getRandomPos(*player, first_circle, second_circle);
+        Monstre* nouveauMonstre = new Boss(false, positionM1, gameTimer, player, scene);
+        scene->addItem(nouveauMonstre);
+        Monstre::vectMonstre.push_back(nouveauMonstre);
+
+        genererNouveauTableauMonstre();
+        currentIndex=0;
+
+
+    }
     // Vérifie si currentIndex est inférieur à la taille du tableauMonstres
-    if (currentIndex < tableauMonstre.size()) {
+    else {
         // Génère des coordonnées aléatoires pour la position du monstre
         pair<double,double> positionM1 = Game::getRandomPos(*player,first_circle,second_circle);
         Monstre* nouveauMonstre= nullptr;
@@ -61,20 +82,5 @@ void Vague::apparaitreMonstre() {
         scene->addItem(nouveauMonstre);// Ajoute le monstre à la scène
         Monstre::vectMonstre.push_back(nouveauMonstre);
 
-    }else{
-        // si tous les monstres ont été crées alors on fait apparaitre un boss
-        if (currentIndex == tableauMonstre.size()){
-            pair<double,double> positionM1 = Game::getRandomPos(*player,first_circle,second_circle);
-            Monstre* nouveauMonstre= nullptr;
-            nouveauMonstre =new Boss(false,positionM1,gameTimer,player,scene);
-            scene->addItem(nouveauMonstre);// Ajoute le monstre à la scène
-            Monstre::vectMonstre.push_back(nouveauMonstre);
-        }
-
-
     }
-
 }
-
-
-

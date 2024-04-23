@@ -13,7 +13,7 @@ class Vague : public QObject
     Q_OBJECT
 public:
     explicit Vague(const vector<string> monstres, QGraphicsScene *scene, QTimer *gameTimer,Player *player=0);
-
+    void genererNouveauTableauMonstre();
 
 
 
