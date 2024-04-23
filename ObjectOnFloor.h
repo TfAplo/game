@@ -7,10 +7,12 @@
 
 class objectOnFloor : public QObject, public QGraphicsPixmapItem{
     Q_OBJECT
+protected:
+    QGraphicsScene* scene;
 private:
     QPointF position;
     QString imageIcone;
-    QGraphicsScene* scene;
+
 
 public:
     objectOnFloor(QPointF position, QString imageIcone,QGraphicsScene* scene,QGraphicsItem *parent = 0);

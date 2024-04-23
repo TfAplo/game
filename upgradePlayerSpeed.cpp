@@ -1,4 +1,6 @@
 #include "upgradePlayerSpeed.h"
+#include <iostream>
+using namespace std;
 
 QString upgradePlayerSpeed::name = QString("Chaussures");
 QString upgradePlayerSpeed::description = QString("Augmente votre vitesse de 10%");

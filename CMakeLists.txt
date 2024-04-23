@@ -76,6 +76,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         bombe.h bombe.cpp
         bouf.h bouf.cpp
         aimant.h aimant.cpp
+        upgradeAttaqueBombes.h upgradeAttaqueBombes.cpp
 
 
 

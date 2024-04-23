@@ -14,6 +14,7 @@ Upgrade::Upgrade(QString name,QString description,QString imageIcone,Player* pla
 // increment le niveau de l'upgrade par 1
 void Upgrade::levelUp(){
     this->level = this->getLevel() + 1;
+    this->effect();
 }
 
 // ---- GETTERS -----

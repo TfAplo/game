@@ -31,8 +31,8 @@ using namespace std;
 #include "upgradeAttaqueShield.h"
 #include "upgradePlayerSpeed.h"
 #include "upgradeAttaqueSelfHeal.h"
+#include "upgradeAttaqueBombes.h"
 // objets
-#include "bombe.h"
 #include "bouf.h"
 #include "aimant.h"
 
@@ -105,6 +105,7 @@ Game::Game(QWidget *parent) {
     upgradeAttaqueShield* shield = new upgradeAttaqueShield(player);
     upgradePlayerSpeed* boots = new upgradePlayerSpeed(player);
     upgradeAttaqueSelfHeal* seringue = new upgradeAttaqueSelfHeal(player);
+    upgradeAttaqueBombes* bombes = new upgradeAttaqueBombes(player);
 
 
 
@@ -113,16 +114,19 @@ Game::Game(QWidget *parent) {
     vecUpgrades.push_back(shield);
     vecUpgrades.push_back(boots);
     vecUpgrades.push_back(seringue);
+    vecUpgrades.push_back(bombes);
 
 
     //current
     vecUpJoueur.push_back(defaultAttaque);
+    vecUpJoueur.push_back(bombes);
+
 
 
 
     // non
     vecUpPasJoueur.push_back(shield);
-    vecUpJoueur.push_back(boots);
+    vecUpPasJoueur.push_back(boots);
     vecUpPasJoueur.push_back(seringue);
 
 
@@ -172,9 +176,8 @@ void Game::addRandomObject(Player* player, QGraphicsScene* scene){
 
     int minDelay = 2000;
     int maxDelay = 6000;
+    cout << "Speed : " <<player->getSpeed() << endl;
     int randomDelay = getRandomDelay(minDelay, maxDelay);
-
-    cout << "spawn" << endl;
 
     QTimer::singleShot(randomDelay, [this,player, scene]() {
         addRandomObject(player, scene);
