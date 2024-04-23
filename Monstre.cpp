@@ -90,7 +90,7 @@ void Monstre::move()
         if (distanceJoueurMonstre<distanceMinMM){
             dx=0;
             dy=0;
-            this->attack(*m_player);
+            attackPlayer();
         }
     }
 
@@ -104,11 +104,19 @@ void Monstre::move()
 
 
 void Monstre::attackPlayer(){
-    if (elapsed>3000){
-        elapsed=0;
-        Projectile *p1 = new Projectile(m_player,scene,make_pair(x(),y()),gameTimer,make_pair(m_player->x(),m_player->y()),this->getDmg());
-        scene->addItem(p1);
+    if (degDistance){
+        if (elapsed>3000){
+            elapsed=0;
+            Projectile *p1 = new Projectile(m_player,scene,make_pair(x(),y()),gameTimer,make_pair(m_player->x(),m_player->y()),this->getDmg());
+            scene->addItem(p1);
 
+        }
+    }
+    else{
+        if (elapsed>1000){
+            this->attack(*m_player);
+            elapsed=0;
+        }
     }
     elapsed+=20;
 }
