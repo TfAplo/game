@@ -18,7 +18,6 @@
 #include <algorithm> // Pour std::find
 using namespace std;
 #include "hud.h"
-#include "Menu.h"
 #include <QApplication>
 #include "Wizard.h"
 #include "Tank.h"
@@ -27,7 +26,7 @@ using namespace std;
 
 Game::Game(QWidget *parent) {
     //créer la scene de menu
-    Menu *menu = new Menu();
+    menu = new Menu();
     connect(menu, &Menu::onPlaySignal, this, &Game::handleSignalPlay);
     connect(menu, &Menu::onExitSignal, this, &Game::handleSignalExit);
     //masque les barres de défilement
@@ -129,12 +128,16 @@ void Game::afficherChoix() {
 
 void Game::makeNewGame(QString choixPerso)
 {
+    inGame = true;
     // creer une scene
     scene = new QGraphicsScene();
 
     // make the newly created scene the scene to visualize (since Game is a QGraphicsView Widget,
     // it can be used to visualize scenes)
     setScene(scene);
+
+    //creation du menu de pause
+    buildPauseMenu();
 
     map = new Map(scene);
 
@@ -190,7 +193,6 @@ void Game::makeNewGame(QString choixPerso)
     //conect le timer avec les methodes des classes
     connect(gameTimer,SIGNAL(timeout()), player,SLOT(move()));
     connect(gameTimer, &QTimer::timeout, this, [this](){
-        cout << player->pos().x() << " " << player->pos().x() << endl;
         centerOn(player);
         player->recupXP();
         player->setFocus();
@@ -203,9 +205,76 @@ void Game::makeNewGame(QString choixPerso)
     tableauMonstre.push_back("ghost");
     tableauMonstre.push_back("sorcier");
     tableauMonstre.push_back("cyclope");
-    Vague *vague = new Vague(tableauMonstre,scene,gameTimer,player);
+    vague = new Vague(tableauMonstre,scene,gameTimer,player);
 
     show();
+}
+
+void Game::keyPressEvent(QKeyEvent *event)
+{
+    QGraphicsView::keyPressEvent(event);
+    if (event->key() == Qt::Key_Escape){
+        if (inGame){
+            if (pauseMenuOut){
+                handleResumeClicked();
+            }
+            else{
+                //mettre le jeu en pause et afficher le menu
+                pauseMenuOut = true;
+                this->gameTimer->stop();
+                buttonResume->setVisible(true);
+                QPointF topLeft = mapToScene(0, 0);
+                buttonResume->setGeometry(448 + topLeft.x(),232+topLeft.y(),buttonResume->width(),buttonResume->height());
+                buttonBackToMenu->setVisible(true);
+                buttonBackToMenu->setGeometry( 448+ topLeft.x(),324+topLeft.y(),buttonBackToMenu->width(),buttonBackToMenu->height());
+                buttonExit->setVisible(true);
+                buttonExit->setGeometry(448 + topLeft.x(), 416+topLeft.y(),buttonExit->width(),buttonExit->height());
+
+            }
+        }
+    }
+}
+
+void Game::buildPauseMenu()
+{
+    //buttonExit est deja utilisé dans une autre scene:
+    QPushButton *oldResumeButton = menu->getButtonResume();
+    QPushButton *oldBackToMenuButton = menu->getButtonBackToMenu();
+    QPushButton *oldExitButton = menu->getButtonExit();
+
+    buttonExit = new QPushButton(oldExitButton->text());
+    buttonExit->setGeometry(oldExitButton->geometry());
+    buttonExit->setStyleSheet(oldExitButton->styleSheet());
+
+    buttonBackToMenu = new QPushButton(oldBackToMenuButton->text());
+    buttonBackToMenu->setGeometry(oldBackToMenuButton->geometry());
+    buttonBackToMenu->setStyleSheet(oldBackToMenuButton->styleSheet());
+
+    buttonResume = new QPushButton(oldResumeButton->text());
+    buttonResume->setGeometry(oldResumeButton->geometry());
+    buttonResume->setStyleSheet(oldResumeButton->styleSheet());
+
+    buttonResume->setVisible(false);
+    buttonBackToMenu->setVisible(false);
+    buttonExit->setVisible(false);
+
+    connect(buttonResume,&QPushButton::clicked,this,&Game::handleResumeClicked);
+    connect(buttonBackToMenu,&QPushButton::clicked,this,&Game::handleBackToMenuClicked);
+    connect(buttonExit,&QPushButton::clicked,this,&Game::handleExitClicked);
+
+    // Ajouter les boutons à la scène
+    QGraphicsProxyWidget *resumeProxy = scene->addWidget(buttonResume);
+    QGraphicsProxyWidget *backToMenuProxy = scene->addWidget(buttonBackToMenu);
+    QGraphicsProxyWidget *exitProxy = scene->addWidget(buttonExit);
+    proxis.push_back(resumeProxy);
+    proxis.push_back(backToMenuProxy);
+    proxis.push_back(exitProxy);
+
+    // Définir une valeur Z élevée pour les proxies des boutons
+    resumeProxy->setZValue(10);
+    backToMenuProxy->setZValue(10);
+    exitProxy->setZValue(10);
+
 }
 
 void Game::handleSignalFromPlayer() {
@@ -242,6 +311,52 @@ void Game::handleSignalPlay(QString name)
 }
 
 void Game::handleSignalExit()
+{
+    QApplication::instance()->quit();
+}
+
+void Game::handleResumeClicked()
+{
+    //enlever le menu de pause et reprendre partie
+    buttonResume->setVisible(false);
+    buttonBackToMenu->setVisible(false);
+    buttonExit->setVisible(false);
+
+    pauseMenuOut = false;
+    this->gameTimer->start(20);
+}
+
+void Game::handleBackToMenuClicked()
+{
+    inGame = false;
+    pauseMenuOut = false;
+    delete vague;
+    for(Monstre* monstre: Monstre::vectMonstre){
+        delete monstre;
+    }
+    Monstre::vectMonstre.clear();
+    for(OrbeXP* orbe: OrbeXP::vecOrbeXP){
+        delete orbe;
+    }
+    OrbeXP::vecOrbeXP.clear();
+    for (const auto& proxi: proxis){
+        scene->removeItem(proxi);
+    }
+    proxis.clear();
+    delete map;
+    delete player;
+    delete gameTimer;
+    delete buttonBackToMenu;
+    delete buttonResume;
+    delete buttonExit;
+    vecUpJoueur.clear();
+    vecUpPasJoueur.clear();
+    vecUpgrades.clear();
+
+    setScene(menu);
+}
+
+void Game::handleExitClicked()
 {
     QApplication::instance()->quit();
 }

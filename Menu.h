@@ -12,6 +12,11 @@ public:
     Menu(QObject *parent = nullptr);
     void displayCharacter(QString image,QString name,QString hp, QString dmg, QString speed, int posX, int posY);
 
+    QPushButton *getButtonResume();
+    QPushButton *getButtonBackToMenu();
+    QPushButton *getButtonExit();
+    void buildPauseMenu();
+
 private:
     //Menu
     QPushButton *buttonPlay;
@@ -22,6 +27,12 @@ private:
     QPushButton *buttonBackFromChoice;
     std::vector<QGraphicsRectItem*> choixPersos;
     std::vector<QPushButton*> ChooseButtons;
+
+    //pause menu
+    QPushButton *buttonResume;
+    QPushButton *buttonBackToMenu;
+
+    //deathScreen
 
 public slots:
     void onExitClicked();

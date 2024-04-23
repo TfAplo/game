@@ -14,10 +14,12 @@ Menu::Menu(QObject *parent) : QGraphicsScene(parent) {
     buttonPlay = new QPushButton("Play");
     buttonSettings = new QPushButton("Settings");
     buttonExit = new QPushButton("Exit");
+    buildPauseMenu();
 
     QString buttonStyleSheet =
         "QPushButton {"
-        "   background-color: rgba(0, 0, 0, 40);"
+        "   color: white;"
+        "   background-color: rgba(0, 0, 0, 100);"
         "   border: none;"
         "   padding: 10px 20px;"
         "   font-size: 30px;"
@@ -30,6 +32,8 @@ Menu::Menu(QObject *parent) : QGraphicsScene(parent) {
     buttonPlay->setStyleSheet(buttonStyleSheet);
     buttonSettings->setStyleSheet(buttonStyleSheet);
     buttonExit->setStyleSheet(buttonStyleSheet);
+    buttonResume->setStyleSheet(buttonStyleSheet);
+    buttonBackToMenu->setStyleSheet(buttonStyleSheet);
 
     // Positionnement des boutons
     int buttonWidth =0.3*windowWidth;
@@ -38,7 +42,9 @@ Menu::Menu(QObject *parent) : QGraphicsScene(parent) {
     int yPos = (windowHeight - (3 * buttonHeight + 2 * 20)) / 2; // Calcul de la position verticale du premier bouton
 
     buttonPlay->setGeometry(middleWidth, yPos, buttonWidth, buttonHeight);
+    buttonResume->setGeometry(middleWidth, yPos, buttonWidth, buttonHeight);//placement du bouton pour plus tard
     yPos += buttonHeight + 20; // Incrément de la position pour le prochain bouton
+    buttonBackToMenu->setGeometry(middleWidth, yPos, buttonWidth, buttonHeight);//placement du bouton pour plus tard
     buttonSettings->setGeometry(middleWidth, yPos, buttonWidth, buttonHeight);
     yPos += buttonHeight + 20;
     buttonExit->setGeometry(middleWidth, yPos, buttonWidth, buttonHeight);
@@ -112,6 +118,27 @@ void Menu::displayCharacter(QString image, QString name, QString hp, QString dmg
     buttonChoose->setGeometry(posX+50,posY+260, 100,20);
     addWidget(buttonChoose);
 
+}
+
+QPushButton *Menu::getButtonResume()
+{
+    return buttonResume;
+}
+
+QPushButton *Menu::getButtonBackToMenu()
+{
+    return buttonBackToMenu;
+}
+
+void Menu::buildPauseMenu()
+{
+    buttonResume = new QPushButton("Resume");
+    buttonBackToMenu = new QPushButton("Back to Menu");
+}
+
+QPushButton *Menu::getButtonExit()
+{
+    return buttonExit;
 }
 
 void Menu::displayMenu()
