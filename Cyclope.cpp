@@ -2,8 +2,8 @@
 
 #include <QTimer>
 
-Cyclope::Cyclope(bool initNoCreation,pair<double,double> position, QTimer *gameTimer, Player *player, QGraphicsScene *scene, QGraphicsItem *parent)
-    : Monstre(initNoCreation,false, "", position, 100., 100., 1.5, 10., gameTimer, player, scene, parent),position(position) {
+Cyclope::Cyclope(bool initNoCreation,pair<double,double> position,double hp,double speed,double dmg, QTimer *gameTimer, Player *player, QGraphicsScene *scene, QGraphicsItem *parent)
+    : Monstre(initNoCreation,false, "", position, hp, hp, speed, dmg, gameTimer, player, scene, parent),position(position) {
     if (!initNoCreation){
         // Charger la texture du Monstre
         QPixmap ghostTexture(":/graphics/Tiles/tile_0109.png");

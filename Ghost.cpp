@@ -1,8 +1,8 @@
 #include "Ghost.h"
 #include <QTimer>
 
-Ghost::Ghost(bool initNoCreation,pair<double,double> position, QTimer *gameTimer, Player *player, QGraphicsScene *scene, QGraphicsItem *parent)
-    : Monstre(initNoCreation,false, "", position, 100., 100., 2., 10., gameTimer, player, scene, parent),position(position) {
+Ghost::Ghost(bool initNoCreation,pair<double,double> position,double hp, double speed, double dmg, QTimer *gameTimer, Player *player, QGraphicsScene *scene, QGraphicsItem *parent)
+    : Monstre(initNoCreation,false, "", position, hp, hp, speed, dmg, gameTimer, player, scene, parent),position(position) {
     if (!initNoCreation){
         // Charger la texture du Monstre
         QPixmap ghostTexture(":/graphics/Tiles/tile_0108.png");
