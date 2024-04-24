@@ -123,7 +123,6 @@ void Monstre::attackPlayer(){
 
 void Monstre::testMort()
 {
-    //this->takeDamage(110.);
     if (getCurrent_hp() == 0){
         OrbeXP *orbe=new OrbeXP("nom",make_pair(x(),y()),10.);
 

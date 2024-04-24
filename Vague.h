@@ -29,6 +29,8 @@ private:
     QTimer *gameTimer;
     Player *player;
     int elapsedTime;
+    int elapsedGameTimer;
+    int timeSpawn;
 
     // attributs concernant les stats des monstres
     double Ghost_hp=100.;
