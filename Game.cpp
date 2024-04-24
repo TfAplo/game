@@ -31,6 +31,9 @@ using namespace std;
 #include "upgradeAttaqueShield.h"
 #include "upgradePlayerSpeed.h"
 #include "upgradeAttaqueSelfHeal.h"
+#include "upgradeAttaqueArc.h"
+#include "upgradeAttaqueHache.h"
+#include "upgradePlayerArmor.h"
 // objets
 #include "bombe.h"
 #include "bouf.h"
@@ -105,7 +108,9 @@ Game::Game(QWidget *parent) {
     upgradeAttaqueShield* shield = new upgradeAttaqueShield(player);
     upgradePlayerSpeed* boots = new upgradePlayerSpeed(player);
     upgradeAttaqueSelfHeal* seringue = new upgradeAttaqueSelfHeal(player);
-
+    upgradeAttaqueArc* arc = new upgradeAttaqueArc(player);
+    upgradeAttaqueHache* hache = new upgradeAttaqueHache(player);
+    upgradePlayerArmor* armor = new upgradePlayerArmor(player);
 
 
     // All
@@ -113,17 +118,20 @@ Game::Game(QWidget *parent) {
     vecUpgrades.push_back(shield);
     vecUpgrades.push_back(boots);
     vecUpgrades.push_back(seringue);
-
+    vecUpgrades.push_back(arc);
+    vecUpgrades.push_back(hache);
+    vecUpgrades.push_back(armor);
 
     //current
     vecUpJoueur.push_back(defaultAttaque);
-
-
+    vecUpPasJoueur.push_back(armor);
 
     // non
     vecUpPasJoueur.push_back(shield);
-    vecUpJoueur.push_back(boots);
+    vecUpPasJoueur.push_back(boots);
     vecUpPasJoueur.push_back(seringue);
+    vecUpPasJoueur.push_back(arc);
+    vecUpPasJoueur.push_back(hache);
 
 
     //nouvel objet

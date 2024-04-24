@@ -18,21 +18,32 @@ double Personnage::getDmg() const
     return dmg;
 }
 
-Personnage::Personnage(const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, QGraphicsItem *parent) :
-    QObject(), QGraphicsPixmapItem(parent), image(image), position(position), current_hp(current_hp), max_hp(max_hp), speed(speed), dmg(dmg) {}
+Personnage::Personnage(const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg,QGraphicsItem *parent) :
+    QObject(), QGraphicsPixmapItem(parent), image(image), position(position), current_hp(current_hp), max_hp(max_hp), speed(speed), dmg(dmg), armor(0) {}
 
 void Personnage::takeDamage(double dmg)
 {
-    //verifier qu'on ne descent pas en dessous de 0
-    if(this->current_hp - dmg >= 0.){
-        this->current_hp -= dmg;
-    } else {
-        // on met a 0
-        this->current_hp = 0.;
-    }
+    if(dmg - this->armor > 0){
+        cout << "dmg : " << dmg << endl;
+        cout << "armor : " << this->armor << endl;
+        double current_damage = dmg - this->armor;
+        cout << "current_damage : " << current_damage << endl;
+        //verifier qu'on ne descent pas en dessous de 0
+        if(this->current_hp  - current_damage  >= 0.){
+            cout << "this->current_hp : " << this->current_hp << endl;
+            this->current_hp -= current_damage;
+            cout << "this->current_hp : " << this->current_hp << endl;
+        } else {
+            // on met a 0
+            this->current_hp = 0.;
+        }
 
-    DamageIndicator *indic = new DamageIndicator(pos().x(),pos().y(),dmg);
-    scene()->addItem(indic);
+        DamageIndicator *indic = new DamageIndicator(pos().x(),pos().y(),current_damage);
+        scene()->addItem(indic);
+    }else{
+        DamageIndicator *indic = new DamageIndicator(pos().x(),pos().y(),0);
+        scene()->addItem(indic);
+    }
 }
 
 void Personnage::attack(Personnage &other)
@@ -78,6 +89,15 @@ void Personnage::setPosition(const pair<double,double> newPosition){
 //ajout
 pair<double, double> Personnage::getPos(){
     return this->position;
+}
+
+//ajout par bastien
+double Personnage::getArmor(){
+    return this->armor;
+}
+
+void Personnage::setArmor(double armor){
+    this->armor = armor;
 }
 
 //fin ajout

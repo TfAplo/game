@@ -1,6 +1,8 @@
 #include "upgradeAttaqueDefault.h"
 #include "Fonctions.h"
 #include "Monstre.h"
+#include <QMovie>
+#include <QLabel>
 
 QString upgradeAttaqueDefault::name = QString("Epee");
 QString upgradeAttaqueDefault::description = QString("Coup d'epee");
@@ -65,5 +67,4 @@ void upgradeAttaqueDefault::affichage(){
         imageRemovalTimer->deleteLater();
     });
     imageRemovalTimer->start(this->getAnimationDuration());
-
 }
