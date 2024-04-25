@@ -14,7 +14,7 @@ private:
     static double valueBoost;
 
 public:
-    upgradeAttaqueSelfHeal(Player* player);
+    upgradeAttaqueSelfHeal(Player* player,QTimer* gameTimer);
 
     virtual void effect();
     void affichage();

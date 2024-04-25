@@ -9,8 +9,8 @@ double upgradeAttaqueSelfHeal::cooldown = 10000;
 double upgradeAttaqueSelfHeal::animationDuration = 0;
 double upgradeAttaqueSelfHeal::valueBoost = 10;
 
-upgradeAttaqueSelfHeal::upgradeAttaqueSelfHeal(Player* player) :
-    upgradeAttaque(name,description,imageIcone,player,cooldown,animationDuration,imageIcone){}
+upgradeAttaqueSelfHeal::upgradeAttaqueSelfHeal(Player* player,QTimer* gameTimer) :
+    upgradeAttaque(name,description,imageIcone,player,cooldown,animationDuration,imageIcone,gameTimer){}
 
 
 void upgradeAttaqueSelfHeal::effect(){

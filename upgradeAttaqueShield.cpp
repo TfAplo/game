@@ -7,8 +7,8 @@ QString upgradeAttaqueShield::imageIcone = QString(":/graphics/UpgradeImages/Arm
 double upgradeAttaqueShield::cooldown = 400;
 double upgradeAttaqueShield::animationDuration = 0;
 
-upgradeAttaqueShield::upgradeAttaqueShield(Player *player)
-    : upgradeAttaque(name,description,imageIcone,player,cooldown,animationDuration,imageIcone)
+upgradeAttaqueShield::upgradeAttaqueShield(Player *player,QTimer* gameTimer)
+    : upgradeAttaque(name,description,imageIcone,player,cooldown,animationDuration,imageIcone,gameTimer)
 {
 
 }

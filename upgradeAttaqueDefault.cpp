@@ -8,8 +8,8 @@ QString upgradeAttaqueDefault::imageIcone = QString(":/graphics/UpgradeImages/Ep
 double upgradeAttaqueDefault::cooldown = 500;
 double upgradeAttaqueDefault::animationDuration = 300;
 
-upgradeAttaqueDefault::upgradeAttaqueDefault(Player *player)
-    : upgradeAttaque(name,description,imageIcone,player,cooldown,animationDuration,imageIcone)
+upgradeAttaqueDefault::upgradeAttaqueDefault(Player *player,QTimer* gameTimer)
+    : upgradeAttaque(name,description,imageIcone,player,cooldown,animationDuration,imageIcone,gameTimer)
 {
     setActif();
 }
@@ -35,7 +35,6 @@ void upgradeAttaqueDefault::effect(){
     affichage();
 }
 // connecter le timer au gameTimer
-
 void upgradeAttaqueDefault::affichage(){
     //afficher une image
     QGraphicsPixmapItem* attackEffect = new QGraphicsPixmapItem(QPixmap(this->getImageIcone()));
@@ -55,7 +54,6 @@ void upgradeAttaqueDefault::affichage(){
     }
 
     player->scene()->addItem(attackEffect);
-    //supprimer l'image
 
     //supprimer l'image
     QTimer *imageRemovalTimer = new QTimer(this);

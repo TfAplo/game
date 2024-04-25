@@ -38,6 +38,7 @@ using namespace std;
 
 
 Game::Game(QWidget *parent) {
+
     // create the scene
     scene = new QGraphicsScene();
 
@@ -101,11 +102,11 @@ Game::Game(QWidget *parent) {
 
 
     // AJOUT ATTAQUES
-    upgradeAttaqueDefault* defaultAttaque = new upgradeAttaqueDefault(player);
-    upgradeAttaqueShield* shield = new upgradeAttaqueShield(player);
+    upgradeAttaqueDefault* defaultAttaque = new upgradeAttaqueDefault(player,gameTimer);
+    upgradeAttaqueShield* shield = new upgradeAttaqueShield(player,gameTimer);
     upgradePlayerSpeed* boots = new upgradePlayerSpeed(player);
-    upgradeAttaqueSelfHeal* seringue = new upgradeAttaqueSelfHeal(player);
-    upgradeAttaqueBombes* bombes = new upgradeAttaqueBombes(player);
+    upgradeAttaqueSelfHeal* seringue = new upgradeAttaqueSelfHeal(player,gameTimer);
+    upgradeAttaqueBombes* bombes = new upgradeAttaqueBombes(player,gameTimer);
 
 
 
@@ -119,7 +120,6 @@ Game::Game(QWidget *parent) {
 
     //current
     vecUpJoueur.push_back(defaultAttaque);
-    vecUpJoueur.push_back(bombes);
 
 
 
@@ -128,6 +128,7 @@ Game::Game(QWidget *parent) {
     vecUpPasJoueur.push_back(shield);
     vecUpPasJoueur.push_back(boots);
     vecUpPasJoueur.push_back(seringue);
+    vecUpPasJoueur.push_back(bombes);
 
 
     //nouvel objet
@@ -138,15 +139,23 @@ Game::Game(QWidget *parent) {
     addRandomObject(player,scene);
 
     QTimer* verifyCollisionObjet = new QTimer(this);
-    connect(verifyCollisionObjet, &QTimer::timeout, this,[this,&fonctions](){
-        // verifier si le player entre en collision avec des objets sur la map
-        for(const auto& obj : objects){
-            if(fonctions.isCollide(player->pos(),obj->pos())){
+    connect(verifyCollisionObjet, &QTimer::timeout, this, [this, &fonctions]() {
+        // Vecteur pour stocker les indices des objets à supprimer
+        QVector<int> indicesToDelete;
+
+        // Parcourir les objets dans le vecteur
+        for (int i = 0; i < objects.size(); ++i) {
+            auto obj = objects[i];
+            if (fonctions.isCollide(player->pos(), obj->pos())) {
                 obj->catchObject();
-                //supprimer de la scene et du vecteur
                 scene->removeItem(obj);
-                //delete obj;
+                indicesToDelete.append(i);
             }
+        }
+        for (int i = indicesToDelete.size() - 1; i >= 0; --i) {
+            int index = indicesToDelete[i];
+            delete objects[index];
+            objects.erase(objects.begin() + index);
         }
     });
     verifyCollisionObjet->start(200);
@@ -174,9 +183,8 @@ void Game::addRandomObject(Player* player, QGraphicsScene* scene){
     }
 
 
-    int minDelay = 2000;
-    int maxDelay = 6000;
-    cout << "Speed : " <<player->getSpeed() << endl;
+    int minDelay = 20000;
+    int maxDelay = 60000;
     int randomDelay = getRandomDelay(minDelay, maxDelay);
 
     QTimer::singleShot(randomDelay, [this,player, scene]() {

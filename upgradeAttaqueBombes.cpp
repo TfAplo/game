@@ -1,18 +1,16 @@
 #include "upgradeAttaqueBombes.h"
 #include "bombe.h"
-#include <iostream>
-using namespace std;
 
 QString upgradeAttaqueBombes::name = QString("Bombes");
 QString upgradeAttaqueBombes::description = QString("lache des bombes ");
 QString upgradeAttaqueBombes::imageIcone = QString(":/graphics/Tiles/bombe_pixel.png");
-double upgradeAttaqueBombes::cooldown = 2000;
+double upgradeAttaqueBombes::cooldown = 5000;
 double upgradeAttaqueBombes::animationDuration = 300;
 
-upgradeAttaqueBombes::upgradeAttaqueBombes(Player *player)
-    : upgradeAttaque(name,description,imageIcone,player,cooldown,animationDuration,imageIcone)
+upgradeAttaqueBombes::upgradeAttaqueBombes(Player *player,QTimer* gameTimer)
+    : upgradeAttaque(name,description,imageIcone,player,cooldown,animationDuration,imageIcone,gameTimer)
 {
-    this->setActif();
+
 }
 
 

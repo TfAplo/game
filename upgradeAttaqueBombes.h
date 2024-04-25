@@ -14,7 +14,7 @@ private:
     static double animationDuration;
 
 public:
-    upgradeAttaqueBombes(Player* player);
+    upgradeAttaqueBombes(Player* player,QTimer* gameTimer);
 
     virtual void effect();
     void affichage();

@@ -25,7 +25,7 @@ void bombe::explosion(Player* player){
     int dmg = 50 + this->level * 5;
 
     //calculer une zone en cercle autour du joueur en fonction du level
-    int taille = width + (30 * this->level) / 100;
+    int taille = width + (300 * this->level) / 100;
 
     for(const auto& monstre : Monstre::vectMonstre){
         // si la position du monstre est dans le cercle on lui inflige des degats
@@ -38,10 +38,6 @@ void bombe::explosion(Player* player){
         }
 
     }
-
-    //supprimer la bombe de la scene
-    scene->removeItem(this);
-
     delete this;
 }
 

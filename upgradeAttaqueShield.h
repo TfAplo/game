@@ -13,7 +13,7 @@ private:
     static double animationDuration;
 
 public:
-    upgradeAttaqueShield(Player* player);
+    upgradeAttaqueShield(Player* player,QTimer* gameTimer);
 
     virtual void effect();
     void affichage();
