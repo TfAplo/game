@@ -8,7 +8,7 @@
 class Sorcier : public Monstre {
     Q_OBJECT
 public:
-    Sorcier(bool initNoCreation, pair<double,double> position,double hp,double speed,double dmg, QTimer *gameTimer, Player *player = nullptr, QGraphicsScene *scene = nullptr, QGraphicsItem *parent = nullptr);
+    Sorcier(pair<double,double> position,double hp,double speed,double dmg, QTimer *gameTimer, Player *player = nullptr, QGraphicsScene *scene = nullptr, QGraphicsItem *parent = nullptr);
 
     virtual ~Sorcier(){};
 

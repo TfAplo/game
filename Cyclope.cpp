@@ -2,19 +2,19 @@
 
 #include <QTimer>
 
-Cyclope::Cyclope(bool initNoCreation,pair<double,double> position,double hp,double speed,double dmg, QTimer *gameTimer, Player *player, QGraphicsScene *scene, QGraphicsItem *parent)
-    : Monstre(initNoCreation,false, "", position, hp, hp, speed, dmg, gameTimer, player, scene, parent),position(position) {
-    if (!initNoCreation){
-        // Charger la texture du Monstre
-        QPixmap ghostTexture(":/graphics/Tiles/tile_0109.png");
-        setPixmap(ghostTexture.scaled(32, 32)); // Ajuster la taille de la texture du joueur
+Cyclope::Cyclope(pair<double,double> position,double hp,double speed,double dmg, QTimer *gameTimer, Player *player, QGraphicsScene *scene, QGraphicsItem *parent)
+    : Monstre(false, "", position, hp, hp, speed, dmg, gameTimer, player, scene, parent),position(position) {
 
-        setPos(position.first, position.second);
+    // Charger la texture du Monstre
+    QPixmap cyclopeTexture(":/graphics/Tiles/tile_0109.png");
+    setPixmap(cyclopeTexture.scaled(32, 32)); // Ajuster la taille de la texture du joueur
 
-        connect(gameTimer, &QTimer::timeout, this, &Monstre::move);
+    setPos(position.first, position.second);
 
-        elapsed=0;
-    }
+    connect(gameTimer, &QTimer::timeout, this, &Monstre::move);
+
+    elapsed=0;
+
 
 }
 

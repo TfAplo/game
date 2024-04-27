@@ -10,10 +10,9 @@ using namespace std;
 
 vector<Monstre*> Monstre::vectMonstre;
 
-Monstre::Monstre(bool initNoCreation,bool degDistance,const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, QTimer *gameTimer,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
+Monstre::Monstre(bool degDistance,const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, QTimer *gameTimer,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
     Personnage(image,position,current_hp,max_hp,speed,dmg,parent), m_player(player),scene(scene), degDistance(degDistance),gameTimer(gameTimer)
 {
-    //QTimer::singleShot(10000,this,&Monstre::testMort);
 }
 
 
@@ -56,9 +55,7 @@ void Monstre::move()
 
     // Vérifier les collisions avec les autres monstres
     for (Monstre* other_monster : vectMonstre) {
-        // Exclure le monstre lui-même
         if (other_monster != this) {
-            // Calculer la distance entre les monstres
             qreal distanceMonstre = qSqrt((positionX - other_monster->x()) * (positionX - other_monster->x()) + (positionY - other_monster->y()) * (positionY - other_monster->y()));
             // Si la distance est inférieure à la distance minimale, ajuster le déplacement
             if (distanceMonstre < distanceMinMM) {

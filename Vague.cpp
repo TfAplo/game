@@ -59,7 +59,7 @@ void Vague::apparaitreMonstre() {
             // Si tous les monstres ont été créés, apparaître le boss
 
             pair<double,double> positionM1 = Game::getRandomPos(*player, first_circle, second_circle);
-            Monstre* nouveauMonstre = new Boss(false, positionM1, Boss_hp,Boss_speed,Boss_dmg, gameTimer, player, scene);
+            Monstre* nouveauMonstre = new Boss(positionM1, Boss_hp,Boss_speed,Boss_dmg, gameTimer, player, scene);
             scene->addItem(nouveauMonstre);
             Monstre::vectMonstre.push_back(nouveauMonstre);
 
@@ -99,13 +99,13 @@ void Vague::apparaitreMonstre() {
             Monstre* nouveauMonstre= nullptr;
             // Crée un nouvel objet Monstre avec les données du monstre actuel dans le tableauMonstres
             if (tableauMonstre[currentIndex] == "ghost") {
-                nouveauMonstre =new Ghost(false,positionM1,Ghost_hp,Ghost_speed,Ghost_dmg,gameTimer,player,scene);
+                nouveauMonstre =new Ghost(positionM1,Ghost_hp,Ghost_speed,Ghost_dmg,gameTimer,player,scene);
             }
             else if (tableauMonstre[currentIndex] == "sorcier"){
-                nouveauMonstre =new Sorcier(false,positionM1,Sorcier_hp,Sorcier_speed,Sorcier_dmg,gameTimer,player,scene);
+                nouveauMonstre =new Sorcier(positionM1,Sorcier_hp,Sorcier_speed,Sorcier_dmg,gameTimer,player,scene);
             }
             else if (tableauMonstre[currentIndex] == "cyclope"){
-                nouveauMonstre =new Cyclope(false,positionM1,Cyclope_hp,Cyclope_speed,Cyclope_dmg,gameTimer,player,scene);
+                nouveauMonstre =new Cyclope(positionM1,Cyclope_hp,Cyclope_speed,Cyclope_dmg,gameTimer,player,scene);
             }
 
             scene->addItem(nouveauMonstre);// Ajoute le monstre à la scène
