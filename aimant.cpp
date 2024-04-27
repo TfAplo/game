@@ -1,5 +1,5 @@
 #include "aimant.h"
-#include <iostream>
+#include "OrbeXP.h"
 using namespace std;
 
 QString aimant::imageIcone = QString(":/graphics/Tiles/aimant.png");
@@ -9,6 +9,13 @@ aimant::aimant(QGraphicsScene* scene, Player* player,QPointF position) :
     this->player = player;
 }
 
+// recuperer toutes les orbes sur la map
 void aimant::catchObject(){
-    cout << "aimant" << endl;
+    for (auto it = OrbeXP::vecOrbeXP.begin(); it != OrbeXP::vecOrbeXP.end(); ++it) {
+        OrbeXP* orbeXP = *it;
+        player->ajouterXP(orbeXP->getXP());
+        delete orbeXP;
+        OrbeXP::vecOrbeXP.erase(it);
+        --it;
+        }
 }
