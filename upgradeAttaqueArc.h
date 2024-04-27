@@ -11,13 +11,14 @@ private:
     static QString imageIcone;
     static double cooldown;
     static double animationDuration;
+    QTimer *gameTimer;
 
 public:
-    upgradeAttaqueArc(Player* player);
+    upgradeAttaqueArc(Player* player, QTimer *gameTimer);
 
     virtual void effect();
     void affichage();
-
+    double calculDistance(const QPointF &point1, const QPointF &point2);
 };
 
 #endif // UPGRADEATTAQUEARC_H

@@ -143,6 +143,8 @@
         <file>UpgradeImages/Arc.png</file>
         <file>UpgradeImages/Bouclier.png</file>
         <file>UpgradeImages/Armure.png</file>
+        <file>UpgradeImages/Coeur.png</file>
+        <file>UpgradeImages/Fleche.png</file>
     </qresource>
     <qresource prefix="/Niveaux"/>
     <qresource prefix="/">

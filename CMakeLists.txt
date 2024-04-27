@@ -79,6 +79,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         upgradeAttaqueArc.h upgradeAttaqueArc.cpp
         upgradeAttaqueHache.h upgradeAttaqueHache.cpp
         upgradePlayerArmor.h upgradePlayerArmor.cpp
+        upgradePlayerHealth.h upgradePlayerHealth.cpp
+        Fleche.h Fleche.cpp
 
 
 

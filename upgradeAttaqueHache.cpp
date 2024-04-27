@@ -11,7 +11,6 @@ double upgradeAttaqueHache::animationDuration = 350;
 
 upgradeAttaqueHache::upgradeAttaqueHache(Player *player)
     : upgradeAttaque(name,description,imageIcone,player,cooldown,animationDuration,imageIcone){
-    setActif();
 }
 
 void upgradeAttaqueHache::effect(){

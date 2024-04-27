@@ -24,15 +24,10 @@ Personnage::Personnage(const QString& image, pair<double, double> position, doub
 void Personnage::takeDamage(double dmg)
 {
     if(dmg - this->armor > 0){
-        cout << "dmg : " << dmg << endl;
-        cout << "armor : " << this->armor << endl;
         double current_damage = dmg - this->armor;
-        cout << "current_damage : " << current_damage << endl;
         //verifier qu'on ne descent pas en dessous de 0
         if(this->current_hp  - current_damage  >= 0.){
-            cout << "this->current_hp : " << this->current_hp << endl;
             this->current_hp -= current_damage;
-            cout << "this->current_hp : " << this->current_hp << endl;
         } else {
             // on met a 0
             this->current_hp = 0.;

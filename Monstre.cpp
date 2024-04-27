@@ -106,7 +106,7 @@ void Monstre::move()
 void Monstre::attackPlayer(){
     if (elapsed>3000){
         elapsed=0;
-        Projectile *p1 = new Projectile(m_player,scene,make_pair(x(),y()),gameTimer,make_pair(m_player->x(),m_player->y()),this->getDmg());
+        Projectile *p1 = new Projectile(m_player,scene,make_pair(x(),y()),gameTimer,make_pair(m_player->x(),m_player->y()),this->getDmg(),":/graphics/Tiles/tile_0102.png");
         scene->addItem(p1);
 
     }
