@@ -10,13 +10,11 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <iostream>
 #include "ChoixNiveauUp.h"
 #include "upgrade.h"
 #include <random> // pour std::random_device et std::mt19937
 #include <set>
 #include <algorithm> // Pour std::find
-#include <iostream>
 using namespace std;
 #include "hud.h"
 #include <QApplication>
@@ -89,11 +87,9 @@ pair<int,int> Game::getRandomPos(Player& player, int first_circle, int second_ci
     // random compris entre les deux rayon
     int randDist = first_circle  + rand() % (second_circle - first_circle + 1);
     double randomAngle = (rand() / (RAND_MAX / (2 * M_PI))); // Angle aléatoire
-    //cout << randDist <<": " <<randomAngle << Qt::endl;
 
     int x = player.pos().x() + randDist * cos(randomAngle);
     int y = player.pos().y() + randDist * sin(randomAngle);
-    //cout << x <<": " <<y << Qt::endl;
     return make_pair(x,y);
 }
 
@@ -137,8 +133,6 @@ void Game::afficherChoix() {
     vector<Upgrade*> vecUpgradeChoix(3);
     vector<bool> estNouveau(3);
     set<int> indicesChoisis;
-    cout << nbObjetNouveau << endl;
-    cout << nbObjetPasNouveau << endl;
     for (int i=0; i<nbObjetPasNouveau; i++) { //i<nbObjetPasNouveau
         random_device rd;
         mt19937 gen(rd());
@@ -207,34 +201,6 @@ void Game::makeNewGame(QString choixPerso)
 
     connect(player, &Player::signalToGame, this, &Game::handleSignalFromPlayer);
 
-    vector<pair<string, string>> vecUpgradeNoms = {
-        {"Arme", "Epee"},
-        {"Arme", "Hache"},
-        {"Arme", "Sceptre"},
-        {"Gadget", "Chaussures"},
-        {"Gadget", "Ailes"},
-        {"Gadget", "Armure"}
-    };
-    vecUpgrades = Upgrade::initUpgrade(vecUpgradeNoms);
-    bool arme = false, gadget = false;
-    for (Upgrade* upgrade : vecUpgrades) {
-        if (upgrade->estArme()) {
-            if (!arme) {
-                arme = true;
-                vecUpJoueur.push_back(upgrade);
-            } else {
-                vecUpPasJoueur.push_back(upgrade);
-            }
-        } else if (upgrade->estGadget()) {
-            if (!gadget) {
-                gadget = true;
-                vecUpJoueur.push_back(upgrade);
-            } else {
-                vecUpPasJoueur.push_back(upgrade);
-            }
-        }
-    }
-
     //timer du jeu
     gameTimer = new QTimer(this);
 
@@ -285,9 +251,8 @@ void Game::makeNewGame(QString choixPerso)
 
     //current
     vecUpJoueur.push_back(defaultAttaque);
-
-
-
+    //mettre a jour l'hud
+    hud->updateItems(vecUpJoueur);
 
     // non
     vecUpPasJoueur.push_back(shield);
@@ -468,18 +433,9 @@ void Game::handleSignalFinChoix(Upgrade *upgrade) {
 
         // Supprimer l'élément de vecUpPasJoueur
         vecUpPasJoueur.erase(it);
+        //mettre a jour l'hud
+        hud->updateItems(vecUpJoueur);
     }
-
-    cout << "vecUpJoueur : ";
-    for (Upgrade *upgrade : vecUpJoueur) {
-        cout << upgrade->getName().toStdString() << " lvl " << upgrade->getLevel() << " - ";
-    }
-    cout << endl;
-    cout << "vecUpPasJoueur : ";
-    for (Upgrade *upgrade : vecUpPasJoueur) {
-        cout << upgrade->getName().toStdString() << " lvl " << upgrade->getLevel()  << " - ";
-    }
-    cout << endl;
     inGame=true;
 }
 
@@ -522,7 +478,6 @@ void Game::handleBackToMenuClicked()
     }
     proxis.clear();
     delete map;
-    delete player;
     delete gameTimer;
     delete buttonBackToMenu;
     delete buttonResume;
@@ -530,7 +485,6 @@ void Game::handleBackToMenuClicked()
     vecUpJoueur.clear();
     vecUpPasJoueur.clear();
     vecUpgrades.clear();
-
     setScene(menu);
 }
 

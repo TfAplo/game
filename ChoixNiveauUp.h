@@ -10,7 +10,6 @@
 #include <QGraphicsTextItem>
 #include <QTimer>
 #include <vector>
-#include <iostream>
 #include "upgrade.h"
 
 using namespace std;

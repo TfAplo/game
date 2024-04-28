@@ -128,7 +128,6 @@ void Player::recupXP() {
             // vecASupp.push_back(orbeXP); // Je commente cette ligne car vous n'utilisez pas vecASupp
             // ajouter l'XP au joueur
             this->ajouterXP(orbeXP->getXP());
-            cout << "Xp augmentee : " << xp << endl;
             delete orbeXP; // Supprime l'objet orbeXP
             OrbeXP::vecOrbeXP.erase(it); // Supprime l'élément du vecteur
             --it; // Décrémente l'itérateur pour rester sur le bon élément après l'effacement
@@ -144,11 +143,7 @@ void Player::augmenterNiveau(double niv) {
     this->niveau += niv;
     this->xp = this->xp - this->limiteXP;
     this->limiteXP *= 1.5;
-
-    cout << "Niveau augmente : " << this->getNiveau() << endl;
-    cout << "ixi" << endl;
     emit signalToGame();
-    cout << "ixi" << endl;
 }
 
 void Player::ajouterXP(double xp) {

@@ -3,6 +3,7 @@
 
 #include "Player.h"
 #include "xpbar.h"
+#include "upgrade.h"
 #include <QTimer>
 #include <QTime>
 
@@ -22,7 +23,7 @@ public:
     HUD(Player *player,QTimer *gameTimer,QGraphicsScene *scene, QGraphicsView *view);
     void update();
     void updateTime();
-    void updateItems();
+    void updateItems(vector<Upgrade*> &vec);
     QString getTime();
     void hideTimer();
 };

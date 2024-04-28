@@ -17,8 +17,6 @@ HUD::HUD(Player *player, QTimer *gameTimer,QGraphicsScene *scene,QGraphicsView *
     startTime = QTime::currentTime();
     scene->addItem(labelTimer);
 
-    //updateItems();
-
 }
 
 void HUD::update()
@@ -34,7 +32,6 @@ void HUD::update()
     float coordMilieuX = (topRight.x() + topLeft.x())/2 - labelTimer->boundingRect().width()/2;
     labelTimer->setPos(coordMilieuX, topLeft.y()+ 40);
     //update des icones des armes
-    //updateItems();
     int i = 0;
     int j = 0;
     for(QGraphicsPixmapItem *item : pixItems){
@@ -61,14 +58,16 @@ void HUD::updateTime()
     labelTimer->setPlainText(formattedTime);
 }
 
-/*
-void HUD::updateItems()
+#include <iostream>
+using namespace std;
+
+void HUD::updateItems(vector<Upgrade*> &vec)
 {
     for(QGraphicsPixmapItem *item : pixItems){
         scene->removeItem(item);
     }
     pixItems.clear();
-    for(Upgrade *up : player->getUpgrades()){
+    for(Upgrade *up : vec){
         QPixmap textureToAdd(up->getImageIcone());
         QPixmap pix(":/graphics/Tiles/tile_0060.png");
         QPainter painter(&pix);
@@ -78,7 +77,6 @@ void HUD::updateItems()
         item->setZValue(2);
         item->setPixmap(pix.scaled(32, 32));
         pixItems.push_back(item);
-
     }
 
 }

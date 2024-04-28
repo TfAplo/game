@@ -1,5 +1,4 @@
 #include "OrbeXP.h"
-#include <iostream>
 using namespace std;
 
 OrbeXP::OrbeXP(string nom, pair<double, double> position, double valeurXP) : Objet(nom), position(position), valeurXP(valeurXP){

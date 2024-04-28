@@ -6,7 +6,6 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <iostream>
 
 using namespace std;
 

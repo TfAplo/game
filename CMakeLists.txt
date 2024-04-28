@@ -27,10 +27,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Player.h
         Monstre.h
         Map.h
-        Niveau.h
+
         Map.h Map.cpp
         Monstre.h Monstre.cpp
-        Niveau.h Niveau.cpp
         Personnage.h Personnage.cpp
         Player.h Player.cpp
         Game.h Game.cpp

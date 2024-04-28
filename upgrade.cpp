@@ -1,5 +1,4 @@
 #include "upgrade.h"
-#include <iostream>
 using namespace std;
 
 Upgrade::Upgrade(QString name,QString description,QString imageIcone,Player* player,QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent)
