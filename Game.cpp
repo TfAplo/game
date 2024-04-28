@@ -32,7 +32,7 @@ using namespace std;
 #include "upgradePlayerSpeed.h"
 #include "upgradeAttaqueSelfHeal.h"
 #include "upgradeAttaqueBombes.h"
-#include "upgradeAttaqueRoquette.h"
+
 // objets
 #include "bouf.h"
 #include "aimant.h"
@@ -108,7 +108,6 @@ Game::Game(QWidget *parent) {
     upgradePlayerSpeed* boots = new upgradePlayerSpeed(player);
     upgradeAttaqueSelfHeal* seringue = new upgradeAttaqueSelfHeal(player,gameTimer);
     upgradeAttaqueBombes* bombes = new upgradeAttaqueBombes(player,gameTimer);
-    upgradeAttaqueRoquette* roquette = new upgradeAttaqueRoquette(player, gameTimer);
 
 
 
@@ -118,7 +117,6 @@ Game::Game(QWidget *parent) {
     vecUpgrades.push_back(boots);
     vecUpgrades.push_back(seringue);
     vecUpgrades.push_back(bombes);
-    vecUpgrades.push_back(roquette);
 
 
     //current
@@ -132,7 +130,6 @@ Game::Game(QWidget *parent) {
     vecUpPasJoueur.push_back(boots);
     vecUpPasJoueur.push_back(seringue);
     vecUpPasJoueur.push_back(bombes);
-    vecUpPasJoueur.push_back(roquette);
 
 
     Fonctions fonctions;
