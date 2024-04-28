@@ -13,7 +13,7 @@ double upgradeAttaqueDefault::animationDuration = 300;
 upgradeAttaqueDefault::upgradeAttaqueDefault(Player *player,QTimer* gameTimer)
     : upgradeAttaque(name,description,imageIcone,player,cooldown,animationDuration,imageIcone,gameTimer)
 {
-    setActif()
+    setActif();
 }
 
 Fonctions fonctions;
@@ -31,7 +31,7 @@ void upgradeAttaqueDefault::effect(){
         // vérifier si le monstre est dans la zone de dégâts
         if(monstre->pos().x()  >= player->pos().x() && monstre->pos().x()<= player->pos().x() + width || monstre->pos().x() <= player->pos().x() && monstre->pos().x() > player->pos().x() + width)
             if(monstre->pos().y() <= player->pos().y() + (height / 2) && monstre->pos().y() >= player->pos().y() - (height /2)){
-                monstre->takeDamage(200 + lvl);
+                monstre->takeDamage(30 + lvl);
             }
     }
     affichage();

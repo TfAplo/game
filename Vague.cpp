@@ -15,7 +15,7 @@ Vague::Vague(const vector<string> monstres,QGraphicsScene *scene, QTimer *gameTi
     // Créer un timer pour gérer l'apparition des monstres
     QTimer *timer=new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Vague::apparaitreMonstre);
-    timer->start(200);
+    timer->start(2000);
     elapsedTime=0;
 }
 

@@ -9,8 +9,8 @@ QString upgradeAttaqueHache::imageIcone = QString(":/graphics/UpgradeImages/Hach
 double upgradeAttaqueHache::cooldown = 1500;
 double upgradeAttaqueHache::animationDuration = 350;
 
-upgradeAttaqueHache::upgradeAttaqueHache(Player *player)
-    : upgradeAttaque(name,description,imageIcone,player,cooldown,animationDuration,imageIcone){
+upgradeAttaqueHache::upgradeAttaqueHache(Player *player,QTimer* gameTimer)
+    : upgradeAttaque(name,description,imageIcone,player,cooldown,animationDuration,imageIcone, gameTimer){
 }
 
 void upgradeAttaqueHache::effect(){

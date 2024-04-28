@@ -112,8 +112,8 @@ Game::Game(QWidget *parent) {
     upgradePlayerSpeed* boots = new upgradePlayerSpeed(player);
     upgradeAttaqueSelfHeal* seringue = new upgradeAttaqueSelfHeal(player,gameTimer);
     upgradeAttaqueBombes* bombes = new upgradeAttaqueBombes(player,gameTimer);
-    upgradeAttaqueArc* arc = new upgradeAttaqueArc(player, gameTimer);
-    upgradeAttaqueHache* hache = new upgradeAttaqueHache(player);
+    //upgradeAttaqueArc* arc = new upgradeAttaqueArc(player, gameTimer);
+    upgradeAttaqueHache* hache = new upgradeAttaqueHache(player, gameTimer);
     upgradePlayerArmor* armor = new upgradePlayerArmor(player);
     upgradePlayerHealth* health = new upgradePlayerHealth(player);
 
@@ -123,10 +123,11 @@ Game::Game(QWidget *parent) {
     vecUpgrades.push_back(shield);
     vecUpgrades.push_back(boots);
     vecUpgrades.push_back(seringue);
-    vecUpgrades.push_back(arc);
+    //vecUpgrades.push_back(arc);
     vecUpgrades.push_back(hache);
     vecUpgrades.push_back(armor);
-    vecUpgrades.push_back(health);    vecUpgrades.push_back(bombes);
+    vecUpgrades.push_back(health);
+    vecUpgrades.push_back(bombes);
 
 
     //current
@@ -141,7 +142,7 @@ Game::Game(QWidget *parent) {
     vecUpPasJoueur.push_back(boots);
     vecUpPasJoueur.push_back(seringue);
     vecUpPasJoueur.push_back(bombes);
-    vecUpPasJoueur.push_back(arc);
+    //vecUpPasJoueur.push_back(arc);
     vecUpPasJoueur.push_back(hache);
     vecUpPasJoueur.push_back(armor);
     vecUpPasJoueur.push_back(health);

@@ -11,7 +11,7 @@ double upgradeAttaqueArc::cooldown = 500;
 double upgradeAttaqueArc::animationDuration = 500;
 
 upgradeAttaqueArc::upgradeAttaqueArc(Player* player, QTimer *gameTimer)
-    : upgradeAttaque(name,description,imageIcone,player,cooldown,animationDuration,imageIcone), gameTimer(gameTimer) {
+    : upgradeAttaque(name,description,imageIcone,player,cooldown,animationDuration,imageIcone, gameTimer) {
 }
 
 double upgradeAttaqueArc::calculDistance(const QPointF &point1, const QPointF &point2) {
