@@ -13,6 +13,7 @@ double upgradeAttaqueDefault::animationDuration = 300;
 upgradeAttaqueDefault::upgradeAttaqueDefault(Player *player)
     : upgradeAttaque(name,description,imageIcone,player,cooldown,animationDuration,imageIcone)
 {
+    setActif()
 }
 
 Fonctions fonctions;

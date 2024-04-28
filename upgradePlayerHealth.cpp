@@ -1,5 +1,4 @@
 #include "upgradePlayerHealth.h"
-#include <iostream>
 
 QString upgradePlayerHealth::name = QString("Coeur");
 QString upgradePlayerHealth::description = QString("Augmente votre vie maximum");
@@ -9,7 +8,6 @@ int upgradePlayerHealth::valueBoost = 10;
 upgradePlayerHealth::upgradePlayerHealth(Player *player)
     : upgradePlayer(name,description,imageIcone,player,valueBoost)
 {
-
 }
 
 void upgradePlayerHealth::effect(){

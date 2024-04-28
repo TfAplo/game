@@ -126,14 +126,13 @@ Game::Game(QWidget *parent) {
     vecUpgrades.push_back(health);
 
     //current
-    vecUpJoueur.push_back(arc);
+    vecUpPasJoueur.push_back(defaultAttaque);
 
     // non
-    vecUpPasJoueur.push_back(defaultAttaque);
     vecUpPasJoueur.push_back(shield);
     vecUpPasJoueur.push_back(boots);
     vecUpPasJoueur.push_back(seringue);
-
+    vecUpPasJoueur.push_back(arc);
     vecUpPasJoueur.push_back(hache);
     vecUpPasJoueur.push_back(armor);
     vecUpPasJoueur.push_back(health);

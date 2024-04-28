@@ -19,30 +19,33 @@ Fleche::~Fleche()
 
 void Fleche::move()
 {
-    // Calculer la direction de la flèche vers le monstre
-    qreal directionX = targetMonster->pos().x() - pos().x();
-    qreal directionY = targetMonster->pos().y() - pos().y();
+    if(targetMonster){
+        // Calculer la direction de la flèche vers le monstre
+        qreal directionX = targetMonster->pos().x() - pos().x();
+        qreal directionY = targetMonster->pos().y() - pos().y();
 
-    // Calculer la longueur de la direction
-    qreal length = qSqrt(directionX * directionX + directionY * directionY);
+        // Calculer la longueur de la direction
+        qreal length = qSqrt(directionX * directionX + directionY * directionY);
 
-    // Normaliser la direction
-    if (length > 0.0) {
-        directionX /= length;
-        directionY /= length;
+        // Normaliser la direction
+        if (length > 0.0) {
+            directionX /= length;
+            directionY /= length;
+        }
+
+        qreal speed = 5.0; // Vitesse de la flèche
+
+        // Déplacer la flèche dans la direction
+        qreal dx = directionX * speed;
+        qreal dy = directionY * speed;
+        setPos(mapToParent(dx, dy));
+
+        // Vérifier si la flèche touche le monstre
+        qreal distanceToMonster = qSqrt(qPow(targetMonster->pos().x() - pos().x(), 2) + qPow(targetMonster->pos().y() - pos().y(), 2));
+        if (distanceToMonster < 20) {
+            targetMonster->takeDamage(dmg);
+            deleteLater(); // Supprimer la flèche après avoir touché le monstre
+        }
     }
 
-    qreal speed = 5.0; // Vitesse de la flèche
-
-    // Déplacer la flèche dans la direction
-    qreal dx = directionX * speed;
-    qreal dy = directionY * speed;
-    setPos(mapToParent(dx, dy));
-
-    // Vérifier si la flèche touche le monstre
-    qreal distanceToMonster = qSqrt(qPow(targetMonster->pos().x() - pos().x(), 2) + qPow(targetMonster->pos().y() - pos().y(), 2));
-    if (distanceToMonster < 20) {
-        targetMonster->takeDamage(dmg);
-        deleteLater(); // Supprimer la flèche après avoir touché le monstre
-    }
 }

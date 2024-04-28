@@ -1,5 +1,5 @@
 #include "upgradePlayerArmor.h"
-#include <iostream>
+
 QString upgradePlayerArmor::name = QString("Armure");
 QString upgradePlayerArmor::description = QString("Augmente la résistance aux dégats");
 QString upgradePlayerArmor::imageIcone = QString(":/graphics/UpgradeImages/Armure.png");
