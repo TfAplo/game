@@ -94,5 +94,5 @@ void ChoixNiveauUp::handleButtonClick() {
     }
     vecBoutons.clear();
 
-    gameTimer->start();
+    gameTimer->start(20);
 }
