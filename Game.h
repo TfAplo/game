@@ -16,6 +16,7 @@
 #include <QGraphicsProxyWidget>
 #include "Vague.h"
 #include "OrbeXP.h"
+#include <QLabel>
 
 class Game: public QGraphicsView{
 public:
@@ -30,11 +31,13 @@ public:
     Menu *menu;
     Vague *vague;
 
-    //pause menu
+    //pause menu / gameOver
     QPushButton *buttonResume;
     QPushButton *buttonBackToMenu;
     QPushButton *buttonExit;
     vector<QGraphicsProxyWidget*> proxis;
+    QGraphicsTextItem *gameOverLabel;
+    QGraphicsTextItem *gameTimeLabel;
 
     //ajout
     int nbObjetPossible;
@@ -50,7 +53,9 @@ public:
     void makeNewGame(QString choixPerso);
     void showMenu();
     void keyPressEvent(QKeyEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
     void buildPauseMenu();
+    void endgame();
 
 public slots:
     void handleSignalFromPlayer();

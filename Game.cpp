@@ -64,6 +64,7 @@ double Game::calculDistance(pair<double, double> point1, pair<double, double> po
 
 void Game::afficherChoix() {
     // stop la partie
+    inGame = false;
     gameTimer->stop();
 
     //definit quel objet sera dans le shop (1 nouveau et 2 du perso OU 2 nouveaux et 1 du perso)
@@ -198,6 +199,7 @@ void Game::makeNewGame(QString choixPerso)
         player->setFocus();
         hud->update();
         map->chunkUpdate(QPoint(static_cast<int>(player->pos().x()), static_cast<int>(player->pos().y())));
+        endgame();
     });
     gameTimer->start(20);
 
@@ -233,6 +235,11 @@ void Game::keyPressEvent(QKeyEvent *event)
             }
         }
     }
+}
+
+void Game::wheelEvent(QWheelEvent *event)
+{
+    event->ignore();
 }
 
 void Game::buildPauseMenu()
@@ -277,6 +284,58 @@ void Game::buildPauseMenu()
 
 }
 
+void Game::endgame()
+{
+    if(player->getCurrent_hp() == 0){
+        inGame=false;
+        gameTimer->stop();
+        player->hideXPBar();
+        hud->hideTimer();
+        player->setPixmap(QPixmap(":/graphics/Tiles/tile_0064.png").scaled(32, 32));
+        // Créer un rectangle qui prend la plus part de l'écran au milieu
+        int screenWidth = 1280;
+        int screenHeight = 720;
+        int rectWidth = 500;
+        int rectHeight = 600;
+        QPointF topLeft = mapToScene(0, 0);
+        int rectX = (screenWidth - rectWidth) / 2 + topLeft.x();
+        int rectY = (screenHeight - rectHeight) / 2 + topLeft.y();
+
+        QGraphicsRectItem *fond = new QGraphicsRectItem(topLeft.x(), topLeft.y(), 1280, 720);
+        fond->setBrush(QColor(0, 0, 0, 230));
+        scene->addItem(fond);
+
+        QGraphicsRectItem *rectangle = new QGraphicsRectItem(rectX, rectY, rectWidth, rectHeight);
+        rectangle->setPen(QPen(Qt::white));
+        scene->addItem(rectangle);
+
+        // Créer un label "Game Over"
+        gameOverLabel = new QGraphicsTextItem("Game Over");
+        gameOverLabel->setDefaultTextColor(Qt::red);
+        gameOverLabel->setFont(QFont("Arial", 60, QFont::Bold));
+        gameOverLabel->setPos(rectX + rectWidth/2 - gameOverLabel->boundingRect().width()/2,rectY + 20);
+        scene->addItem(gameOverLabel);
+
+        // Créer un label "Time Survived: "
+        gameTimeLabel = new QGraphicsTextItem("Time Survived: "+ hud->getTime());
+        gameTimeLabel->setDefaultTextColor(Qt::white);
+        gameTimeLabel->setFont(QFont("Arial", 20, QFont::Bold));
+        gameTimeLabel->setPos(rectX + rectWidth/2 - gameTimeLabel->boundingRect().width()/2,rectY + 120);
+        scene->addItem(gameTimeLabel);
+
+        // Créer un label "Level Achieved: "
+        gameTimeLabel = new QGraphicsTextItem("Level Achieved: " +QString::number(player->getNiveau()));
+        gameTimeLabel->setDefaultTextColor(Qt::white);
+        gameTimeLabel->setFont(QFont("Arial", 20, QFont::Bold));
+        gameTimeLabel->setPos(rectX + rectWidth/2 - gameTimeLabel->boundingRect().width()/2,rectY + 180);
+        scene->addItem(gameTimeLabel);
+
+        // Créer un bouton "Back to Menu" en bas du rectangle
+        buttonBackToMenu->setGeometry(rectX+rectWidth/2-buttonBackToMenu->width()/2, rectY+500, buttonBackToMenu->width(), buttonBackToMenu->height());
+        buttonBackToMenu->setVisible(true);
+    }
+}
+
 void Game::handleSignalFromPlayer() {
     this->afficherChoix();
 }
@@ -303,6 +362,7 @@ void Game::handleSignalFinChoix(Upgrade *upgrade) {
         cout << upgrade->getNom() << "lvl " << upgrade->getNiveau()  << " - ";
     }
     cout << endl;
+    inGame=true;
 }
 
 void Game::handleSignalPlay(QString name)

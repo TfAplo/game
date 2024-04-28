@@ -206,3 +206,8 @@ vector<Upgrade *> Player::getUpgrades()
 {
     return upgrades;
 }
+
+void Player::hideXPBar()
+{
+    xpBar->hide();
+}

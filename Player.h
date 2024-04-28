@@ -53,6 +53,7 @@ public:
     double getlimitXP();
     void updateOrientation(bool movesLeft);
     vector<Upgrade*> getUpgrades();
+    void hideXPBar();
 
 signals:
     void signalToGame();
