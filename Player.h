@@ -54,6 +54,7 @@ public:
     void updateOrientation(bool movesLeft);
     bool getOrientation() const;
     //vector<Upgrade*> getUpgrades();
+    void hideXPBar();
 
     // AJOUT VALENTIN
     void setSpeed(double s);

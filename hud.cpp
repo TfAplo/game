@@ -82,4 +82,13 @@ void HUD::updateItems()
     }
 
 }
-*/
+
+QString HUD::getTime()
+{
+    return labelTimer->toPlainText();
+}
+
+void HUD::hideTimer()
+{
+    labelTimer->hide();
+}

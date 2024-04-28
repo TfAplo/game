@@ -23,6 +23,8 @@ public:
     void update();
     void updateTime();
     void updateItems();
+    QString getTime();
+    void hideTimer();
 };
 
 #endif // HUD_H

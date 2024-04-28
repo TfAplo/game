@@ -61,6 +61,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Sorcier.h Sorcier.cpp
         Cyclope.h Cyclope.cpp
         Boss.h Boss.cpp
+        Menu.h Menu.cpp
+        Wizard.h Wizard.cpp
+        Tank.h Tank.cpp
+        Runner.h Runner.cpp
 
 
         ObjectOnFloor.h

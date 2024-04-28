@@ -3,19 +3,14 @@
 #include <QGraphicsPixmapItem>
 #include "Map.h"
 #include "Player.h"
-#include "Monstre.h"
 #include "Vague.h"
-#include "Ghost.h"
 #include <QTimer>
 #include <cmath>
-
-//ajout test
 #include <QMessageBox>
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <iostream>
-#include "OrbeXP.h"
 #include "ChoixNiveauUp.h"
 #include "upgrade.h"
 #include <random> // pour std::random_device et std::mt19937
@@ -23,8 +18,11 @@
 #include <algorithm> // Pour std::find
 #include <iostream>
 using namespace std;
-//fin ajout test
 #include "hud.h"
+#include <QApplication>
+#include "Wizard.h"
+#include "Tank.h"
+#include "Runner.h"
 //attaques
 #include "Fonctions.h"
 #include "upgradeAttaqueDefault.h"
@@ -43,138 +41,15 @@ using namespace std;
 
 
 Game::Game(QWidget *parent) {
-
-    // create the scene
-    scene = new QGraphicsScene();
-
-    // make the newly created scene the scene to visualize (since Game is a QGraphicsView Widget,
-    // it can be used to visualize scenes)
-    setScene(scene);
+    //créer la scene de menu
+    menu = new Menu();
+    connect(menu, &Menu::onPlaySignal, this, &Game::handleSignalPlay);
+    connect(menu, &Menu::onExitSignal, this, &Game::handleSignalExit);
+    //masque les barres de défilement
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    map = new Map(scene);
-
-    //creation du player
-    pair<double,double> position = make_pair(1200,1200);
-    double current_hp = 100.0;
-    double max_hp = 100.0;
-    double speed = 2.5;
-    double xp = 50.0;
-    double dmg = 10.0;
-    double limiteXP = 100.0;
-    QString qs(":/graphics/Tiles/tile_0084.png");
-    player = new Player(qs,position,current_hp,max_hp,speed,dmg,xp, limiteXP);
-
-    //met le focus sur Player
-    player->setFlag(QGraphicsItem::ItemIsFocusable);
-    player->setFocus();
-    scene->addItem(player);
-
-    //ajout
-
-    connect(player, &Player::signalToGame, this, &Game::handleSignalFromPlayer);
-
-    //fin ajout
-
-    //timer du jeu
-    gameTimer = new QTimer(this);
-
-    //creation de l'HUD
-    hud = new HUD(player, gameTimer,scene,this);
-
-    //conect le timer avec les methodes des classes
-    connect(gameTimer,SIGNAL(timeout()), player,SLOT(move()));
-    connect(gameTimer, &QTimer::timeout, this, [this](){
-        centerOn(player);
-        //ajout
-        player->recupXP();
-        player->setFocus();
-
-        //fin ajout
-        hud->update();
-        map->chunkUpdate(QPoint(static_cast<int>(player->pos().x()), static_cast<int>(player->pos().y())));
-    });
-    gameTimer->start(20);
-
-
-
-
-    vector<string> tableauMonstre;
-    tableauMonstre.push_back("ghost");
-    tableauMonstre.push_back("sorcier");
-    tableauMonstre.push_back("cyclope");
-    Vague *vague = new Vague(tableauMonstre,scene,gameTimer,player);
-
-
-    // AJOUT ATTAQUES
-    upgradeAttaqueDefault* defaultAttaque = new upgradeAttaqueDefault(player,gameTimer);
-    upgradeAttaqueShield* shield = new upgradeAttaqueShield(player,gameTimer);
-    upgradePlayerSpeed* boots = new upgradePlayerSpeed(player);
-    upgradeAttaqueSelfHeal* seringue = new upgradeAttaqueSelfHeal(player,gameTimer);
-    upgradeAttaqueBombes* bombes = new upgradeAttaqueBombes(player,gameTimer);
-    //upgradeAttaqueArc* arc = new upgradeAttaqueArc(player, gameTimer);
-    upgradeAttaqueHache* hache = new upgradeAttaqueHache(player, gameTimer);
-    upgradePlayerArmor* armor = new upgradePlayerArmor(player);
-    upgradePlayerHealth* health = new upgradePlayerHealth(player);
-
-
-    // All
-    vecUpgrades.push_back(defaultAttaque);
-    vecUpgrades.push_back(shield);
-    vecUpgrades.push_back(boots);
-    vecUpgrades.push_back(seringue);
-    //vecUpgrades.push_back(arc);
-    vecUpgrades.push_back(hache);
-    vecUpgrades.push_back(armor);
-    vecUpgrades.push_back(health);
-    vecUpgrades.push_back(bombes);
-
-
-    //current
-    vecUpJoueur.push_back(defaultAttaque);
-
-
-
-
-    // non
-    vecUpPasJoueur.push_back(shield);
-    vecUpPasJoueur.push_back(boots);
-    vecUpPasJoueur.push_back(boots);
-    vecUpPasJoueur.push_back(seringue);
-    vecUpPasJoueur.push_back(bombes);
-    //vecUpPasJoueur.push_back(arc);
-    vecUpPasJoueur.push_back(hache);
-    vecUpPasJoueur.push_back(armor);
-    vecUpPasJoueur.push_back(health);
-
-    Fonctions fonctions;
-    addRandomObject(player,scene);
-
-    QTimer* verifyCollisionObjet = new QTimer(this);
-    connect(verifyCollisionObjet, &QTimer::timeout, this, [this, &fonctions]() {
-        // Vecteur pour stocker les indices des objets à supprimer
-        QVector<int> indicesToDelete;
-
-        // Parcourir les objets dans le vecteur
-        for (int i = 0; i < objects.size(); ++i) {
-            auto obj = objects[i];
-            if (fonctions.isCollide(player->pos(), obj->pos())) {
-                obj->catchObject();
-                scene->removeItem(obj);
-                indicesToDelete.append(i);
-            }
-        }
-        for (int i = indicesToDelete.size() - 1; i >= 0; --i) {
-            int index = indicesToDelete[i];
-            delete objects[index];
-            objects.erase(objects.begin() + index);
-        }
-    });
-    verifyCollisionObjet->start(200);
-
-
-
-    // FIN AJOUT
+    setFixedSize(1280,720);
+    setScene(menu);
 
     show();
 }
@@ -236,6 +111,7 @@ double Game::calculDistance(pair<double, double> point1, pair<double, double> po
 
 void Game::afficherChoix() {
     // stop la partie
+    inGame = false;
     gameTimer->stop();
 
     //definit quel objet sera dans le shop (1 nouveau et 2 du perso OU 2 nouveaux et 1 du perso)
@@ -301,6 +177,281 @@ void Game::afficherChoix() {
     connect(choix3, &ChoixNiveauUp::signalFinChoix, this, &Game::handleSignalFinChoix);
 }
 
+void Game::makeNewGame(QString choixPerso)
+{
+    inGame = true;
+    // creer une scene
+    scene = new QGraphicsScene();
+
+    // make the newly created scene the scene to visualize (since Game is a QGraphicsView Widget,
+    // it can be used to visualize scenes)
+    setScene(scene);
+
+    //creation du menu de pause
+    buildPauseMenu();
+
+    map = new Map(scene);
+
+    if (choixPerso == "Wizard") {
+        player = new Wizard();
+    } else if (choixPerso == "Tank") {
+        player = new Tank();
+    } else if (choixPerso == "Runner") {
+        player = new Runner();
+    }
+
+    //met le focus sur Player
+    player->setFlag(QGraphicsItem::ItemIsFocusable);
+    player->setFocus();
+    scene->addItem(player);
+
+    connect(player, &Player::signalToGame, this, &Game::handleSignalFromPlayer);
+
+    vector<pair<string, string>> vecUpgradeNoms = {
+        {"Arme", "Epee"},
+        {"Arme", "Hache"},
+        {"Arme", "Sceptre"},
+        {"Gadget", "Chaussures"},
+        {"Gadget", "Ailes"},
+        {"Gadget", "Armure"}
+    };
+    vecUpgrades = Upgrade::initUpgrade(vecUpgradeNoms);
+    bool arme = false, gadget = false;
+    for (Upgrade* upgrade : vecUpgrades) {
+        if (upgrade->estArme()) {
+            if (!arme) {
+                arme = true;
+                vecUpJoueur.push_back(upgrade);
+            } else {
+                vecUpPasJoueur.push_back(upgrade);
+            }
+        } else if (upgrade->estGadget()) {
+            if (!gadget) {
+                gadget = true;
+                vecUpJoueur.push_back(upgrade);
+            } else {
+                vecUpPasJoueur.push_back(upgrade);
+            }
+        }
+    }
+
+    //timer du jeu
+    gameTimer = new QTimer(this);
+
+    //creation de l'HUD
+    hud = new HUD(player, gameTimer,scene,this);
+
+    //conect le timer avec les methodes des classes
+    connect(gameTimer,SIGNAL(timeout()), player,SLOT(move()));
+    connect(gameTimer, &QTimer::timeout, this, [this](){
+        centerOn(player);
+        player->recupXP();
+        player->setFocus();
+        hud->update();
+        map->chunkUpdate(QPoint(static_cast<int>(player->pos().x()), static_cast<int>(player->pos().y())));
+        endgame();
+    });
+    gameTimer->start(20);
+
+    vector<string> tableauMonstre;
+    tableauMonstre.push_back("ghost");
+    tableauMonstre.push_back("sorcier");
+    tableauMonstre.push_back("cyclope");
+    vague = new Vague(tableauMonstre,scene,gameTimer,player);
+
+    // AJOUT ATTAQUES
+    upgradeAttaqueDefault* defaultAttaque = new upgradeAttaqueDefault(player,gameTimer);
+    upgradeAttaqueShield* shield = new upgradeAttaqueShield(player,gameTimer);
+    upgradePlayerSpeed* boots = new upgradePlayerSpeed(player);
+    upgradeAttaqueSelfHeal* seringue = new upgradeAttaqueSelfHeal(player,gameTimer);
+    upgradeAttaqueBombes* bombes = new upgradeAttaqueBombes(player,gameTimer);
+    //upgradeAttaqueArc* arc = new upgradeAttaqueArc(player, gameTimer);
+    upgradeAttaqueHache* hache = new upgradeAttaqueHache(player, gameTimer);
+    upgradePlayerArmor* armor = new upgradePlayerArmor(player);
+    upgradePlayerHealth* health = new upgradePlayerHealth(player);
+
+
+    // All
+    vecUpgrades.push_back(defaultAttaque);
+    vecUpgrades.push_back(shield);
+    vecUpgrades.push_back(boots);
+    vecUpgrades.push_back(seringue);
+    //vecUpgrades.push_back(arc);
+    vecUpgrades.push_back(hache);
+    vecUpgrades.push_back(armor);
+    vecUpgrades.push_back(health);
+    vecUpgrades.push_back(bombes);
+
+
+    //current
+    vecUpJoueur.push_back(defaultAttaque);
+
+
+
+
+    // non
+    vecUpPasJoueur.push_back(shield);
+    vecUpPasJoueur.push_back(boots);
+    vecUpPasJoueur.push_back(boots);
+    vecUpPasJoueur.push_back(seringue);
+    vecUpPasJoueur.push_back(bombes);
+    //vecUpPasJoueur.push_back(arc);
+    vecUpPasJoueur.push_back(hache);
+    vecUpPasJoueur.push_back(armor);
+    vecUpPasJoueur.push_back(health);
+
+    Fonctions fonctions;
+    addRandomObject(player,scene);
+
+    QTimer* verifyCollisionObjet = new QTimer(this);
+    connect(verifyCollisionObjet, &QTimer::timeout, this, [this, &fonctions]() {
+        // Vecteur pour stocker les indices des objets Ã  supprimer
+        QVector<int> indicesToDelete;
+
+        // Parcourir les objets dans le vecteur
+        for (int i = 0; i < objects.size(); ++i) {
+            auto obj = objects[i];
+            if (fonctions.isCollide(player->pos(), obj->pos())) {
+                obj->catchObject();
+                scene->removeItem(obj);
+                indicesToDelete.append(i);
+            }
+        }
+        for (int i = indicesToDelete.size() - 1; i >= 0; --i) {
+            int index = indicesToDelete[i];
+            delete objects[index];
+            objects.erase(objects.begin() + index);
+        }
+    });
+    verifyCollisionObjet->start(200);
+
+    show();
+}
+
+void Game::keyPressEvent(QKeyEvent *event)
+{
+    QGraphicsView::keyPressEvent(event);
+    if (event->key() == Qt::Key_Escape){
+        if (inGame){
+            if (pauseMenuOut){
+                handleResumeClicked();
+            }
+            else{
+                //mettre le jeu en pause et afficher le menu
+                pauseMenuOut = true;
+                this->gameTimer->stop();
+                buttonResume->setVisible(true);
+                QPointF topLeft = mapToScene(0, 0);
+                buttonResume->setGeometry(448 + topLeft.x(),232+topLeft.y(),buttonResume->width(),buttonResume->height());
+                buttonBackToMenu->setVisible(true);
+                buttonBackToMenu->setGeometry( 448+ topLeft.x(),324+topLeft.y(),buttonBackToMenu->width(),buttonBackToMenu->height());
+                buttonExit->setVisible(true);
+                buttonExit->setGeometry(448 + topLeft.x(), 416+topLeft.y(),buttonExit->width(),buttonExit->height());
+
+            }
+        }
+    }
+}
+
+void Game::wheelEvent(QWheelEvent *event)
+{
+    event->ignore();
+}
+
+void Game::buildPauseMenu()
+{
+    //buttonExit est deja utilisé dans une autre scene:
+    QPushButton *oldResumeButton = menu->getButtonResume();
+    QPushButton *oldBackToMenuButton = menu->getButtonBackToMenu();
+    QPushButton *oldExitButton = menu->getButtonExit();
+
+    buttonExit = new QPushButton(oldExitButton->text());
+    buttonExit->setGeometry(oldExitButton->geometry());
+    buttonExit->setStyleSheet(oldExitButton->styleSheet());
+
+    buttonBackToMenu = new QPushButton(oldBackToMenuButton->text());
+    buttonBackToMenu->setGeometry(oldBackToMenuButton->geometry());
+    buttonBackToMenu->setStyleSheet(oldBackToMenuButton->styleSheet());
+
+    buttonResume = new QPushButton(oldResumeButton->text());
+    buttonResume->setGeometry(oldResumeButton->geometry());
+    buttonResume->setStyleSheet(oldResumeButton->styleSheet());
+
+    buttonResume->setVisible(false);
+    buttonBackToMenu->setVisible(false);
+    buttonExit->setVisible(false);
+
+    connect(buttonResume,&QPushButton::clicked,this,&Game::handleResumeClicked);
+    connect(buttonBackToMenu,&QPushButton::clicked,this,&Game::handleBackToMenuClicked);
+    connect(buttonExit,&QPushButton::clicked,this,&Game::handleExitClicked);
+
+    // Ajouter les boutons à la scène
+    QGraphicsProxyWidget *resumeProxy = scene->addWidget(buttonResume);
+    QGraphicsProxyWidget *backToMenuProxy = scene->addWidget(buttonBackToMenu);
+    QGraphicsProxyWidget *exitProxy = scene->addWidget(buttonExit);
+    proxis.push_back(resumeProxy);
+    proxis.push_back(backToMenuProxy);
+    proxis.push_back(exitProxy);
+
+    // Définir une valeur Z élevée pour les proxies des boutons
+    resumeProxy->setZValue(10);
+    backToMenuProxy->setZValue(10);
+    exitProxy->setZValue(10);
+
+}
+
+void Game::endgame()
+{
+    if(player->getCurrent_hp() == 0){
+        inGame=false;
+        gameTimer->stop();
+        player->hideXPBar();
+        hud->hideTimer();
+        player->setPixmap(QPixmap(":/graphics/Tiles/tile_0064.png").scaled(32, 32));
+        // Créer un rectangle qui prend la plus part de l'écran au milieu
+        int screenWidth = 1280;
+        int screenHeight = 720;
+        int rectWidth = 500;
+        int rectHeight = 600;
+        QPointF topLeft = mapToScene(0, 0);
+        int rectX = (screenWidth - rectWidth) / 2 + topLeft.x();
+        int rectY = (screenHeight - rectHeight) / 2 + topLeft.y();
+
+        QGraphicsRectItem *fond = new QGraphicsRectItem(topLeft.x(), topLeft.y(), 1280, 720);
+        fond->setBrush(QColor(0, 0, 0, 230));
+        scene->addItem(fond);
+
+        QGraphicsRectItem *rectangle = new QGraphicsRectItem(rectX, rectY, rectWidth, rectHeight);
+        rectangle->setPen(QPen(Qt::white));
+        scene->addItem(rectangle);
+
+        // Créer un label "Game Over"
+        gameOverLabel = new QGraphicsTextItem("Game Over");
+        gameOverLabel->setDefaultTextColor(Qt::red);
+        gameOverLabel->setFont(QFont("Arial", 60, QFont::Bold));
+        gameOverLabel->setPos(rectX + rectWidth/2 - gameOverLabel->boundingRect().width()/2,rectY + 20);
+        scene->addItem(gameOverLabel);
+
+        // Créer un label "Time Survived: "
+        gameTimeLabel = new QGraphicsTextItem("Time Survived: "+ hud->getTime());
+        gameTimeLabel->setDefaultTextColor(Qt::white);
+        gameTimeLabel->setFont(QFont("Arial", 20, QFont::Bold));
+        gameTimeLabel->setPos(rectX + rectWidth/2 - gameTimeLabel->boundingRect().width()/2,rectY + 120);
+        scene->addItem(gameTimeLabel);
+
+        // Créer un label "Level Achieved: "
+        gameTimeLabel = new QGraphicsTextItem("Level Achieved: " +QString::number(player->getNiveau()));
+        gameTimeLabel->setDefaultTextColor(Qt::white);
+        gameTimeLabel->setFont(QFont("Arial", 20, QFont::Bold));
+        gameTimeLabel->setPos(rectX + rectWidth/2 - gameTimeLabel->boundingRect().width()/2,rectY + 180);
+        scene->addItem(gameTimeLabel);
+
+        // Créer un bouton "Back to Menu" en bas du rectangle
+        buttonBackToMenu->setGeometry(rectX+rectWidth/2-buttonBackToMenu->width()/2, rectY+500, buttonBackToMenu->width(), buttonBackToMenu->height());
+        buttonBackToMenu->setVisible(true);
+    }
+}
+
 void Game::handleSignalFromPlayer() {
     this->afficherChoix();
 }
@@ -329,7 +480,62 @@ void Game::handleSignalFinChoix(Upgrade *upgrade) {
         cout << upgrade->getName().toStdString() << " lvl " << upgrade->getLevel()  << " - ";
     }
     cout << endl;
+    inGame=true;
 }
 
-//fin ajout
+void Game::handleSignalPlay(QString name)
+{
+    makeNewGame(name);
+}
+
+void Game::handleSignalExit()
+{
+    QApplication::instance()->quit();
+}
+
+void Game::handleResumeClicked()
+{
+    //enlever le menu de pause et reprendre partie
+    buttonResume->setVisible(false);
+    buttonBackToMenu->setVisible(false);
+    buttonExit->setVisible(false);
+
+    pauseMenuOut = false;
+    this->gameTimer->start(20);
+}
+
+void Game::handleBackToMenuClicked()
+{
+    inGame = false;
+    pauseMenuOut = false;
+    delete vague;
+    for(Monstre* monstre: Monstre::vectMonstre){
+        delete monstre;
+    }
+    Monstre::vectMonstre.clear();
+    for(OrbeXP* orbe: OrbeXP::vecOrbeXP){
+        delete orbe;
+    }
+    OrbeXP::vecOrbeXP.clear();
+    for (const auto& proxi: proxis){
+        scene->removeItem(proxi);
+    }
+    proxis.clear();
+    delete map;
+    delete player;
+    delete gameTimer;
+    delete buttonBackToMenu;
+    delete buttonResume;
+    delete buttonExit;
+    vecUpJoueur.clear();
+    vecUpPasJoueur.clear();
+    vecUpgrades.clear();
+
+    setScene(menu);
+}
+
+void Game::handleExitClicked()
+{
+    QApplication::instance()->quit();
+}
 
