@@ -4,10 +4,10 @@
 
 using namespace std;
 
-Projectile::Projectile(Player *player,QGraphicsScene *scene,pair<double, double> position,QTimer *gameTimer,pair<double, double> positionP,double dmg) : player(player), scene(scene),positionM(position),gameTimer(gameTimer),positionP(positionP),dmg(dmg){
+Projectile::Projectile(Player *player,QGraphicsScene *scene,pair<double, double> position,QTimer *gameTimer,pair<double, double> positionP,double dmg, QString Texture)
+    : player(player), scene(scene),positionM(position),gameTimer(gameTimer),positionP(positionP),dmg(dmg){
 
-
-    QPixmap playerTexture(":/graphics/Tiles/tile_0102.png");
+    QPixmap playerTexture(Texture);
     setPixmap(playerTexture.scaled(20, 20)); // Ajuster la taille de la texture du joueur
     setPos(positionM.first, positionM.second);
 

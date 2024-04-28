@@ -3,7 +3,7 @@
 
 QString upgradeAttaqueShield::name = QString("shield");
 QString upgradeAttaqueShield::description = QString("Inflige des degats aux monstres trop proche de vous");
-QString upgradeAttaqueShield::imageIcone = QString(":/graphics/UpgradeImages/Armure.png");
+QString upgradeAttaqueShield::imageIcone = QString(":/graphics/UpgradeImages/Bouclier.png");
 double upgradeAttaqueShield::cooldown = 400;
 double upgradeAttaqueShield::animationDuration = 0;
 

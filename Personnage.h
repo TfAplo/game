@@ -16,10 +16,11 @@ protected:
     double current_hp;
     double max_hp;
     double dmg;
+    double armor;
 
 
 public:
-    Personnage(const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg,QGraphicsItem *parent = 0);
+    Personnage(const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, QGraphicsItem *parent = 0);
 
     virtual void takeDamage(double dmg);
 
@@ -42,7 +43,9 @@ public:
     pair<double,double> getPositionPair() const;
     double getCurrent_hp();
     void setPosition(const pair<double,double> newPosition);
-
+    //ajout par bastien
+    double getArmor();
+    void setArmor(double armor);
 
     QString getImage() const;
     double getMax_hp() const;

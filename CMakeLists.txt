@@ -76,6 +76,11 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         bombe.h bombe.cpp
         bouf.h bouf.cpp
         aimant.h aimant.cpp
+        upgradeAttaqueArc.h upgradeAttaqueArc.cpp
+        upgradeAttaqueHache.h upgradeAttaqueHache.cpp
+        upgradePlayerArmor.h upgradePlayerArmor.cpp
+        upgradePlayerHealth.h upgradePlayerHealth.cpp
+        Fleche.h Fleche.cpp
         upgradeAttaqueBombes.h upgradeAttaqueBombes.cpp
 
 

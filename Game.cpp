@@ -31,6 +31,10 @@ using namespace std;
 #include "upgradeAttaqueShield.h"
 #include "upgradePlayerSpeed.h"
 #include "upgradeAttaqueSelfHeal.h"
+#include "upgradeAttaqueArc.h"
+#include "upgradeAttaqueHache.h"
+#include "upgradePlayerArmor.h"
+#include "upgradePlayerHealth.h"
 #include "upgradeAttaqueBombes.h"
 
 // objets
@@ -108,7 +112,10 @@ Game::Game(QWidget *parent) {
     upgradePlayerSpeed* boots = new upgradePlayerSpeed(player);
     upgradeAttaqueSelfHeal* seringue = new upgradeAttaqueSelfHeal(player,gameTimer);
     upgradeAttaqueBombes* bombes = new upgradeAttaqueBombes(player,gameTimer);
-
+    upgradeAttaqueArc* arc = new upgradeAttaqueArc(player, gameTimer);
+    upgradeAttaqueHache* hache = new upgradeAttaqueHache(player);
+    upgradePlayerArmor* armor = new upgradePlayerArmor(player);
+    upgradePlayerHealth* health = new upgradePlayerHealth(player);
 
 
     // All
@@ -116,7 +123,10 @@ Game::Game(QWidget *parent) {
     vecUpgrades.push_back(shield);
     vecUpgrades.push_back(boots);
     vecUpgrades.push_back(seringue);
-    vecUpgrades.push_back(bombes);
+    vecUpgrades.push_back(arc);
+    vecUpgrades.push_back(hache);
+    vecUpgrades.push_back(armor);
+    vecUpgrades.push_back(health);    vecUpgrades.push_back(bombes);
 
 
     //current
@@ -128,9 +138,13 @@ Game::Game(QWidget *parent) {
     // non
     vecUpPasJoueur.push_back(shield);
     vecUpPasJoueur.push_back(boots);
+    vecUpPasJoueur.push_back(boots);
     vecUpPasJoueur.push_back(seringue);
     vecUpPasJoueur.push_back(bombes);
-
+    vecUpPasJoueur.push_back(arc);
+    vecUpPasJoueur.push_back(hache);
+    vecUpPasJoueur.push_back(armor);
+    vecUpPasJoueur.push_back(health);
 
     Fonctions fonctions;
     addRandomObject(player,scene);

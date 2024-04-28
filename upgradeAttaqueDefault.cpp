@@ -1,6 +1,8 @@
 #include "upgradeAttaqueDefault.h"
 #include "Fonctions.h"
 #include "Monstre.h"
+#include <QMovie>
+#include <QLabel>
 
 QString upgradeAttaqueDefault::name = QString("Epee");
 QString upgradeAttaqueDefault::description = QString("Coup d'epee");
@@ -11,7 +13,7 @@ double upgradeAttaqueDefault::animationDuration = 300;
 upgradeAttaqueDefault::upgradeAttaqueDefault(Player *player,QTimer* gameTimer)
     : upgradeAttaque(name,description,imageIcone,player,cooldown,animationDuration,imageIcone,gameTimer)
 {
-    setActif();
+    setActif()
 }
 
 Fonctions fonctions;
@@ -63,5 +65,4 @@ void upgradeAttaqueDefault::affichage(){
         imageRemovalTimer->deleteLater();
     });
     imageRemovalTimer->start(this->getAnimationDuration());
-
 }

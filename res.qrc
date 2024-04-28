@@ -135,12 +135,16 @@
         <file>UpgradeImages/Epee.png</file>
         <file>UpgradeImages/Hache.png</file>
         <file>UpgradeImages/Sceptre.png</file>
-        <file>UpgradeImages/Armure.png</file>
         <file>UpgradeImages/Ailes.png</file>
         <file>UpgradeImages/Chaussures.png</file>
         <file>Tiles/bombe_pixel.png</file>
         <file>Tiles/meat_pixel.png</file>
         <file>Tiles/aimant.png</file>
+        <file>UpgradeImages/Arc.png</file>
+        <file>UpgradeImages/Bouclier.png</file>
+        <file>UpgradeImages/Armure.png</file>
+        <file>UpgradeImages/Coeur.png</file>
+        <file>UpgradeImages/Fleche.png</file>
     </qresource>
     <qresource prefix="/Niveaux"/>
     <qresource prefix="/">
