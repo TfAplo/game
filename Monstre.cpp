@@ -10,10 +10,9 @@ using namespace std;
 
 vector<Monstre*> Monstre::vectMonstre;
 
-Monstre::Monstre(bool initNoCreation,bool degDistance,const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, QTimer *gameTimer,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
+Monstre::Monstre(bool degDistance,const QString& image, pair<double, double> position, double current_hp, double max_hp, double speed, double dmg, QTimer *gameTimer,Player *player,QGraphicsScene *scene,QGraphicsItem *parent) :
     Personnage(image,position,current_hp,max_hp,speed,dmg,parent), m_player(player),scene(scene), degDistance(degDistance),gameTimer(gameTimer)
 {
-    //QTimer::singleShot(10000,this,&Monstre::testMort);
 }
 
 
@@ -56,9 +55,7 @@ void Monstre::move()
 
     // Vérifier les collisions avec les autres monstres
     for (Monstre* other_monster : vectMonstre) {
-        // Exclure le monstre lui-même
         if (other_monster != this) {
-            // Calculer la distance entre les monstres
             qreal distanceMonstre = qSqrt((positionX - other_monster->x()) * (positionX - other_monster->x()) + (positionY - other_monster->y()) * (positionY - other_monster->y()));
             // Si la distance est inférieure à la distance minimale, ajuster le déplacement
             if (distanceMonstre < distanceMinMM) {
@@ -90,7 +87,7 @@ void Monstre::move()
         if (distanceJoueurMonstre<distanceMinMM){
             dx=0;
             dy=0;
-            this->attack(*m_player);
+            attackPlayer();
         }
     }
 
@@ -104,18 +101,25 @@ void Monstre::move()
 
 
 void Monstre::attackPlayer(){
-    if (elapsed>3000){
-        elapsed=0;
-        Projectile *p1 = new Projectile(m_player,scene,make_pair(x(),y()),gameTimer,make_pair(m_player->x(),m_player->y()),this->getDmg(),":/graphics/Tiles/tile_0102.png");
-        scene->addItem(p1);
+    if (degDistance){
+        if (elapsed>3000){
+            elapsed=0;
+            Projectile *p1 = new Projectile(m_player,scene,make_pair(x(),y()),gameTimer,make_pair(m_player->x(),m_player->y()),this->getDmg());
+            scene->addItem(p1);
 
+        }
+    }
+    else{
+        if (elapsed>1000){
+            this->attack(*m_player);
+            elapsed=0;
+        }
     }
     elapsed+=20;
 }
 
 void Monstre::testMort()
 {
-    //this->takeDamage(110.);
     if (getCurrent_hp() == 0){
         OrbeXP *orbe=new OrbeXP("nom",make_pair(x(),y()),10.);
 

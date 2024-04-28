@@ -1,21 +1,21 @@
 #include "Ghost.h"
 #include <QTimer>
 
-Ghost::Ghost(bool initNoCreation,pair<double,double> position, QTimer *gameTimer, Player *player, QGraphicsScene *scene, QGraphicsItem *parent)
-    : Monstre(initNoCreation,false, "", position, 100., 100., 2., 10., gameTimer, player, scene, parent),position(position) {
-    if (!initNoCreation){
-        // Charger la texture du Monstre
-        QPixmap ghostTexture(":/graphics/Tiles/tile_0108.png");
-        setPixmap(ghostTexture.scaled(32, 32)); // Ajuster la taille de la texture du joueur
+Ghost::Ghost(pair<double,double> position,double hp, double speed, double dmg, QTimer *gameTimer, Player *player, QGraphicsScene *scene, QGraphicsItem *parent)
+    : Monstre(false, "", position, hp, hp, speed, dmg, gameTimer, player, scene, parent),position(position) {
 
-        QPointF positionJoueur = player->getPosition();
+    // Charger la texture du Monstre
+    QPixmap ghostTexture(":/graphics/Tiles/tile_0108.png");
+    setPixmap(ghostTexture.scaled(32, 32)); // Ajuster la taille de la texture du joueur
 
-        setPos(position.first, position.second);
+    QPointF positionJoueur = player->getPosition();
 
-        connect(gameTimer, &QTimer::timeout, this, &Monstre::move);
+    setPos(position.first, position.second);
 
-        elapsed=0;
-    }
+    connect(gameTimer, &QTimer::timeout, this, &Monstre::move);
+
+    elapsed=0;
+
 
 }
 

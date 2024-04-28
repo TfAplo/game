@@ -8,7 +8,7 @@
 class Cyclope : public Monstre {
     Q_OBJECT
 public:
-    Cyclope(bool initNoCreation, pair<double,double> position, QTimer *gameTimer, Player *player = nullptr, QGraphicsScene *scene = nullptr, QGraphicsItem *parent = nullptr);
+    Cyclope(pair<double,double> position, double hp,double speed,double dmg,QTimer *gameTimer, Player *player = nullptr, QGraphicsScene *scene = nullptr, QGraphicsItem *parent = nullptr);
 
     virtual ~Cyclope(){};
 

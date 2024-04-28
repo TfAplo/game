@@ -2,21 +2,21 @@
 
 #include <QTimer>
 
-Sorcier::Sorcier(bool initNoCreation,pair<double,double> position, QTimer *gameTimer, Player *player, QGraphicsScene *scene, QGraphicsItem *parent)
-    : Monstre(initNoCreation,true, "", position, 100., 100., 1., 10., gameTimer, player, scene, parent),position(position) {
-    if (!initNoCreation){
-        // Charger la texture du Monstre
-        QPixmap ghostTexture(":/graphics/Tiles/tile_0111.png");
-        setPixmap(ghostTexture.scaled(32, 32)); // Ajuster la taille de la texture du joueur
+Sorcier::Sorcier(pair<double,double> position,double hp,double speed,double dmg, QTimer *gameTimer, Player *player, QGraphicsScene *scene, QGraphicsItem *parent)
+    : Monstre(true, "", position, hp, hp, speed, dmg, gameTimer, player, scene, parent),position(position) {
 
-        QPointF positionJoueur = player->getPosition();
+    // Charger la texture du Monstre
+    QPixmap sorcierTexture(":/graphics/Tiles/tile_0111.png");
+    setPixmap(sorcierTexture.scaled(32, 32)); // Ajuster la taille de la texture du joueur
 
-        setPos(position.first, position.second);
+    QPointF positionJoueur = player->getPosition();
 
-        connect(gameTimer, &QTimer::timeout, this, &Monstre::move);
+    setPos(position.first, position.second);
 
-        elapsed=0;
-    }
+    connect(gameTimer, &QTimer::timeout, this, &Monstre::move);
+
+    elapsed=0;
+
 
 }
 

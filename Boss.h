@@ -8,7 +8,7 @@
 class Boss : public Monstre {
     Q_OBJECT
 public:
-    Boss(bool initNoCreation, pair<double,double> position, QTimer *gameTimer, Player *player = nullptr, QGraphicsScene *scene = nullptr, QGraphicsItem *parent = nullptr);
+    Boss(pair<double,double> position, double hp,double speed,double dmg,QTimer *gameTimer, Player *player = nullptr, QGraphicsScene *scene = nullptr, QGraphicsItem *parent = nullptr);
 
     virtual ~Boss(){};
 

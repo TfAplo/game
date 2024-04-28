@@ -8,7 +8,7 @@
 class Ghost : public Monstre {
     Q_OBJECT
 public:
-    Ghost(bool initNoCreation, pair<double,double> position, QTimer *gameTimer, Player *player = nullptr, QGraphicsScene *scene = nullptr, QGraphicsItem *parent = nullptr);
+    Ghost(pair<double,double> position,double hp, double speed, double dmg, QTimer *gameTimer, Player *player = nullptr, QGraphicsScene *scene = nullptr, QGraphicsItem *parent = nullptr);
 
     virtual ~Ghost(){};
 
