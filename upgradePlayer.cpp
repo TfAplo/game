@@ -16,5 +16,5 @@ int upgradePlayer::getValueBoost() const{
 
 
 void upgradePlayer::setActif(){
-    QTimer::singleShot(0, this, effect);
+    QTimer::singleShot(0, this, &upgradePlayer::effect);
 }
