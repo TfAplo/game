@@ -37,7 +37,7 @@ ChoixNiveauUp::ChoixNiveauUp(Upgrade *upgrade, bool estNouveau, double x, double
     // Ajouter une image au choix
     // Chargez l'image à l'aide de QPixmap
     QPixmap pixmap(upgrade->getImageIcone());
-    QPixmap newPixmap = pixmap.scaled(160, 160);
+    QPixmap newPixmap = pixmap.scaled(240, 240);
 
     // Créez un objet QGraphicsPixmapItem en utilisant l'image chargée
     QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(newPixmap);
