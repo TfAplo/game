@@ -58,9 +58,6 @@ void HUD::updateTime()
     labelTimer->setPlainText(formattedTime);
 }
 
-#include <iostream>
-using namespace std;
-
 void HUD::updateItems(vector<Upgrade*> &vec)
 {
     for(QGraphicsPixmapItem *item : pixItems){

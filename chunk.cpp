@@ -1,5 +1,7 @@
 #include "chunk.h"
 
+#include <random>
+
 Chunk::Chunk(QPoint &position, QPoint &positionFictive, int size, QObject *parent)
     : position(position), positionFictive(positionFictive),size(size)
 {

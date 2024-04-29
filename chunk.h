@@ -6,7 +6,6 @@
 #include <QObject>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
-#include <random>
 
 using namespace std;
 

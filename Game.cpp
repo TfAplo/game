@@ -76,6 +76,7 @@ void Game::addRandomObject(Player* player, QGraphicsScene* scene){
         addRandomObject(player, scene);
     });
 }
+
 int Game::getRandomDelay(int minDelay, int maxDelay){
     std::random_device rd;
     std::mt19937 gen(rd());

@@ -33,8 +33,8 @@ private:
     int timeSpawn;
 
     // attributs concernant les stats des monstres
-    double Ghost_hp=100.;
-    double Ghost_speed=2.;
+    double Ghost_hp=35.;
+    double Ghost_speed=1.8;
     double Ghost_dmg=10.;
 
     double Sorcier_hp=100.;
@@ -42,8 +42,8 @@ private:
     double Sorcier_dmg=10.;
 
     double Cyclope_hp=100;
-    double Cyclope_speed=1.5;
-    double Cyclope_dmg=10.;
+    double Cyclope_speed=0.8;
+    double Cyclope_dmg=15.;
 
     double Boss_hp=150.;
     double Boss_speed=1.;
