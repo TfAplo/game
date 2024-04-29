@@ -257,7 +257,6 @@ void Game::makeNewGame(QString choixPerso)
     // non
     vecUpPasJoueur.push_back(shield);
     vecUpPasJoueur.push_back(boots);
-    vecUpPasJoueur.push_back(boots);
     vecUpPasJoueur.push_back(seringue);
     vecUpPasJoueur.push_back(bombes);
     //vecUpPasJoueur.push_back(arc);
