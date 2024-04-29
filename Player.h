@@ -5,7 +5,6 @@
 #include <QGraphicsView>
 #include "Personnage.h"
 //#include "upgrade.h"
-#include <vector>
 
 class Player : public Personnage {
     Q_OBJECT

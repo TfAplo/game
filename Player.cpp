@@ -70,13 +70,6 @@ void Player::updateHPBar()
 
 void Player::keyPressEvent(QKeyEvent *event)
 {
-    if (event->key() == Qt::Key_M){
-        takeDamage(10);
-    }
-    if(event->key() == Qt::Key_H){
-        this->current_hp += 10;
-        updateHPBar();
-    }
     // Marquer la direction dans laquelle le joueur souhaite se déplacer
     switch (event->key()) {
     case Qt::Key_Q:

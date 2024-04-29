@@ -1,7 +1,6 @@
 #ifndef PERSONNAGE_H
 #define PERSONNAGE_H
 
-#include <string>
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QKeyEvent>
